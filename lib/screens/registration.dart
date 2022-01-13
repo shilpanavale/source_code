@@ -1,5 +1,8 @@
 import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:active_ecommerce_flutter/custom/input_decorations.dart';
@@ -114,13 +117,13 @@ class _RegistrationState extends State<Registration> {
     return Directionality(
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor:MyTheme.soft_accent_color,
         body: Stack(
           children: [
             Container(
               width: _screen_width * (3 / 4),
-              child: Image.asset(
-                  "assets/splash_login_registration_background_image.png"),
+             /* child: Image.asset(
+                  "assets/splash_login_registration_background_image.png"),*/
             ),
             Container(
               width: double.infinity,
@@ -129,24 +132,14 @@ class _RegistrationState extends State<Registration> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 40.0, bottom: 15),
+                    padding: const EdgeInsets.only(top: 50.0, bottom: 15),
                     child: Container(
-                      width: 75,
+                      width: 200,
                       height: 75,
-                      child:
-                          Image.asset('assets/login_registration_form_logo.png'),
+                      child: Image.asset('citydeal/img/core-img/logo-small.png'),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Text(
-                      "${AppLocalizations.of(context).registration_screen_join} " + AppConfig.app_name,
-                      style: TextStyle(
-                          color: MyTheme.accent_color,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
+
                   Container(
                     width: _screen_width * (3 / 4),
                     child: Column(
@@ -157,7 +150,7 @@ class _RegistrationState extends State<Registration> {
                           child: Text(
                             AppLocalizations.of(context).registration_screen_name,
                             style: TextStyle(
-                                color: MyTheme.accent_color,
+                                color: MyTheme.black,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -169,7 +162,29 @@ class _RegistrationState extends State<Registration> {
                               controller: _nameController,
                               autofocus: false,
                               decoration: InputDecorations.buildInputDecoration_1(
-                                  hint_text: "John Doe"),
+                                  hint_text: "Enter full name",
+                              icon: Icons.person_outline),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4.0),
+                          child: Text('Mobile Number',
+                            style: TextStyle(
+                                color: MyTheme.black,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Container(
+                            height: 36,
+                            child: TextField(
+                              controller: _nameController,
+                              autofocus: false,
+                              decoration: InputDecorations.buildInputDecoration_1(
+                                  hint_text: "Enter mobile number",
+                                  icon: CupertinoIcons.phone),
                             ),
                           ),
                         ),
@@ -178,7 +193,7 @@ class _RegistrationState extends State<Registration> {
                           child: Text(
                             _register_by == "email" ? AppLocalizations.of(context).registration_screen_email : AppLocalizations.of(context).registration_screen_phone,
                             style: TextStyle(
-                                color: MyTheme.accent_color,
+                                color: MyTheme.black,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -195,10 +210,11 @@ class _RegistrationState extends State<Registration> {
                                     autofocus: false,
                                     decoration:
                                         InputDecorations.buildInputDecoration_1(
-                                            hint_text: "johndoe@example.com"),
+                                            hint_text: "Enter email",
+                                        icon: Icons.email_outlined),
                                   ),
                                 ),
-                                otp_addon_installed.$
+                              /*  otp_addon_installed.$
                                     ? GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -214,7 +230,7 @@ class _RegistrationState extends State<Registration> {
                                                   TextDecoration.underline),
                                         ),
                                       )
-                                    : Container()
+                                    : Container()*/
                               ],
                             ),
                           )
@@ -278,7 +294,7 @@ class _RegistrationState extends State<Registration> {
                           child: Text(
                             AppLocalizations.of(context).registration_screen_password,
                             style: TextStyle(
-                                color: MyTheme.accent_color,
+                                color: MyTheme.black,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -297,7 +313,7 @@ class _RegistrationState extends State<Registration> {
                                   autocorrect: false,
                                   decoration:
                                       InputDecorations.buildInputDecoration_1(
-                                          hint_text: "• • • • • • • •"),
+                                          hint_text: "Password",icon:CupertinoIcons.padlock),
                                 ),
                               ),
                               Text(
@@ -314,7 +330,7 @@ class _RegistrationState extends State<Registration> {
                           child: Text(
                             AppLocalizations.of(context).registration_screen_retype_password,
                             style: TextStyle(
-                                color: MyTheme.accent_color,
+                                color: MyTheme.black,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -329,80 +345,51 @@ class _RegistrationState extends State<Registration> {
                               enableSuggestions: false,
                               autocorrect: false,
                               decoration: InputDecorations.buildInputDecoration_1(
-                                  hint_text: "• • • • • • • •"),
+                                  hint_text: "Confirm password",icon:CupertinoIcons.padlock),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: MyTheme.textfield_grey, width: 1),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(12.0))),
-                            child: FlatButton(
-                              minWidth: MediaQuery.of(context).size.width,
-                              //height: 50,
-                              color: MyTheme.accent_color,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(12.0))),
-                              child: Text(
-                                AppLocalizations.of(context).registration_screen_register_sign_up,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              onPressed: () {
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: CustomButton(
+                              onPressed: (){
                                 onPressSignUp();
                               },
-                            ),
-                          ),
+                              title:  AppLocalizations.of(context).registration_screen_register_sign_up,
+                              bgColor:  MyTheme.yellow,
+                            )
                         ),
+
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 18.0),
                           child: Center(
-                              child: Text(
-                                AppLocalizations.of(context).registration_screen_already_have_account,
-                            style: TextStyle(
-                                color: MyTheme.medium_grey, fontSize: 12),
-                          )),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: MyTheme.textfield_grey, width: 1),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(12.0))),
-                            child: FlatButton(
-                              minWidth: MediaQuery.of(context).size.width,
-                              //height: 50,
-                              color: MyTheme.golden,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(12.0))),
-                              child: Text(
-                                AppLocalizations.of(context).registration_screen_log_in,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                              text: new TextSpan(
+                                style: new TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                                children: [
+                                  new TextSpan(
+                                      text: 'Already have an account?\t',
+                                      style: new TextStyle(color: MyTheme.font_grey)),
+                                  new TextSpan(
+                                      text: 'Sign In',
+                                      style: new TextStyle(color: MyTheme.black,fontWeight: FontWeight.bold),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (context) {
+                                                return Login();
+                                              }));
+                                        }),
+                                ],
                               ),
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Login();
-                                }));
-                              },
                             ),
                           ),
-                        )
+                        ),
+
                       ],
                     ),
                   )

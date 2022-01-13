@@ -6,6 +6,7 @@ import 'package:active_ecommerce_flutter/screens/todays_deal_products.dart';
 import 'package:active_ecommerce_flutter/screens/top_selling_products.dart';
 import 'package:active_ecommerce_flutter/screens/category_products.dart';
 import 'package:active_ecommerce_flutter/screens/category_list.dart';
+import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
 import 'package:active_ecommerce_flutter/ui_sections/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -414,41 +415,137 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                                SliverList(
-                                  delegate: SliverChildListDelegate([
-                                    Padding(
+                                SliverToBoxAdapter(
+                                  child: Padding(
                                       padding: const EdgeInsets.fromLTRB(
-                                        16.0,
-                                        16.0,
+                                        0.0,
                                         16.0,
                                         0.0,
+                                        0.0,
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            AppLocalizations.of(context)
-                                                .home_screen_featured_products,
-                                            style: TextStyle(fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                              4.0,
-                                              16.0,
-                                              8.0,
-                                              0.0,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            borderRadius: BorderRadius.circular(8),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                'citydeal/img/bg-img/12.jpg',
+                                              ),
                                             ),
-                                            child: buildHomeFeaturedProducts(
-                                                context),
                                           ),
-                                        ],
+                                          height: 151.0,
+                                        ),
+                                        Container(
+                                          height: 151.0,
+                                          margin: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(8),
+                                              gradient: LinearGradient(
+                                                  begin: FractionalOffset.centerLeft,
+                                                  end: FractionalOffset.centerRight,
+                                                  colors: [
+                                                    Colors.indigo,
+                                                    Colors.purple,
+                                                    Colors.yellow.withOpacity(0.6),
+                                                    Colors.yellow
+
+                                                  ],
+                                                  stops: [
+                                                    0.2,0.3,
+                                                    1.0,0.8
+                                                  ])),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+
+                                      ],
+                                    )
+                                  ),
+                                ),
+                                SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        color: MyTheme.soft_accent_color1,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                4.0,
+                                                16.0,
+                                                8.0,
+                                                0.0,
+                                              ),
+                                              child:Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                 Row(
+                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                   children: [
+                                                     Padding(
+                                                       padding: const EdgeInsets.all(8.0),
+                                                       child: Text('Top Products',
+                                                         // AppLocalizations.of(context).home_screen_featured_categories,
+                                                         style: TextStyle(
+                                                           fontSize: 15,
+                                                         ),
+                                                       ),
+                                                     ),
+                                                     Padding(
+                                                       padding: const EdgeInsets.all(8.0),
+                                                       child: Text('VIEW ALL',
+                                                         // AppLocalizations.of(context).home_screen_featured_categories,
+                                                         style: TextStyle(
+                                                           fontSize: 15,
+                                                           color: MyTheme.dark_grey
+                                                         ),
+                                                       ),
+                                                     ),
+                                                   ],
+                                                 ),
+                                                  buildHomeFeaturedProducts(context)
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -554,7 +651,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           itemExtent: 120,
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -568,7 +665,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   shape: RoundedRectangleBorder(
                     side: new BorderSide(color: MyTheme.light_grey, width: 1.0),
-                    borderRadius: BorderRadius.circular(16.0),
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                   elevation: 0.0,
                   child: Column(
@@ -579,7 +676,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         child: Container(
                             //width: 100,
                           //color: Colors.yellow,
-                            height: 70,
+                            height: 63,
                             child: ClipRRect(
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(16),
@@ -593,9 +690,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 )),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(8, 8, 8, 4),
+                        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                         child: Container(
-                          height: 32,
+                          height: 30,
                           child: Text(
                             _featuredCategoryList[index].name,
                             textAlign: TextAlign.center,
@@ -603,6 +700,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             maxLines: 2,
                             style: TextStyle(
                                 fontSize: 11, color: MyTheme.font_grey),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+                        child: Container(
+                          height: 22,
+                          child: Text(
+                            '\$17',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontSize: 11, color: MyTheme.yellow),
                           ),
                         ),
                       ),

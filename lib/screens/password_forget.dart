@@ -1,4 +1,6 @@
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:active_ecommerce_flutter/screens/main.dart';
+import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:active_ecommerce_flutter/custom/input_decorations.dart';
@@ -81,14 +83,11 @@ class _PasswordForgetState extends State<PasswordForget> {
     return Directionality(
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
+        backgroundColor: MyTheme.soft_accent_color,
+        body: Column(
+         // alignment: Alignment.center,
           children: [
-            Container(
-              width: _screen_width * (3 / 4),
-              child: Image.asset(
-                  "assets/splash_login_registration_background_image.png"),
-            ),
+            SizedBox(height: 100,),
             Container(
               width: double.infinity,
               child: SingleChildScrollView(
@@ -96,15 +95,15 @@ class _PasswordForgetState extends State<PasswordForget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 40.0, bottom: 15),
+                    padding: const EdgeInsets.only(top: 50.0, bottom: 15),
                     child: Container(
-                      width: 75,
+                      width: 200,
                       height: 75,
-                      child:
-                          Image.asset('assets/login_registration_form_logo.png'),
+                      child: Image.asset('citydeal/img/core-img/logo-small.png'),
                     ),
                   ),
-                  Padding(
+                  SizedBox(height: 20,),
+                  /*Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: Text(
                       "Forget Password ?",
@@ -113,7 +112,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                           fontSize: 18,
                           fontWeight: FontWeight.w600),
                     ),
-                  ),
+                  ),*/
                   Container(
                     width: _screen_width * (3 / 4),
                     child: Column(
@@ -122,9 +121,9 @@ class _PasswordForgetState extends State<PasswordForget> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            _send_code_by == "email" ? AppLocalizations.of(context).password_forget_screen_email : AppLocalizations.of(context).password_forget_screen_phone,
+                            _send_code_by == "email" ? AppLocalizations.of(context).login_screen_email : AppLocalizations.of(context).login_screen_phone,
                             style: TextStyle(
-                                color: MyTheme.accent_color,
+                                color: MyTheme.black,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -135,16 +134,10 @@ class _PasswordForgetState extends State<PasswordForget> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 36,
-                                  child: TextField(
-                                    controller: _emailController,
-                                    autofocus: false,
-                                    decoration:
-                                        InputDecorations.buildInputDecoration_1(
-                                            hint_text: "johndoe@example.com"),
-                                  ),
+                                  // height: 50,
+                                  child: CustomWidgets.textField('Enter mobile number/email',isNumber: false,textController: _emailController,icon:Icons.person_outline),
                                 ),
-                                otp_addon_installed.$
+                              /*  otp_addon_installed.$
                                     ? GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -160,7 +153,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                                                   TextDecoration.underline),
                                         ),
                                       )
-                                    : Container()
+                                    : Container()*/
                               ],
                             ),
                           )
@@ -170,7 +163,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Container(
+                               /* Container(
                                   height: 36,
                                   child: CustomInternationalPhoneNumberInput(
                                     onInputChanged: (PhoneNumber number) {
@@ -215,11 +208,25 @@ class _PasswordForgetState extends State<PasswordForget> {
                                         fontStyle: FontStyle.italic,
                                         decoration: TextDecoration.underline),
                                   ),
-                                )
+                                )*/
                               ],
                             ),
                           ),
+
                         Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: CustomButton(
+                              onPressed: (){
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return Main();
+                                    }));
+                              },
+                              title:  'Reset Password',
+                              bgColor:  MyTheme.yellow,
+                            )
+                        ),
+                       /* Padding(
                           padding: const EdgeInsets.only(top: 40.0),
                           child: Container(
                             height: 45,
@@ -247,7 +254,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                               },
                             ),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   )

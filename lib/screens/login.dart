@@ -494,30 +494,28 @@ class _LoginState extends State<Login> {
                         ),
                         SizedBox(height: 5,),
                         Center(
-                          child: GestureDetector(
-                            onTap: () {
-
-                            },
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              softWrap: true,
-                              text: new TextSpan(
-                                style: new TextStyle(
-                                  fontSize: 15.0,
-                                ),
-                                children: [
-                                  new TextSpan(
-                                      text: 'Didn\u0027t have an account?\t',
-                                      style: new TextStyle(color: MyTheme.font_grey)),
-                                  new TextSpan(
-                                      text: AppLocalizations.of(context).login_screen_or_create_new_account,
-                                      style: new TextStyle(color: MyTheme.black,fontWeight: FontWeight.bold),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-
-                                        }),
-                                ],
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            text: new TextSpan(
+                              style: new TextStyle(
+                                fontSize: 15.0,
                               ),
+                              children: [
+                                new TextSpan(
+                                    text: 'Didn\u0027t have an account?\t',
+                                    style: new TextStyle(color: MyTheme.font_grey)),
+                                new TextSpan(
+                                    text: AppLocalizations.of(context).login_screen_or_create_new_account,
+                                    style: new TextStyle(color: MyTheme.black,fontWeight: FontWeight.bold),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) {
+                                              return Registration();
+                                            }));
+                                      }),
+                              ],
                             ),
                           ),
                         ),
