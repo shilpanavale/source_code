@@ -31,6 +31,7 @@ class _RegistrationState extends State<Registration> {
 
   //controllers
   TextEditingController _nameController = TextEditingController();
+  TextEditingController _mobileController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -53,12 +54,17 @@ class _RegistrationState extends State<Registration> {
 
   onPressSignUp() async {
     var name = _nameController.text.toString();
+    var mobile=_mobileController.text.toString();
     var email = _emailController.text.toString();
     var password = _passwordController.text.toString();
     var password_confirm = _passwordConfirmController.text.toString();
 
     if (name == "") {
       ToastComponent.showDialog(AppLocalizations.of(context).registration_screen_name_warning, context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+      return;
+    }if (mobile == "") {
+      ToastComponent.showDialog('Enter mobile number', context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       return;
     } else if (_register_by == 'email' && email == "") {
@@ -90,11 +96,10 @@ class _RegistrationState extends State<Registration> {
 
     var signupResponse = await AuthRepository().getSignupResponse(
         name,
-        _register_by == 'email' ? email : _phone,
+        mobile,
         password,
         password_confirm,
-        _register_by);
-
+        'phone');
     if (signupResponse.result == false) {
       ToastComponent.showDialog(signupResponse.message, context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
@@ -103,7 +108,7 @@ class _RegistrationState extends State<Registration> {
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Otp(
-          verify_by: _register_by,
+          verify_by: 'phone',
           user_id: signupResponse.user_id,
         );
       }));
@@ -180,7 +185,8 @@ class _RegistrationState extends State<Registration> {
                           child: Container(
                             height: 36,
                             child: TextField(
-                              controller: _nameController,
+                              controller: _mobileController,
+                              keyboardType: TextInputType.phone,
                               autofocus: false,
                               decoration: InputDecorations.buildInputDecoration_1(
                                   hint_text: "Enter mobile number",

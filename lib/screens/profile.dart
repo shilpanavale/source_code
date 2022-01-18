@@ -1,3 +1,4 @@
+import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
 import 'package:active_ecommerce_flutter/ui_sections/drawer.dart';
@@ -127,9 +128,167 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         key: _scaffoldKey,
         drawer: MainDrawer(),
-        backgroundColor: Colors.white,
+        backgroundColor: MyTheme.gray,
         appBar: buildAppBar(context),
-        body: buildBody(context),
+        body: Column(
+          children: [
+            Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.teal,
+                          child: Icon(Icons.person_outline,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Full Name",style: TextStyle(fontSize: 15),),
+                        ),
+                        Container(
+                            width: 220,
+                            alignment: Alignment.centerRight,
+                            child: Text('SUHA JANNAT',style: TextStyle(fontSize: 13)))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.teal,
+                          child: Icon(Icons.phone,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Phone",style: TextStyle(fontSize: 15),),
+                        ),
+                        Container(
+                            width: 240,
+                            alignment: Alignment.centerRight,
+                            child: Text('+91961234445',style: TextStyle(fontSize: 13)))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.teal,
+                          child: Icon(Icons.email_outlined,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Email Address",style: TextStyle(fontSize: 15),),
+                        ),
+                        Container(
+                            width: 200,
+                            alignment: Alignment.centerRight,
+                            child: Text('suha@gmail',style: TextStyle(fontSize: 13)))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.teal,
+                          child: Icon(Icons.location_on_outlined,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Shipping",style: TextStyle(fontSize: 15),),
+                        ),
+                        Container(
+                            width: 230,
+                            alignment: Alignment.centerRight,
+                            child: Text('28/c Green road,BD',maxLines:2,style: TextStyle(fontSize: 13)))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.teal,
+                          child: Icon(Icons.location_on_outlined,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Delivery Address",style: TextStyle(fontSize: 15),),
+                        ),
+                        Container(
+                            width: 180,
+                            alignment: Alignment.centerRight,
+                            child: Text('Abc appartment',maxLines:2,style: TextStyle(fontSize: 13)))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.teal,
+                          child: Icon(Icons.star,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("My Order",style: TextStyle(fontSize: 15),),
+                        ),
+                        SizedBox(width: 170,),
+                        Container(
+                            width: 50,
+                            height: 25,
+                            alignment: Alignment.centerRight,
+                            child:  CustomButton(onPressed:(){},title: '\tVIEW\t',bgColor: MyTheme.yellow,
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 30,
+                        color: Colors.cyan,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.edit,color: Colors.white,),Text('Edit Profile',style: TextStyle(fontSize:13,color: Colors.white),)
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+
+                ],
+              ),
+            ),
+          ],
+        )
       ),
     );
   }
@@ -644,40 +803,22 @@ class _ProfileState extends State<Profile> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       centerTitle: true,
       leading: GestureDetector(
-        child: widget.show_back_button
-            ? Builder(
+        child: Builder(
                 builder: (context) => IconButton(
                   icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               )
-            : Builder(
-                builder: (context) => GestureDetector(
-                  onTap: () {
-                    _scaffoldKey.currentState.openDrawer();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 18.0, horizontal: 0.0),
-                    child: Container(
-                      child: Image.asset(
-                        'assets/hamburger.png',
-                        height: 16,
-                        color: MyTheme.dark_grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+
       ),
       title: Text(
-        AppLocalizations.of(context).profile_screen_account,
+        '',
         style: TextStyle(fontSize: 16, color: MyTheme.accent_color),
       ),
-      elevation: 0.0,
+      elevation: 5.0,
       titleSpacing: 0,
     );
   }

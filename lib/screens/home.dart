@@ -16,6 +16,8 @@ import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
 import 'package:active_ecommerce_flutter/repositories/product_repository.dart';
 import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:active_ecommerce_flutter/custom/toast_component.dart';
 import 'package:toast/toast.dart';
@@ -54,14 +56,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   AnimationController pirated_logo_controller;
   Animation pirated_logo_animation;
 
-  var carouselImageList = [
-    "citydeal/img/bg-img/1.jpg",
-    "citydeal/img/bg-img/2.jpg",
-    "citydeal/img/bg-img/3.jpg",
-    "citydeal/img/bg-img/1.jpg",
-    "citydeal/img/bg-img/2.jpg",
-    "citydeal/img/bg-img/3.jpg",
-  ];
+  var carouselImageList = [];
   var _featuredCategoryList = [];
   var _featuredProductList = [];
   bool _isProductInitial = true;
@@ -98,7 +93,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   fetchAll() {
-    // fetchCarouselImages();
+     fetchCarouselImages();
     fetchFeaturedCategories();
     fetchFeaturedProducts();
   }
@@ -106,7 +101,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   fetchCarouselImages() async {
     var carouselResponse = await SlidersRepository().getSliders();
     carouselResponse.sliders.forEach((slider) {
-      // _carouselImageList.add(slider.photo);
+       carouselImageList.add(slider.photo);
     });
 
     _isCarouselInitial = false;
@@ -114,43 +109,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   fetchFeaturedCategories() async {
-   // var categoryResponse = await CategoryRepository().getFeturedCategories();
-   var a1=Category(
-     id: 0,
-     name: 'Balack table',
-     banner: 'citydeal/img/product/1.png'
-   );
-    var cat1 = CategoryResponse(
-      success: true,
-      categories: [a1],
-      status: 1
-    );
-   var a2=Category(
-       id: 1,
-       name: 'Modern Sofa table',
-       banner: 'citydeal/img/product/2.png'
-   );
-   var cat2 = CategoryResponse(
-       success: true,
-       categories: [a2],
-       status: 1
-   );
-   var a3=Category(
-       id: 2,
-       name: 'classic Gaurd..',
-       banner: 'citydeal/img/product/3.png'
-   );
-   var cat3 = CategoryResponse(
-       success: true,
-       categories: [a3],
-       status: 1
-   );
-    print(cat1);
-   // _featuredCategoryList.add(cat1);
-   // print(_featuredCategoryList);
-     _featuredCategoryList.addAll(cat1.categories);
-   _featuredCategoryList.addAll(cat2.categories);
-   _featuredCategoryList.addAll(cat3.categories);
+    var categoryResponse = await CategoryRepository().getFeturedCategories();
+
+     _featuredCategoryList.addAll(categoryResponse.categories);
     _isCategoryInitial = false;
     setState(() {});
   }
@@ -242,7 +203,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 ),
                 Container(
                   color: MyTheme.soft_accent_color1,
-                  constraints: BoxConstraints.expand(height: 35),
+                  constraints: BoxConstraints.expand(height: 40),
                   child: TabBar(
                       padding: EdgeInsets.zero,
                       indicatorColor: Colors.black,
@@ -267,12 +228,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           width: 60,
                           child: Text("Electric & Electronic"),
                         )),
-                        Tab(
-                            //text: "All",
-                            child: Container(
-                          width: 14,
-                          child: Text("All"),
-                        )),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => CategoryList()));
+                          },
+                          child: Tab(
+                              //text: "All",
+                              child: Container(
+                            width: 14,
+                            child: InkWell(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => CategoryList()));
+                                },
+                                child: Text("All")),
+                          )),
+                        ),
                       ]),
                 ),
                 Expanded(
@@ -285,7 +257,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             backgroundColor: Colors.white,
                             onRefresh: _onRefresh,
                             displacement: 0,
-                            child: CustomScrollView(
+                            child: CustomScrollView(shrinkWrap: true,
                               controller: _mainScrollController,
                               physics: const BouncingScrollPhysics(
                                   parent: AlwaysScrollableScrollPhysics()),
@@ -548,11 +520,790 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      height: 80,
-                                    )
+
                                   ]),
                                 ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0.0,
+                                      16.0,
+                                      0.0,
+                                      0.0,
+                                    ),
+                                    child: Container(
+                                      color: MyTheme.soft_accent_color1,
+                                      height: 190,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('Flash Sale',
+                                              // AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(child:  buildHomeFeaturedCategories(context))
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        color: MyTheme.soft_accent_color1,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                4.0,
+                                                16.0,
+                                                8.0,
+                                                0.0,
+                                              ),
+                                              child:Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('Seasson Special',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('VIEW ALL',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: MyTheme.dark_grey
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  buildSeassonSpecial(context)
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                  ]),
+                                ),
+
+
+                              ],
+                            ),
+                          ),
+
+                          Align(
+                              alignment: Alignment.center,
+                              child: buildProductLoadingContainer())
+                        ],
+                      ),
+                      Stack(
+                        children: [
+                          RefreshIndicator(
+                            color: MyTheme.accent_color,
+                            backgroundColor: Colors.white,
+                            onRefresh: _onRefresh,
+                            displacement: 0,
+                            child: CustomScrollView(
+                              controller: _mainScrollController,
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
+                              slivers: <Widget>[
+                                SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    AppConfig.purchase_code == ""
+                                        ? Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        8.0,
+                                        16.0,
+                                        8.0,
+                                        0.0,
+                                      ),
+                                      child: Container(
+                                        height: 140,
+                                        color: Colors.black,
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                                left: 20,
+                                                top: 0,
+                                                child: AnimatedBuilder(
+                                                    animation:
+                                                    pirated_logo_animation,
+                                                    builder:
+                                                        (context, child) {
+                                                      return Image.asset(
+                                                        "assets/pirated_square.png",
+                                                        height:
+                                                        pirated_logo_animation
+                                                            .value,
+                                                        color:
+                                                        Colors.white,
+                                                      );
+                                                    })),
+                                            Center(
+                                              child: Padding(
+                                                padding:
+                                                const EdgeInsets.only(
+                                                    top: 24.0,
+                                                    left: 24,
+                                                    right: 24),
+                                                child: Text(
+                                                  "This is a pirated app. Do not use this. It may have security issues.",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                        : Container(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        8.0,
+                                        16.0,
+                                        8.0,
+                                        0.0,
+                                      ),
+                                      child: buildHomeCarouselSlider(context),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        8.0,
+                                        16.0,
+                                        8.0,
+                                        0.0,
+                                      ),
+                                      child: buildHomeMenuRow(context),
+                                    ),
+                                  ]),
+                                ),
+                                /*SliverList(
+                                    delegate: SliverChildListDelegate([
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                          16.0,
+                                          16.0,
+                                          16.0,
+                                          0.0,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                  ),*/
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0.0,
+                                      16.0,
+                                      0.0,
+                                      0.0,
+                                    ),
+                                    child: Container(
+                                      color: MyTheme.soft_accent_color1,
+                                      height: 190,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('Featured Product',
+                                              // AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(child:  buildHomeFeaturedCategories(context))
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        color: MyTheme.soft_accent_color1,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                4.0,
+                                                16.0,
+                                                8.0,
+                                                0.0,
+                                              ),
+                                              child:Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('Top Products',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('VIEW ALL',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: MyTheme.dark_grey
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  buildHomeFeaturedProducts(context)
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                  ]),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0.0,
+                                      16.0,
+                                      0.0,
+                                      0.0,
+                                    ),
+                                    child: Container(
+                                      color: MyTheme.soft_accent_color1,
+                                      height: 190,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('Flash Sale',
+                                              // AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(child:  buildHomeFeaturedCategories(context))
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                /*SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        color: MyTheme.soft_accent_color1,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                4.0,
+                                                16.0,
+                                                8.0,
+                                                0.0,
+                                              ),
+                                              child:Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('Seasson Special',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('VIEW ALL',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: MyTheme.dark_grey
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  buildSeasoonSoecialProducts(context)
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                  ]),
+                                ),*/
+
                               ],
                             ),
                           ),
@@ -561,15 +1312,538 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               child: buildProductLoadingContainer())
                         ],
                       ),
-                      Container(
-                        child: Text("Articles Body"),
+                      Stack(
+                        children: [
+                          RefreshIndicator(
+                            color: MyTheme.accent_color,
+                            backgroundColor: Colors.white,
+                            onRefresh: _onRefresh,
+                            displacement: 0,
+                            child: CustomScrollView(
+                              controller: _mainScrollController,
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
+                              slivers: <Widget>[
+                                SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    AppConfig.purchase_code == ""
+                                        ? Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        8.0,
+                                        16.0,
+                                        8.0,
+                                        0.0,
+                                      ),
+                                      child: Container(
+                                        height: 140,
+                                        color: Colors.black,
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                                left: 20,
+                                                top: 0,
+                                                child: AnimatedBuilder(
+                                                    animation:
+                                                    pirated_logo_animation,
+                                                    builder:
+                                                        (context, child) {
+                                                      return Image.asset(
+                                                        "assets/pirated_square.png",
+                                                        height:
+                                                        pirated_logo_animation
+                                                            .value,
+                                                        color:
+                                                        Colors.white,
+                                                      );
+                                                    })),
+                                            Center(
+                                              child: Padding(
+                                                padding:
+                                                const EdgeInsets.only(
+                                                    top: 24.0,
+                                                    left: 24,
+                                                    right: 24),
+                                                child: Text(
+                                                  "This is a pirated app. Do not use this. It may have security issues.",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                        : Container(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        8.0,
+                                        16.0,
+                                        8.0,
+                                        0.0,
+                                      ),
+                                      child: buildHomeCarouselSlider(context),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        8.0,
+                                        16.0,
+                                        8.0,
+                                        0.0,
+                                      ),
+                                      child: buildHomeMenuRow(context),
+                                    ),
+                                  ]),
+                                ),
+                                /*SliverList(
+                                    delegate: SliverChildListDelegate([
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                          16.0,
+                                          16.0,
+                                          16.0,
+                                          0.0,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                  ),*/
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0.0,
+                                      16.0,
+                                      0.0,
+                                      0.0,
+                                    ),
+                                    child: Container(
+                                      color: MyTheme.soft_accent_color1,
+                                      height: 190,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('Featured Product',
+                                              // AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(child:  buildHomeFeaturedCategories(context))
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        color: MyTheme.soft_accent_color1,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                4.0,
+                                                16.0,
+                                                8.0,
+                                                0.0,
+                                              ),
+                                              child:Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('Top Products',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('VIEW ALL',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: MyTheme.dark_grey
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  buildHomeFeaturedProducts(context)
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                  ]),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0.0,
+                                      16.0,
+                                      0.0,
+                                      0.0,
+                                    ),
+                                    child: Container(
+                                      color: MyTheme.soft_accent_color1,
+                                      height: 190,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('Flash Sale',
+                                              // AppLocalizations.of(context).home_screen_featured_categories,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(child:  buildHomeFeaturedCategories(context))
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        0.0,
+                                        16.0,
+                                        0.0,
+                                        0.0,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(8),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  'citydeal/img/bg-img/12.jpg',
+                                                ),
+                                              ),
+                                            ),
+                                            height: 151.0,
+                                          ),
+                                          Container(
+                                            height: 151.0,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                gradient: LinearGradient(
+                                                    begin: FractionalOffset.centerLeft,
+                                                    end: FractionalOffset.centerRight,
+                                                    colors: [
+                                                      Colors.indigo,
+                                                      Colors.purple,
+                                                      Colors.yellow.withOpacity(0.6),
+                                                      Colors.yellow
+
+                                                    ],
+                                                    stops: [
+                                                      0.2,0.3,
+                                                      1.0,0.8
+                                                    ])),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("On Sale 50% Off!",style: TextStyle(fontSize: 18,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text("Suha is a multipurpose, creative &\n \t\t modern mobile template.",style: TextStyle(fontSize: 15,color: Colors.white),)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      CustomButton(onPressed:(){},title: '\tSHOP TODAY\t',bgColor: MyTheme.yellow,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                /*SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        color: MyTheme.soft_accent_color1,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                4.0,
+                                                16.0,
+                                                8.0,
+                                                0.0,
+                                              ),
+                                              child:Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('Seasson Special',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('VIEW ALL',
+                                                          // AppLocalizations.of(context).home_screen_featured_categories,
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: MyTheme.dark_grey
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  buildSeasoonSoecialProducts(context)
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                  ]),
+                                ),*/
+
+                              ],
+                            ),
+                          ),
+                          Align(
+                              alignment: Alignment.center,
+                              child: buildProductLoadingContainer())
+                        ],
                       ),
-                      Container(
-                        child: Text("User Body"),
-                      ),
-                      Container(
-                        child: Text("User Body"),
-                      ),
+                      Container()
+
                     ]),
                   ),
                 )
@@ -604,6 +1878,101 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           // 3
+         /* return Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(width: 90,),
+                      Expanded(child:Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.refresh_thin,
+                            color: Colors.pink,
+                          ),
+                         SizedBox(width: 5,),
+                         Icon(
+                           CupertinoIcons.suit_heart,
+                           color: Colors.pink,
+                         )
+                        ],
+                      ))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
+                    //width: 100,
+                    //color: Colors.yellow,
+                      height: 100,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(16),
+                              bottom: Radius.zero),
+                          child: //Image.asset(_featuredCategoryList[index].banner,fit: BoxFit.contain,)
+                         FadeInImage.assetNetwork(
+                                  placeholder: 'assets/placeholder.png',
+                                  image: AppConfig.BASE_PATH +
+                                      _featuredProductList[index].banner,
+                                  fit: BoxFit.cover,
+                                )
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Beach Cap",style: TextStyle(fontSize: 15,color: MyTheme.yellow),)
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("\$17.0",style: TextStyle(fontSize: 15,color: MyTheme.yellow),)
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    RatingBar(
+                      itemSize: 18.0,
+                      ignoreGestures: true,
+                      initialRating: 5,
+                      direction: Axis.horizontal,
+                      allowHalfRating: false,
+                      itemCount: 5,
+                      ratingWidget: RatingWidget(
+                        full: Icon(FontAwesome.star, color: Colors.amber),
+                        empty:
+                        Icon(FontAwesome.star, color: Color.fromRGBO(224, 224, 225, 1)),
+                      ),
+                      itemPadding: EdgeInsets.only(right: 1.0),
+                      onRatingUpdate: (rating) {
+                        //print(rating);
+                      },
+                    ),
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Colors.teal,
+                      child: Icon(
+                        Icons.add,color: Colors.white,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          );*/
           return ProductCard(
               id: _featuredProductList[index].id,
               image: _featuredProductList[index].thumbnail_image,
@@ -627,12 +1996,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       return  Row(
         children: [
           Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 0.0),
               child: ShimmerHelper().buildBasicShimmer(
                   height: 120.0,
                   width: (MediaQuery.of(context).size.width - 32) / 3)),
           Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 0.0),
               child: ShimmerHelper().buildBasicShimmer(
                   height: 120.0,
                   width: (MediaQuery.of(context).size.width - 32) / 3)),
@@ -665,7 +2034,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   shape: RoundedRectangleBorder(
                     side: new BorderSide(color: MyTheme.light_grey, width: 1.0),
-                    borderRadius: BorderRadius.circular(5.0),
+                    borderRadius: BorderRadius.circular(0.0),
                   ),
                   elevation: 0.0,
                   child: Column(
@@ -679,14 +2048,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             height: 63,
                             child: ClipRRect(
                                 borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(16),
+                                    top: Radius.circular(0),
                                     bottom: Radius.zero),
-                                child: Image.asset(_featuredCategoryList[index].banner,fit: BoxFit.contain,) /* FadeInImage.assetNetwork(
+                                child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/placeholder.png',
                                   image: AppConfig.BASE_PATH +
                                       _featuredCategoryList[index].banner,
                                   fit: BoxFit.cover,
-                                )*/
+                                )
                                 )),
                       ),
                       Padding(
@@ -703,20 +2072,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
-                        child: Container(
-                          height: 22,
-                          child: Text(
-                            '\$17',
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                fontSize: 11, color: MyTheme.yellow),
-                          ),
-                        ),
-                      ),
+
                     ],
                   ),
                 ),
@@ -744,134 +2100,142 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return CategoryList(
-                is_top_category: true,
-              );
-            }));
-          },
-          child: Container(
-            height: 70, width: 100,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: MyTheme.yellow, width: 1),
-            ),
-            //width: MediaQuery.of(context).size.width / 5 - 4,
-            child: Column(
-              children: [
-                Container(
-                    height: 47,
-                    width: 47,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: MyTheme.white, width: 1)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        CupertinoIcons.suit_heart,
-                        color: MyTheme.accent_color,
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 5),
-                  child: Text(
-                    'All Category',
-                    // AppLocalizations.of(context).home_screen_top_categories,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Color.fromRGBO(132, 132, 132, 1),
-                        fontWeight: FontWeight.w300),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return Filter(
-                selected_filter: "brands",
-              );
-            }));
-          },
-          child: Container(
-            height: 70, width: 100,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: MyTheme.yellow, width: 1),
-            ),
-            // height: 100,
-            //width: MediaQuery.of(context).size.width / 5 - 4,
-            child: Column(
-              children: [
-                Container(
-                    height: 47,
-                    width: 47,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: MyTheme.white, width: 1)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        CupertinoIcons.rectangle_on_rectangle_angled,
-                        color: MyTheme.yellow,
-                      ),
-                      //child: Image.asset("assets/brands.png"),
-                    )),
-                Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Text('Search by Shop',
-                        //AppLocalizations.of(context).home_screen_brands,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Color.fromRGBO(132, 132, 132, 1),
-                            fontWeight: FontWeight.w300))),
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return TopSellingProducts();
-            }));
-          },
-          child: Container(
-            height: 70, width: 100,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: MyTheme.yellow, width: 1),
-            ),
-            // height: 100,
-            //width: MediaQuery.of(context).size.width / 5 - 4,
-            child: Column(
-              children: [
-                Container(
-                    height: 47,
-                    width: 47,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: MyTheme.white, width: 1)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        CupertinoIcons.xmark_seal,
-                        color: MyTheme.yellow,
-                      ),
-                      //child: Image.asset("assets/top_sellers.png"),
-                    )),
-                Padding(
-                    padding: const EdgeInsets.only(top: 0),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CategoryList(
+                  is_top_category: true,
+                );
+              }));
+            },
+            child: Container(
+              height: 70, width: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: MyTheme.yellow, width: 1),
+              ),
+              //width: MediaQuery.of(context).size.width / 5 - 4,
+              child: Column(
+                children: [
+                  Container(
+                      height: 47,
+                      width: 47,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: MyTheme.white, width: 1)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                          CupertinoIcons.suit_heart,
+                          color: MyTheme.accent_color,
+                        ),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0, bottom: 5),
                     child: Text(
-                        AppLocalizations.of(context).home_screen_top_sellers,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Color.fromRGBO(132, 132, 132, 1),
-                            fontWeight: FontWeight.w300))),
-              ],
+                      'All Category',
+                      // AppLocalizations.of(context).home_screen_top_categories,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color.fromRGBO(132, 132, 132, 1),
+                          fontWeight: FontWeight.w300),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 5,),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Filter(
+                  selected_filter: "brands",
+                );
+              }));
+            },
+            child: Container(
+              height: 70, width: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: MyTheme.yellow, width: 1),
+              ),
+              // height: 100,
+              //width: MediaQuery.of(context).size.width / 5 - 4,
+              child: Column(
+                children: [
+                  Container(
+                      height: 47,
+                      width: 47,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: MyTheme.white, width: 1)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                          CupertinoIcons.rectangle_on_rectangle_angled,
+                          color: MyTheme.yellow,
+                        ),
+                        //child: Image.asset("assets/brands.png"),
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: Text('Search by Shop',
+                          //AppLocalizations.of(context).home_screen_brands,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color.fromRGBO(132, 132, 132, 1),
+                              fontWeight: FontWeight.w300))),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 5,),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return TopSellingProducts();
+              }));
+            },
+            child: Container(
+              height: 70, width: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: MyTheme.yellow, width: 1),
+              ),
+              // height: 100,
+              //width: MediaQuery.of(context).size.width / 5 - 4,
+              child: Column(
+                children: [
+                  Container(
+                      height: 47,
+                      width: 47,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: MyTheme.white, width: 1)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                          CupertinoIcons.xmark_seal,
+                          color: MyTheme.yellow,
+                        ),
+                        //child: Image.asset("assets/top_sellers.png"),
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: Text(
+                          AppLocalizations.of(context).home_screen_top_sellers,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color.fromRGBO(132, 132, 132, 1),
+                              fontWeight: FontWeight.w300))),
+                ],
+              ),
             ),
           ),
         ),
@@ -988,12 +2352,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       margin: EdgeInsets.symmetric(horizontal: 5.0),
                       child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          child: Image.asset(i)
-                          /*FadeInImage.assetNetwork(
+                          child: FadeInImage.assetNetwork(
                             placeholder: 'assets/placeholder_rectangle.png',
                             image: AppConfig.BASE_PATH + i,
                             fit: BoxFit.fill,
-                          )*/
+                          )
                           )),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -1153,7 +2516,290 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           contentPadding: EdgeInsets.all(0.0)),
     );
   }
+  buildSeassonSpecial(context) {
+    if (_isProductInitial && _featuredProductList.length == 0) {
+      return SingleChildScrollView(
+          child: ShimmerHelper().buildProductGridShimmer(
+              scontroller: _featuredProductScrollController));
+    } else if (_featuredProductList.length > 0) {
+      //snapshot.hasData
 
+      return  Container(
+        height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+            itemCount: _featuredCategoryList.length,
+            itemExtent: 120,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return CategoryProducts(
+                        category_id: _featuredCategoryList[index].id,
+                        category_name: _featuredCategoryList[index].name,
+                      );
+                    }));
+                  },
+                  child: Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    shape: RoundedRectangleBorder(
+                      side: new BorderSide(color: MyTheme.light_grey, width: 1.0),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    elevation: 0.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                         // width: 100,
+                    child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0,left: 8.0),
+                                    child: Container(
+                                      width: 100,
+                                      //color: Colors.yellow,
+                                        height: 63,
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(16),
+                                                bottom: Radius.zero),
+                                            child: Image.asset(_featuredCategoryList[index].banner,fit: BoxFit.contain,)
+
+                                        )),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                      Icon(CupertinoIcons.suit_heart,color: Colors.pink,),
+                                        SizedBox(width: 25,),
+                                        Icon(CupertinoIcons.refresh_thin,color: Colors.pink,)
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 160,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                    child: Container(
+                                     // height: 30,
+                                      child: Text(
+                                        _featuredCategoryList[index].name,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                            fontSize: 15, color: MyTheme.font_grey),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 11,
+                                        backgroundColor: MyTheme.yellow,
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add,color: Colors.white,size: 17,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                        child: Container(
+                                         // height: 22,
+                                          child: Text(
+                                            '\$17',
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontSize: 14, color: MyTheme.yellow),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 11,
+                                        backgroundColor: MyTheme.yellow,
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add,color: Colors.white,size: 17,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                        child: Container(
+                                         // height: 22,
+                                          child: Text(
+                                            '488(22)',
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontSize: 14, color: MyTheme.dark_grey),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Container(
+                                    color: MyTheme.yellow,
+                                    width: 80,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Icon(Icons.add_shopping_cart_sharp,color: Colors.white,size: 20,),
+                                          Text("BUY NOW",style: TextStyle(color: Colors.white),)
+                                        ],
+                                      ),
+                                    ),
+                                  )
+
+                                ],
+                              )
+
+                            ],
+                          ),
+                        )
+
+
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+      );
+    } else if (_totalProductData == 0) {
+      return Center(
+          child: Text(
+              AppLocalizations.of(context).common_no_product_is_available));
+    } else {
+      return Container(); // should never be happening
+    }
+  }
+  buildSeasoonSoecialProducts(context){
+    return Container(
+      height: 150,
+      child: ListView.builder(
+          itemCount: _featuredCategoryList.length,
+          itemExtent: 120,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CategoryProducts(
+                      category_id: _featuredCategoryList[index].id,
+                      category_name: _featuredCategoryList[index].name,
+                    );
+                  }));
+                },
+                child: Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    side: new BorderSide(color: MyTheme.light_grey, width: 1.0),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  elevation: 0.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                         Column(
+                           children: [
+                             Padding(
+                               padding: const EdgeInsets.only(top: 8.0),
+                               child: Container(
+                                 //width: 100,
+                                 //color: Colors.yellow,
+                                   height: 63,
+                                   child: ClipRRect(
+                                       borderRadius: BorderRadius.vertical(
+                                           top: Radius.circular(16),
+                                           bottom: Radius.zero),
+                                       child: Image.asset(_featuredCategoryList[index].banner,fit: BoxFit.contain,)
+
+                                   )),
+                             ),
+                             Row(
+                               children: [
+
+                               ],
+                             )
+                           ],
+                         )
+                        ],
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                        child: Container(
+                          height: 30,
+                          child: Text(
+                            _featuredCategoryList[index].name,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontSize: 11, color: MyTheme.font_grey),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+                        child: Container(
+                          height: 22,
+                          child: Text(
+                            '\$17',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontSize: 11, color: MyTheme.yellow),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+    );
+  }
   Container buildProductLoadingContainer() {
     return Container(
       height: _showProductLoadingContainer ? 36 : 0,
@@ -1167,3 +2813,4 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 }
+

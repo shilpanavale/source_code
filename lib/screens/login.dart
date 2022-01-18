@@ -457,10 +457,7 @@ class _LoginState extends State<Login> {
                           padding: const EdgeInsets.only(top: 15.0),
                           child: CustomButton(
                             onPressed: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return Main();
-                                  }));
+                              onPressedLogin();
                             },
                           title:  AppLocalizations.of(context).login_screen_log_in,
                             bgColor:  MyTheme.yellow,

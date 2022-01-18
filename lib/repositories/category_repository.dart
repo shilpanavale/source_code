@@ -45,5 +45,4 @@ class CategoryRepository {
     return categoryResponseFromJson(response.body);
   }
 
-
 }

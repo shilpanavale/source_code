@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'notification.dart';
+
 class Main extends StatefulWidget {
 
   Main({Key key, go_back = true})
@@ -32,8 +34,8 @@ class _MainState extends State<Main> {
     CategoryList(
       is_base_category: true,
     ),
-    Home(),
     Cart(has_bottomnav: true),
+    NotificationPage(),
     Profile()
   ];
 
@@ -71,13 +73,13 @@ class _MainState extends State<Main> {
             visible: MediaQuery.of(context).viewInsets.bottom ==
                 0.0, // if the kyeboard is open then hide, else show
             child: FloatingActionButton(
-              backgroundColor: MyTheme.accent_color,
+              backgroundColor: MyTheme.yellow,
               onPressed: () {},
               tooltip: "start FAB",
               child: Container(
                   margin: EdgeInsets.all(0.0),
                   child: IconButton(
-                      icon: new Image.asset('assets/square_logo.png'),
+                      icon: new Icon(Icons.qr_code_outlined),
                       tooltip: 'Action',
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -119,8 +121,8 @@ class _MainState extends State<Main> {
                       )),
                   BottomNavigationBarItem(
                       icon: Image.asset(
-                        "assets/categories.png",
-                        color: _currentIndex == 1
+                        "assets/cart.png",
+                        color: _currentIndex == 2
                             ? Theme.of(context).accentColor
                             : Color.fromRGBO(153, 153, 153, 1),
                         height: 20,
@@ -128,7 +130,7 @@ class _MainState extends State<Main> {
                       title: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          AppLocalizations.of(context).main_screen_bottom_navigation_categories,
+                          'CART',
                           style: TextStyle(fontSize: 12),
                         ),
                       )),
@@ -140,17 +142,17 @@ class _MainState extends State<Main> {
                     title: Text(""),
                   ),
                   BottomNavigationBarItem(
-                      icon: Image.asset(
-                        "assets/cart.png",
+                      icon: Icon(
+                        Icons.notifications_none,
                         color: _currentIndex == 3
                             ? Theme.of(context).accentColor
                             : Color.fromRGBO(153, 153, 153, 1),
-                        height: 20,
+                        //height: 20,
                       ),
                       title: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          AppLocalizations.of(context).main_screen_bottom_navigation_cart,
+                          'NOTIFICATION',
                           style: TextStyle(fontSize: 12),
                         ),
                       )),

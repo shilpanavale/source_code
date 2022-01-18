@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class MyTheme{
   /*configurable colors stars*/
   static Color accent_color = Color.fromRGBO(230,46,4, 1);
-  static Color soft_accent_color1 = Color(0xFFffd5a6);
-  static Color soft_accent_color =Color(0xFFeddedd);
+  static Color soft_accent_color1 = Color(0xFFfedbac);
+  static Color soft_accent_color =Color(0xFe9dcd9);
   static Color splash_screen_color = Color.fromRGBO(230,46,4, 1); // if not sure , use the same color as accent color
   /*configurable colors ends*/
   //static Color splash_screen_color = Color(0xFFa50026); // i
@@ -23,6 +23,7 @@ class MyTheme{
   static Color shimmer_highlighted = Colors.grey.shade200;
   static Color black= Colors.black;
   static Color yellow=Color(0xFFffc107);
+  static Color gray=Colors.grey.shade200;
 
   //testing shimmer
   /*static Color shimmer_base = Colors.redAccent;
