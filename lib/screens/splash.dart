@@ -331,10 +331,18 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
                         padding: const EdgeInsets.only(left: 35.0,right: 35.0),
                         child: CustomButton(
                           onPressed: (){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                                  return Login();
-                                }));
+                            if (is_logged_in.$ == true) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return Main();
+                                  }));
+                            }else{
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return Login();
+                                  }));
+                            }
+
                           },
                           title: 'Get Started',
                           bgColor:  MyTheme.yellow,

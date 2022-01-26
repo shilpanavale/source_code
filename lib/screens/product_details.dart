@@ -1223,7 +1223,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/placeholder.png',
-                    image: AppConfig.BASE_PATH + _productDetails.shop_logo,
+                    image: AppConfig.BASE_PATH + _productDetails.shop_logo.replaceAll(",",""),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1862,7 +1862,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       borderRadius: BorderRadius.circular(5),
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/placeholder.png',
-                        image: AppConfig.BASE_PATH + _productDetails.brand.logo,
+                        image: AppConfig.BASE_PATH + _productDetails.brand.logo.replaceAll(",",""),
                         fit: BoxFit.contain,
                       )),
                 ),
@@ -1940,7 +1940,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               padding: const EdgeInsets.only(bottom: 3.0),
               child: ListProductCard(
                   id: _topProducts[index].id,
-                  image: _topProducts[index].thumbnail_image,
+                  image: _topProducts[index].thumbnail_image.replaceAll(",",""),
                   name: _topProducts[index].name,
                   main_price: _topProducts[index].main_price,
                   stroked_price: _topProducts[index].stroked_price,
@@ -1992,7 +1992,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 padding: const EdgeInsets.only(right: 3.0),
                 child: MiniProductCard(
                     id: _relatedProducts[index].id,
-                    image: _relatedProducts[index].thumbnail_image,
+                    image: _relatedProducts[index].thumbnail_image.replaceAll(",",""),
                     name: _relatedProducts[index].name,
                     main_price: _relatedProducts[index].main_price,
                     stroked_price: _relatedProducts[index].stroked_price,
@@ -2168,7 +2168,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   FadeInImage.assetNetwork(
                                 placeholder: 'assets/placeholder.png',
                                 image: AppConfig.BASE_PATH +
-                                    _productImageList[index],
+                                    _productImageList[index].replaceAll(",",""),
                                 fit: BoxFit.contain,
                               )),
                         ),

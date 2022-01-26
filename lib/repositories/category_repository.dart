@@ -17,7 +17,9 @@ class CategoryRepository {
   }
 
   Future<CategoryResponse> getFeturedCategories() async {
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/categories/featured");
+    //http://citydeal.co.in/api/v2/categories/featured
+   // Uri url = Uri.parse("${AppConfig.BASE_URL}/api/v2/categories/featured");
+    Uri url = Uri.parse("http://citydeal.co.in/api/v2/categories/featured");
     final response =
         await http.get(url,headers: {
           "App-Language": app_language.$,

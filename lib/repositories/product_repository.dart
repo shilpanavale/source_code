@@ -51,6 +51,15 @@ class ProductRepository {
     });
     return productMiniResponseFromJson(response.body);
   }
+  Future<ProductMiniResponse> getCategoryWiseProducts(
+      {apiUrl, page = 1}) async {
+    print("url-->${apiUrl}");
+    Uri url = Uri.parse("$apiUrl");
+    final response = await http.get(url, headers: {
+      "App-Language": app_language.$,
+    });
+    return productMiniResponseFromJson(response.body);
+  }
 
   Future<ProductMiniResponse> getShopProducts(
       {@required int id = 0, name = "", page = 1}) async {

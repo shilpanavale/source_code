@@ -1,7 +1,10 @@
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/screens/product_details.dart';
 import 'package:active_ecommerce_flutter/app_config.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class ProductCard extends StatefulWidget {
 
   int id;
@@ -38,6 +41,28 @@ class _ProductCardState extends State<ProductCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(width: 89,),
+                    Expanded(child:Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.refresh_thin,
+                          color: Colors.pink,size: 18,
+                        ),
+                        SizedBox(width: 10,),
+                        Icon(
+                          CupertinoIcons.suit_heart,
+                          color: Colors.pink,size: 18,
+                        )
+                      ],
+                    ))
+                  ],
+                ),
+              ),
               Expanded(
                 child: Container(
                     width: double.infinity,
@@ -46,7 +71,7 @@ class _ProductCardState extends State<ProductCard> {
                     child: ClipRRect(
                       clipBehavior: Clip.hardEdge,
                         borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(16), bottom: Radius.zero),
+                            top: Radius.circular(0), bottom: Radius.zero),
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/placeholder.png',
                           image: AppConfig.BASE_PATH + widget.image,
@@ -86,7 +111,7 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                       ),
                      widget.has_discount ? Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                         child: Text(
                           widget.stroked_price,
                           textAlign: TextAlign.left,
@@ -103,6 +128,38 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    RatingBar(
+                      itemSize: 18.0,
+                      ignoreGestures: true,
+                      initialRating: 5,
+                      direction: Axis.horizontal,
+                      allowHalfRating: false,
+                      itemCount: 5,
+                      ratingWidget: RatingWidget(
+                        full: Icon(FontAwesome.star, color: Colors.amber),
+                        empty:
+                        Icon(FontAwesome.star, color: Color.fromRGBO(224, 224, 225, 1)),
+                      ),
+                      itemPadding: EdgeInsets.only(right: 1.0),
+                      onRatingUpdate: (rating) {
+                        //print(rating);
+                      },
+                    ),
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Colors.teal,
+                      child: Icon(
+                        Icons.add,color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              )
             ]),
       ),
     );

@@ -75,15 +75,15 @@ class _SubCategoryListState extends State<SubCategoryList> {
           hintText: AppLocalizations.of(context).home_screen_search,
           hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.dark_grey),
           enabledBorder: OutlineInputBorder(
-            // borderSide: BorderSide(color: MyTheme.white, width: 1.0),
+             borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
             borderRadius: const BorderRadius.all(
-              const Radius.circular(0.0),
+              const Radius.circular(5.0),
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            // borderSide: BorderSide(color: MyTheme.dark_grey, width: 1.0),
+             borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
             borderRadius: const BorderRadius.all(
-              const Radius.circular(0.0),
+              const Radius.circular(5.0),
             ),
           ),
           prefixIcon: Padding(
@@ -239,59 +239,63 @@ class _SubCategoryListState extends State<SubCategoryList> {
         });
   }
 
-  Card buildCategoryItemCard(categoryResponse, index) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        side: new BorderSide(color: MyTheme.yellow, width: 1.0),
-        borderRadius: BorderRadius.circular(0.0),
-      ),
-      elevation: 0.0,
-      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-              width: 80,
-              height: 80,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(0), right: Radius.zero),
-                  child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/placeholder.png',
-                    image: AppConfig.BASE_PATH +
-                        categoryResponse.categories[index].banner,
-                    fit: BoxFit.cover,
-                  ))),
+  Container buildCategoryItemCard(categoryResponse, index) {
+    return categoryResponse.categories[index].banner!=null?Container(
+      height: 90,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: new BorderSide(color: MyTheme.yellow, width: 1.0),
+          borderRadius: BorderRadius.circular(5.0),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Container(
-            height: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
-                  child: Text(
-                    categoryResponse.categories[index].name,
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                        color: MyTheme.font_grey,
-                        fontSize: 14,
-                        height: 1.6,
-                        fontWeight: FontWeight.w600),
+        elevation: 0.0,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                width: 80,
+                height: 80,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(0), right: Radius.zero),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/placeholder.png',
+                      image: AppConfig.BASE_PATH +
+                          categoryResponse.categories[index].banner.replaceAll(",",""),
+                      fit: BoxFit.cover,
+                    ))),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Container(
+              height: 80,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
+                    child: Text(
+                      categoryResponse.categories[index].name,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: MyTheme.font_grey,
+                          fontSize: 14,
+                          height: 1.6,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
-                ),
 
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ]),
-    );
+        ]),
+      ),
+    ):Container();
   }
 
   Container buildBottomContainer() {

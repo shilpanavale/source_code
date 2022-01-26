@@ -29,22 +29,27 @@ class _ShopSquareCardState extends State<ShopSquareCard> {
           borderRadius: BorderRadius.circular(16.0),
         ),
         elevation: 0.0,
-        child: Column(
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Container(
-                  width: double.infinity,
-                  height: ((MediaQuery.of(context).size.width - 24) /2) * .72,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(16), bottom: Radius.zero),
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/placeholder.png',
-                        image: AppConfig.BASE_PATH + widget.image,
-                        fit: BoxFit.scaleDown,
-                      ))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    //width: double.infinity,
+                    //height: ((MediaQuery.of(context).size.width - 24) /2) * .72,
+                    width: 180,
+                    height: 80,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(0), bottom: Radius.zero),
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/placeholder.png',
+                          image: AppConfig.BASE_PATH + widget.image,
+                          fit: BoxFit.fitWidth,
+                        ))),
+              ),
               Expanded(
                 child: Container(
                   height: 40,

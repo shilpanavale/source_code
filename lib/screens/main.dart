@@ -10,7 +10,6 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'notification.dart';
 
 class Main extends StatefulWidget {
@@ -31,9 +30,7 @@ class _MainState extends State<Main> {
   int _currentIndex = 0;
   var _children = [
     Home(),
-    CategoryList(
-      is_base_category: true,
-    ),
+
     Cart(has_bottomnav: true),
     NotificationPage(),
     Profile()
@@ -180,3 +177,4 @@ class _MainState extends State<Main> {
     );
   }
 }
+

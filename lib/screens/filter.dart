@@ -389,7 +389,8 @@ class _FilterState extends State<Filter> {
         endDrawer: buildFilterDrawer(),
         key: _scaffoldKey,
         backgroundColor: Colors.white,
-        body: Stack(overflow: Overflow.visible, children: [
+        body: Stack(
+            overflow: Overflow.visible, children: [
           _selectedFilter.option_key == 'product'
               ? buildProductList()
               : (_selectedFilter.option_key == 'brands'
@@ -770,6 +771,23 @@ class _FilterState extends State<Filter> {
             setState(() {});
             _onSearchSubmit();
           }),
+      InkWell(
+        onTap: () {
+          //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+           // width: 60,
+            child: Image.asset(
+              'citydeal/img/gps.png',
+              height: 20,
+              fit: BoxFit.fill,
+              color: MyTheme.black,
+            ),
+          ),
+        ),
+      ),
     ]);
   }
 
@@ -1096,13 +1114,14 @@ class _FilterState extends State<Filter> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   // 3
-                  return ProductCard(
+                  return _productList[index].thumbnail_image!=null?ProductCard(
                       id: _productList[index].id,
-                      image: _productList[index].thumbnail_image,
+                      image: _productList[index].thumbnail_image.replaceAll(",", ""),
                       name: _productList[index].name,
                       main_price: _productList[index].main_price,
                       stroked_price: _productList[index].stroked_price,
-                      has_discount: _productList[index].has_discount);
+                      has_discount: _productList[index].has_discount):
+                  Container();
                 },
               )
             ],
@@ -1166,7 +1185,7 @@ class _FilterState extends State<Filter> {
                   // 3
                   return BrandSquareCard(
                     id: _brandList[index].id,
-                    image: _brandList[index].logo,
+                    image: _brandList[index].logo.replaceAll(",", ""),
                     name: _brandList[index].name,
                   );
                 },
@@ -1216,34 +1235,33 @@ class _FilterState extends State<Filter> {
                       MediaQuery.of(context).viewPadding.top > 40 ? 180 : 135
                   //MediaQuery.of(context).viewPadding.top is the statusbar height, with a notch phone it results almost 50, without a notch it shows 24.0.For safety we have checked if its greater than thirty
                   ),
-              GridView.builder(
+              ListView.builder(
                 // 2
                 //addAutomaticKeepAlives: true,
                 itemCount: _shopList.length,
                 controller: _scrollController,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1),
+
                 padding: EdgeInsets.all(8),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   // 3
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return SellerDetails();
-                      }));
-                    },
-                    child: ShopSquareCard(
-                      id: _shopList[index].id,
-                      image: _shopList[index].logo,
-                      name: _shopList[index].name,
+                  return _shopList[index].logo!=null? Container(
+                    height: 100,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return SellerDetails();
+                        }));
+                      },
+                      child: ShopSquareCard(
+                        id: _shopList[index].id,
+                        image: _shopList[index].logo.replaceAll(",", ""),
+                        name: _shopList[index].name,
+                      ),
                     ),
-                  );
+                  ):Container();
                 },
               )
             ],

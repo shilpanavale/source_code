@@ -1,4 +1,5 @@
 import 'package:active_ecommerce_flutter/screens/seller_products.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -416,7 +417,7 @@ class _SellerDetailsState extends State<SellerDetails> {
               padding: const EdgeInsets.only(bottom: 3.0),
               child: ListProductCard(
                   id: _topProducts[index].id,
-                  image: _topProducts[index].thumbnail_image,
+                  image: _topProducts[index].thumbnail_image.replaceAll(",",""),
                   name: _topProducts[index].name,
                   main_price: _topProducts[index].main_price,
                   stroked_price: _topProducts[index].stroked_price,
@@ -470,7 +471,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                 padding: const EdgeInsets.only(right: 3.0),
                 child: MiniProductCard(
                   id: _newArrivalProducts[index].id,
-                  image: _newArrivalProducts[index].thumbnail_image,
+                  image: _newArrivalProducts[index].thumbnail_image.replaceAll(",",""),
                   name: _newArrivalProducts[index].name,
                   main_price: _newArrivalProducts[index].main_price,
                   stroked_price: _newArrivalProducts[index].stroked_price,
@@ -598,29 +599,37 @@ class _SellerDetailsState extends State<SellerDetails> {
               fit: BoxFit.cover,
             )),
       ),
-      Container(
-        width: 220,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-              child: Text(
-                _shopDetails.name,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(
-                    color: MyTheme.font_grey,
-                    fontSize: 14,
-                    height: 1.6,
-                    fontWeight: FontWeight.w600),
+      Expanded(
+        child: Container(
+         // width: 220,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                child: Text(
+                  _shopDetails.name,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                      color: MyTheme.font_grey,
+                      fontSize: 14,
+                      height: 1.6,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
-              child: buildRatingWithCountRow(),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
+                child: buildRatingWithCountRow(),
+              ),
+              Padding(  padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
+              child: Row(
+                children: [
+
+                ],
+              ),)
+            ],
+          ),
         ),
       ),
     ]);

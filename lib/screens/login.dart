@@ -626,14 +626,22 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Center(
-                              child: Text('VIEW AS GUEST',
-                            style: TextStyle(
-                                color: MyTheme.dark_grey, fontSize: 14),
-                          )),
+                         InkWell(
+                           onTap: (){
+                             Navigator.push(context,
+                                 MaterialPageRoute(builder: (context) {
+                                   return Main();
+                                 }));
+                           },
+                           child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Center(
+                                child: Text('VIEW AS GUEST',
+                              style: TextStyle(
+                                  color: MyTheme.dark_grey, fontSize: 14),
+                            )),
                         ),
+                         ),
                       ],
                     ),
                   )
