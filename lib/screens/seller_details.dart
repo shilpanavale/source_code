@@ -253,11 +253,13 @@ class _SellerDetailsState extends State<SellerDetails> {
           // 3
           return ProductCard(
               id: _featuredProducts[index].id,
-              image: _featuredProducts[index].thumbnail_image,
+              image: _featuredProducts[index].thumbnail_image.replaceAll(",",""),
               name: _featuredProducts[index].name,
               main_price: _featuredProducts[index].main_price,
               stroked_price: _featuredProducts[index].stroked_price,
-              has_discount: _featuredProducts[index].has_discount);
+              has_discount: _featuredProducts[index].has_discount,
+              wishListButton: false,
+          );
         },
       );
     } else {
@@ -417,7 +419,7 @@ class _SellerDetailsState extends State<SellerDetails> {
               padding: const EdgeInsets.only(bottom: 3.0),
               child: ListProductCard(
                   id: _topProducts[index].id,
-                  image: _topProducts[index].thumbnail_image.replaceAll(",",""),
+                  image:_topProducts[index].thumbnail_image!=null? _topProducts[index].thumbnail_image.replaceAll(",",""):null,
                   name: _topProducts[index].name,
                   main_price: _topProducts[index].main_price,
                   stroked_price: _topProducts[index].stroked_price,
@@ -471,7 +473,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                 padding: const EdgeInsets.only(right: 3.0),
                 child: MiniProductCard(
                   id: _newArrivalProducts[index].id,
-                  image: _newArrivalProducts[index].thumbnail_image.replaceAll(",",""),
+                  image: _newArrivalProducts[index].thumbnail_image!=null?_newArrivalProducts[index].thumbnail_image.replaceAll(",",""):null,
                   name: _newArrivalProducts[index].name,
                   main_price: _newArrivalProducts[index].main_price,
                   stroked_price: _newArrivalProducts[index].stroked_price,
@@ -595,7 +597,7 @@ class _SellerDetailsState extends State<SellerDetails> {
             borderRadius: BorderRadius.circular(5),
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/placeholder.png',
-              image: AppConfig.BASE_PATH + _shopDetails.logo,
+              image: AppConfig.BASE_PATH + _shopDetails.logo.replaceAll(",",""),
               fit: BoxFit.cover,
             )),
       ),

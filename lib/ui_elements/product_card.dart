@@ -13,14 +13,17 @@ class ProductCard extends StatefulWidget {
   String main_price;
   String stroked_price;
   bool has_discount;
+  bool wishListButton;
 
-  ProductCard({Key key,this.id, this.image, this.name, this.main_price,this.stroked_price,this.has_discount}) : super(key: key);
+  ProductCard({Key key,this.id, this.image, this.name, this.main_price,this.stroked_price,this.has_discount,this.wishListButton}) : super(key: key);
 
   @override
   _ProductCardState createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
+
+
   @override
   Widget build(BuildContext context) {
     print((MediaQuery.of(context).size.width - 48 ) / 2);
@@ -54,9 +57,19 @@ class _ProductCardState extends State<ProductCard> {
                           color: Colors.pink,size: 18,
                         ),
                         SizedBox(width: 10,),
-                        Icon(
-                          CupertinoIcons.suit_heart,
-                          color: Colors.pink,size: 18,
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              widget.wishListButton=true;
+                            });
+                          },
+                          child:widget.wishListButton==false ?Icon(
+                            CupertinoIcons.suit_heart,
+                            color: Colors.pink,size: 18,
+                          ):Icon(
+                      CupertinoIcons.suit_heart_fill,
+                      color: Colors.pink,size: 18,
+                    ),
                         )
                       ],
                     ))
@@ -64,7 +77,7 @@ class _ProductCardState extends State<ProductCard> {
                 ),
               ),
               Expanded(
-                child: Container(
+                child:  widget.image!=null?Container(
                     width: double.infinity,
                     //height: 158,
                     height: (( MediaQuery.of(context).size.width - 28 ) / 2) + 2,
@@ -76,7 +89,17 @@ class _ProductCardState extends State<ProductCard> {
                           placeholder: 'assets/placeholder.png',
                           image: AppConfig.BASE_PATH + widget.image,
                           fit: BoxFit.cover,
-                        ))),
+                        ))):
+                Container(
+                    width: double.infinity,
+                    //height: 158,
+                    height: (( MediaQuery.of(context).size.width - 28 ) / 2) + 2,
+                    child: ClipRRect(
+                        clipBehavior: Clip.hardEdge,
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(0), bottom: Radius.zero),
+                        child:Image.asset("assets/placeholder.png")
+                    )),
               ), 
               Expanded(
                 child: Container(

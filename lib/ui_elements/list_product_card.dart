@@ -37,7 +37,7 @@ class _ListProductCardState extends State<ListProductCard> {
         elevation: 0.0,
         child:
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-          Container(
+              widget.image!=null? Container(
               width: 100,
               height: 100,
               child: ClipRRect(
@@ -47,7 +47,17 @@ class _ListProductCardState extends State<ListProductCard> {
                     placeholder: 'assets/placeholder.png',
                     image: AppConfig.BASE_PATH + widget.image,
                     fit: BoxFit.cover,
-                  ))),
+                  ))):
+              Container(
+                  width: 100,
+                  height: 100,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(16), right: Radius.zero),
+                      child:Image.asset("assets/placeholder.png")
+                  )
+              )
+              ,
           Expanded(
             child: Container(
               //width: 240,

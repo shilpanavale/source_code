@@ -4,6 +4,7 @@ import 'package:active_ecommerce_flutter/screens/category_list.dart';
 import 'package:active_ecommerce_flutter/screens/home.dart';
 import 'package:active_ecommerce_flutter/screens/profile.dart';
 import 'package:active_ecommerce_flutter/screens/filter.dart';
+import 'package:active_ecommerce_flutter/screens/qrcode_scanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
@@ -80,9 +81,7 @@ class _MainState extends State<Main> {
                       tooltip: 'Action',
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return Filter(
-                            selected_filter: "sellers",
-                          );
+                          return QRViewExample();
                         }));
                       })),
               elevation: 0.0,

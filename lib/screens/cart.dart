@@ -600,81 +600,85 @@ backgroundColor: Colors.white,
                   image: AppConfig.BASE_PATH +
                       _shopList[seller_index]
                           .cart_items[item_index]
-                          .product_thumbnail_image,
+                          .product_thumbnail_image.replaceAll(",",""),
                   fit: BoxFit.fitWidth,
                 ))),
-        Container(
-          width: 170,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _shopList[seller_index]
-                          .cart_items[item_index]
-                          .product_name,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(
-                          color: MyTheme.font_grey,
-                          fontSize: 14,
-                          height: 1.6,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            _shopList[seller_index]
-                                    .cart_items[item_index]
-                                    .currency_symbol +
-                                (_shopList[seller_index]
-                                            .cart_items[item_index]
-                                            .price *
-                                        _shopList[seller_index]
-                                            .cart_items[item_index]
-                                            .quantity)
-                                    .toString(),
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                color: MyTheme.accent_color,
-                                fontSize: 14,
-                                height: 1.6,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          height: 28,
-                          child: InkWell(
-                            onTap: () {},
-                            child: IconButton(
-                              onPressed: () {
-                                onPressDelete(_shopList[seller_index]
-                                    .cart_items[item_index]
-                                    .id);
-                              },
-                              icon: Icon(
-                                Icons.delete_forever_outlined,
-                                color: MyTheme.medium_grey,
-                                size: 24,
-                              ),
+        Expanded(
+          child: Container(
+            width: 170,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _shopList[seller_index]
+                            .cart_items[item_index]
+                            .product_name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                            color: MyTheme.font_grey,
+                            fontSize: 14,
+                            height: 1.6,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              _shopList[seller_index]
+                                      .cart_items[item_index]
+                                      .currency_symbol +
+                                  (_shopList[seller_index]
+                                              .cart_items[item_index]
+                                              .price *
+                                          _shopList[seller_index]
+                                              .cart_items[item_index]
+                                              .quantity)
+                                      .toString(),
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: TextStyle(
+                                  color: MyTheme.accent_color,
+                                  fontSize: 14,
+                                  height: 1.6,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ],
+                          Spacer(), 
+                          Expanded(
+                            child: SizedBox(
+                              height: 28,
+                              child: InkWell(
+                                onTap: () {},
+                                child: IconButton(
+                                  onPressed: () {
+                                    onPressDelete(_shopList[seller_index]
+                                        .cart_items[item_index]
+                                        .id);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete_forever_outlined,
+                                    color: MyTheme.medium_grey,
+                                    size: 24,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Spacer(),

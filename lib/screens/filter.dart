@@ -1,4 +1,5 @@
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:active_ecommerce_flutter/screens/map_location.dart';
 import 'package:active_ecommerce_flutter/screens/seller_details.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/ui_elements/product_card.dart';
@@ -773,6 +774,7 @@ class _FilterState extends State<Filter> {
           }),
       InkWell(
         onTap: () {
+
           //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
         },
         child: Padding(
