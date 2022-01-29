@@ -53,11 +53,14 @@ class ProductRepository {
   }
   Future<ProductMiniResponse> getCategoryWiseProducts(
       {apiUrl, page = 1}) async {
+    print("API CALLing 23");
+
     print("url-->${apiUrl}");
     Uri url = Uri.parse("$apiUrl");
     final response = await http.get(url, headers: {
       "App-Language": app_language.$,
     });
+
     return productMiniResponseFromJson(response.body);
   }
 

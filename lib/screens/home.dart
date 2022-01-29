@@ -47,7 +47,9 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin,TickerProviderStateMixin <Home>    {
+  @override
+  bool get wantKeepAlive => true;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _current_slider = 0;
   ScrollController _featuredProductScrollController;
@@ -92,13 +94,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     });
      return databaseItemsPasta;
   }
-   Future api;
+   Future api; Future ap2;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   //  _tabController = TabController(vsync: this, length: 28);
     // In initState()
+    api=readPastaItems();
     if (AppConfig.purchase_code == "") {
       initPiratedAnimation();
     }
@@ -155,7 +158,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     var categoryResponse = await CategoryRepository().getFeturedCategories();
 
      _featuredCategoryList.addAll(categoryResponse.categories);
-    _tabController = TabController(vsync: this, length: _featuredCategoryList.length);
+   // _tabController = TabController( length: _featuredCategoryList.length);
      _isCategoryInitial = false;
     return categoryResponse.categories;
   }
@@ -199,8 +202,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   initPiratedAnimation() {
-    pirated_logo_controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+   /* pirated_logo_controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2000));*/
     pirated_logo_animation = Tween(begin: 40.0, end: 60.0).animate(
         CurvedAnimation(
             curve: Curves.bounceOut, parent: pirated_logo_controller));
@@ -224,6 +227,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //_tabController = TabController(vsync: this, length: _featuredCategoryList.length);
 
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -234,12 +238,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         return widget.go_back;
       },
       child:FutureBuilder(
-          future:  readPastaItems(),
-          builder: (context, snapshot) {
+          future: api,
+          builder: (context, snapshot)  {
 
             if(isLoadingData) {
               return Center(child: CircularProgressIndicator());
             }
+
             if(snapshot.hasError) {
               return Center(child: Text('error'));
             }
@@ -249,8 +254,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
             if(snapshot.hasData) {
               if (snapshot.data.length > 0) {
-                _tabController = TabController(
-                    vsync: this, length: snapshot.data.length);
+                _tabController = TabController(vsync: this,length: snapshot.data.length);
                 return Directionality(
                   textDirection: app_language_rtl.$
                       ? TextDirection.rtl
@@ -272,6 +276,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 child: TabBarView(
                                   controller: _tabController,
                                   children: snapshot.data.map<Widget>((choice) {
+
+                                   // print('Current Index: ${DefaultTabController.of(context).index}');
                                     return Stack(
                                       children: [
                                         RefreshIndicator(
@@ -580,6 +586,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                                                         ),
                                                                       ],
                                                                     ),
+
                                                                     buildHomeFeaturedProducts(context, snapshot.data, _tabController)
 
                                                                   ],
@@ -866,8 +873,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                                     )
                                                 ),
                                               ),
-                                              SliverList(
-                                                delegate: SliverChildListDelegate(
+                                              SliverList(delegate: SliverChildListDelegate(
                                                     [
                                                       SingleChildScrollView(
                                                         child: Container(
@@ -919,8 +925,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    buildSeassonSpecial(
-                                                                        context)
+                                                                    buildSeasonSpecial(context)
 
                                                                   ],
                                                                 ),
@@ -933,12 +938,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
                                                     ]),
                                               ),
-
-
                                             ],
                                           ),
                                         ),
-
                                         Align(
                                             alignment: Alignment.center,
                                             child: buildProductLoadingContainer())
@@ -957,35 +959,52 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 );
               }
             }
-
-
             return SizedBox();
           }
       )
 
     );
   }
-
-   Future _buildFilteredProduct(_controller) async {
+  Future _buildFilteredList(String url) async {
+   var filteredProducts;
+    await ProductRepository().getCategoryWiseProducts(apiUrl:url).then((records) {
+      // filteredProducts.addAll(records.products);
+      filteredProducts = records.products;
+      isLoadingProduct = false;
+    });
+    print("filteredProducts initial${filteredProducts.length}");
+    return filteredProducts;
+  }
+  Future _buildFilteredProduct(_controller) async {
+    print("API CALLing");
      isLoadingProduct=true;
-     List<dynamic> filteredProducts;
+    print("API CALLing 11");
+    List<dynamic> filteredProducts=[];
+    print("API CALLing 22");
     await ProductRepository().getCategoryWiseProducts(apiUrl:_controller).then((records) {
-    // _featuredCategoryList.addAll(records.products);
-     filteredProducts = records.products;
+    // filteredProducts=[];
+     print(records.products.first.name);
+      filteredProducts.addAll(records.products);
+      print("XXXX--${filteredProducts.length}");
+    // filteredProducts = records.products;
      isLoadingProduct = false;
    });
- /*  var future= await ProductRepository().getCategoryWiseProducts(apiUrl:_controller);
+    print("API CALLing 33");
+
+    /*  var future= await ProductRepository().getCategoryWiseProducts(apiUrl:_controller);
    _featuredProductList.addAll(future.products);*/
 
    print("_featuredProductList-->${filteredProducts.length}");
     return filteredProducts;
   }
+
   buildHomeFeaturedProducts(context,List<dynamic> data,_tabController) {
-    print("categoryResponse-->${data[_tabController.index].links.products}");
-  //  var future =  ProductRepository().getCategoryWiseProducts(apiUrl:data[_tabController.index].links.products);
+    print("onTab -->${data[_tabController.index].links.products}");
+
     return FutureBuilder(
         future:_buildFilteredProduct(data[_tabController.index].links.products),
         builder: (context, snapshot) {
+
           if(isLoadingProduct) {
             return Center(child: CircularProgressIndicator());
           }
@@ -996,10 +1015,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             var categoryResponse = snapshot.data;
 
             if (categoryResponse.length > 0) {
-              print("categoryResponse-->${categoryResponse.length}");
+
+
               return GridView.builder(
-                // 2
-                //addAutomaticKeepAlives: true,
                 itemCount: categoryResponse.length,
                 controller: _featuredProductScrollController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -1011,8 +1029,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  print(categoryResponse.length);
-                  //print("main_price-->${}");
+
                   return ProductCard(
                     id: categoryResponse[index].id,
                     image: categoryResponse[index].thumbnail_image
@@ -1702,7 +1719,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           contentPadding: EdgeInsets.all(0.0)),
     );
   }
-  buildSeassonSpecial(context) {
+  buildSeasonSpecial(context) {
     if (_isProductInitial && _featuredProductList.length == 0) {
       return SingleChildScrollView(
           child: ShimmerHelper().buildProductGridShimmer(
