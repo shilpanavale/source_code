@@ -1,4 +1,5 @@
 import 'package:active_ecommerce_flutter/app_config.dart';
+import 'package:active_ecommerce_flutter/data_model/shop_info_by_slug.dart';
 import 'package:http/http.dart' as http;
 import 'package:active_ecommerce_flutter/data_model/shop_response.dart';
 import 'package:active_ecommerce_flutter/data_model/shop_details_response.dart';
@@ -27,6 +28,19 @@ class ShopRepository {
             "App-Language": app_language.$,
           },);
     return shopDetailsResponseFromJson(response.body);
+  }
+
+
+  Future<ShopInfoBySlug> getShopInfobySlug({@required shopName = ""}) async {
+
+    Uri url =  Uri.parse("${AppConfig.BASE_URL}/shops/slug/${shopName}");
+    final response =
+    await http.get(url,
+      headers: {
+        "App-Language": app_language.$,
+      },);
+    print(response.body);
+    return shopDetailsInfoBySlugResponseFromJson(response.body);
   }
 
   Future<ProductMiniResponse> getTopFromThisSellerProducts({int id = 0}) async {

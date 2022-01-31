@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:active_ecommerce_flutter/screens/shop_details.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -14,6 +15,7 @@ class QRViewExample extends StatefulWidget {
 
 class _QRViewExampleState extends State<QRViewExample> {
   Barcode result;
+  String storeName="";
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -151,6 +153,12 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        var parts = result.code.split('/');
+        storeName=parts[4].toString();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) {
+              return ShopDetails(shopName:storeName);
+            }));
       });
     });
   }
