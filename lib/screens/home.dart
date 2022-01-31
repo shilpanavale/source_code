@@ -211,7 +211,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
         key: _scaffoldKey,
         backgroundColor: Colors.grey.shade200,
         appBar: buildAppBar(statusBarHeight, context),
-        //drawer: MainDrawer(),
+        drawer: MainDrawer(),
         body: DefaultTabController(
           length: AppConfig.featuredCategoryList.length,
           child: Column(
@@ -1309,7 +1309,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                             fit: BoxFit.fill,
                           )
                           )),
-                  Align(
+                  /*Align(
                     alignment: Alignment.bottomCenter,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -1334,7 +1334,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                         }).toList(),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               );
             },
@@ -1350,7 +1350,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           child: Image.asset("assets/placeholder.png")
                       )),
-                  Align(
+                 /* Align(
                     alignment: Alignment.bottomCenter,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -1375,7 +1375,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                         }).toList(),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               );
             },

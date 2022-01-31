@@ -13,6 +13,7 @@ import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SellerDetails extends StatefulWidget {
   int id;
@@ -571,6 +572,17 @@ class _SellerDetailsState extends State<SellerDetails> {
                                     .pop();
                               },
                             ),
+                            TextButton(
+                                onPressed: () async{
+                                  Navigator.of(context, rootNavigator: true).pop();
+                              final url = 'https://www.google.com/maps/search/${Uri.encodeFull( _shopDetails.address)}';
+                              if (await canLaunch(url) != null) {
+                              await launch(url);
+                              } else {
+                              throw 'Could not launch $url';
+                              }
+                            },
+                                child: Text("Open Map")),
                           ],
                         ),
                       ));

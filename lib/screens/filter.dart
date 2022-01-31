@@ -774,7 +774,11 @@ class _FilterState extends State<Filter> {
           }),
       InkWell(
         onTap: () {
-
+          var add="";
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) {
+                return MapLocation();
+              }));
           //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
         },
         child: Padding(

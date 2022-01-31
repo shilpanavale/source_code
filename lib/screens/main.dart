@@ -33,6 +33,7 @@ class _MainState extends State<Main> {
     Home(),
 
     Cart(has_bottomnav: true),
+    Container(),
     NotificationPage(),
     Profile()
   ];
@@ -108,13 +109,7 @@ class _MainState extends State<Main> {
                             : Color.fromRGBO(153, 153, 153, 1),
                         height: 20,
                       ),
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          AppLocalizations.of(context).main_screen_bottom_navigation_home,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      )),
+                      label: AppLocalizations.of(context).main_screen_bottom_navigation_home),
                   BottomNavigationBarItem(
                       icon: Image.asset(
                         "assets/cart.png",
@@ -123,19 +118,15 @@ class _MainState extends State<Main> {
                             : Color.fromRGBO(153, 153, 153, 1),
                         height: 20,
                       ),
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'CART',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      )),
+                      label: "CART"
+
+                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.circle,
                       color: Colors.transparent,
                     ),
-                    title: Text(""),
+                    label: "",
                   ),
                   BottomNavigationBarItem(
                       icon: Icon(
@@ -145,13 +136,7 @@ class _MainState extends State<Main> {
                             : Color.fromRGBO(153, 153, 153, 1),
                         //height: 20,
                       ),
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'NOTIFICATION',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      )),
+                      label: "NOTIFICATION"),
                   BottomNavigationBarItem(
                       icon: Image.asset(
                         "assets/profile.png",
@@ -160,13 +145,7 @@ class _MainState extends State<Main> {
                             : Color.fromRGBO(153, 153, 153, 1),
                         height: 20,
                       ),
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          AppLocalizations.of(context).main_screen_bottom_navigation_profile,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      )),
+                      label: AppLocalizations.of(context).main_screen_bottom_navigation_profile),
                 ],
               ),
             ),

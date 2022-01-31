@@ -31,6 +31,7 @@ class _SplashState extends State<Splash> {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
     _initPackageInfo();
+    fetchFeaturedCategories();
   }
 
   @override
@@ -59,14 +60,14 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return CustomSplashScreen(
       //comment this
-      //seconds: 0,
+      seconds: 1,
 
 
       //comment this
-      //navigateAfterSeconds: Main(),
+      navigateAfterSeconds:navigate(),
 
 
-      //navigateAfterFuture: loadFromFuture(), //uncomment this
+      //navigateAfterFuture: navigate(), //uncomment this
       title: Text(
         "V " + _packageInfo.version,
         style: TextStyle(
@@ -88,11 +89,26 @@ class _SplashState extends State<Splash> {
       backgroundPhotoSize: 120.0,
     );
   }
+   navigate(){
+    print("INSIDe FUN");
+    if (is_logged_in.$ == true) {
+      return Main();
+
+    }else{
+      return Login();
+    }
+  }
+  Future fetchFeaturedCategories() async {
+    var categoryResponse = await CategoryRepository().getTopCategories();
+    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
+    print("APP COnfi list-->${AppConfig.featuredCategoryList.length}");
+    return categoryResponse.categories;
+  }
 }
 
 class CustomSplashScreen extends StatefulWidget {
   /// Seconds to navigate after for time based navigation
- // final int seconds;
+  final int seconds;
 
   /// App title, shown in the middle of screen in case of no image available
   final Text title;
@@ -104,7 +120,7 @@ class CustomSplashScreen extends StatefulWidget {
   final TextStyle styleTextUnderTheLoader;
 
   /// The page where you want to navigate if you have chosen time based navigation
-  //final dynamic navigateAfterSeconds;
+  final dynamic navigateAfterSeconds;
 
   /// Main image size
   final double photoSize;
@@ -148,12 +164,12 @@ class CustomSplashScreen extends StatefulWidget {
   CustomSplashScreen({
     this.loaderColor,
     this.navigateAfterFuture,
-  //  this.seconds,
+    this.seconds,
     this.photoSize,
     this.backgroundPhotoSize,
     this.pageRoute,
     this.onClick,
-   // this.navigateAfterSeconds,
+    this.navigateAfterSeconds,
     this.title = const Text(''),
     this.backgroundColor = Colors.white,
     this.styleTextUnderTheLoader = const TextStyle(
@@ -251,7 +267,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
       throw ArgumentError(
           "widget.routeName must be a String beginning with forward slash (/)");
     }
-   /* if (widget.navigateAfterFuture == null) {
+    if (widget.navigateAfterFuture == null) {
       Timer(Duration(seconds: widget.seconds), () {
         if (widget.navigateAfterSeconds is String) {
           // It's fairly safe to assume this is using the in-built material
@@ -291,7 +307,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
               'widget.navigateAfterFuture must either be a String or Widget');
         }
       });
-    }*/
+    }
   }
 
   @override
@@ -317,7 +333,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
                 ]
             )
         ),
-        bottomNavigationBar: Container(
+        /*bottomNavigationBar: Container(
           height: 100,
           child:Padding(
             padding: const EdgeInsets.only(bottom: 50.0),
@@ -358,16 +374,11 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
                   ],
                 )),
           ),
-        ),
+        ),*/
 
 
       ),
     );
   }
-  Future fetchFeaturedCategories() async {
-    var categoryResponse = await CategoryRepository().getTopCategories();
-    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
-    print("APP COnfi list-->${AppConfig.featuredCategoryList.length}");
-    return categoryResponse.categories;
-  }
+
 }

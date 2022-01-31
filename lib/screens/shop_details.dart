@@ -1,3 +1,4 @@
+import 'package:active_ecommerce_flutter/screens/main.dart';
 import 'package:active_ecommerce_flutter/screens/seller_products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _ShopDetailsState extends State<ShopDetails> {
   int _current_slider = 0;
   List<dynamic> _carouselImageList = [];
   bool _carouselInit = false;
-  var _shopDetails =[];
+  List<dynamic> _shopDetails ;
 
   List<dynamic> _newArrivalProducts = [];
   bool _newArrivalProductInit = false;
@@ -61,7 +62,7 @@ class _ShopDetailsState extends State<ShopDetails> {
 
   fetchProductDetails() async {
     var shopDetailsResponse = await ShopRepository().getShopInfobySlug(shopName: widget.shopName);
-    _shopDetails.addAll(shopDetailsResponse.data);
+    _shopDetails=shopDetailsResponse.data;
     print("_shopDetails--->$_shopDetails");
     //print('ss:' + shopDetailsResponse.toString());
    /* if (shopDetailsResponse.data.length > 0) {
@@ -120,22 +121,81 @@ class _ShopDetailsState extends State<ShopDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: buildAppBar(context),
-         // bottomNavigationBar: buildBottomAppBar(context),
-          body: RefreshIndicator(
-            color: MyTheme.accent_color,
+    return WillPopScope(
+      onWillPop:(){
+       return Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return Main();
+        }));
+      } ,
+      child: Directionality(
+        textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
+        child: Scaffold(
             backgroundColor: Colors.white,
-            onRefresh: _onPageRefresh,
-            child: CustomScrollView(
+           appBar: buildAppBar(context),
+           // bottomNavigationBar: buildBottomAppBar(context),
+            body:Container(
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: 1,
+                  shrinkWrap:true,itemBuilder: (context,index){
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 150,
+                   // height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                        color: MyTheme.soft_accent_color1,
+                      ),
+                      child: Container(
+                        color: MyTheme.soft_accent_color1,
+                        width: double.infinity,
+                       // height: 60.0,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height:100 ,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: FadeInImage.assetNetwork(
+                                        placeholder: 'assets/placeholder.png',
+                                        image: AppConfig.BASE_PATH + _shopDetails[index].logo.replaceAll(",",""),
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _shopDetails[index].name,
+                                  style: TextStyle(
+                                    fontSize: 17.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      )
+                  ),
+                );
+              }),
+            )
+           /* CustomScrollView(
               controller: _mainScrollController,
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               slivers: [
-               /* SliverList(
+               *//* SliverList(
                   delegate: SliverChildListDelegate([
                     Padding(
                       padding: const EdgeInsets.fromLTRB(
@@ -172,8 +232,8 @@ class _ShopDetailsState extends State<ShopDetails> {
                       child: buildNewArrivalList(),
                     )
                   ]),
-                ),*/
-               /* SliverList(
+                ),*//*
+               *//* SliverList(
                   delegate: SliverChildListDelegate([
                     Padding(
                       padding: const EdgeInsets.fromLTRB(
@@ -225,10 +285,11 @@ class _ShopDetailsState extends State<ShopDetails> {
                         ),
                         child: buildfeaturedProductList())
                   ]),
-                )*/
+                )*//*
               ],
-            ),
-          )),
+            )*/
+        ),
+      ),
     );
   }
 
@@ -498,10 +559,14 @@ class _ShopDetailsState extends State<ShopDetails> {
       leading: Builder(
         builder: (context) => IconButton(
           icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return Main();
+            }));
+          }
         ),
       ),
-      title: Container(
+     /* title: Container(
         child: Container(
             width: 350,
             child: _shopDetails != null
@@ -527,7 +592,7 @@ class _ShopDetailsState extends State<ShopDetails> {
                       )
                     ],
                   )),
-      ),
+      ),*/
       elevation: 0.0,
       titleSpacing: 0,
 
