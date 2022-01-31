@@ -31,5 +31,6 @@ class AppConfig {
   //static const String BASE_PATH = "${RAW_BASE_URL}/${PUBLIC_FOLDER}/";
   //static const String BASE_PATH = "https://tosoviti.s3.ap-southeast-2.amazonaws.com/";
   static const String BASE_PATH = "https://citydeal.s3.us-east-2.amazonaws.com/";
+  static  var featuredCategoryList = [];
 }
 

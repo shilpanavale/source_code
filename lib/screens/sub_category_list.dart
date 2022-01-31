@@ -250,7 +250,7 @@ class _SubCategoryListState extends State<SubCategoryList> {
         elevation: 0.0,
         child: Row(
             mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-          Padding(
+          categoryResponse.categories[index].banner[0]!=null? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
                 width: 80,
@@ -261,9 +261,19 @@ class _SubCategoryListState extends State<SubCategoryList> {
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/placeholder.png',
                       image: AppConfig.BASE_PATH +
-                          categoryResponse.categories[index].banner.replaceAll(",",""),
+                          categoryResponse.categories[index].banner[0].toString(),
                       fit: BoxFit.cover,
                     ))),
+          ):Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                width: 80,
+                height: 80,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(0), right: Radius.zero),
+                    child:Image.asset("assets/placeholder.png")
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10.0),

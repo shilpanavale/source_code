@@ -34,19 +34,17 @@ class _QRViewExampleState extends State<QRViewExample> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
-                  else
-                    const Text('Scan a code'),
-                  Row(
+         Container(
+           height: 30,
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+             children: <Widget>[
+               if (result != null)
+                 Text(
+                     'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
+               else
+                 const Text(''),
+               /*Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -84,8 +82,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                             )),
                       )
                     ],
-                  ),
-                  Row(
+                  ),*/
+               /* Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -110,11 +108,17 @@ class _QRViewExampleState extends State<QRViewExample> {
                         ),
                       )
                     ],
-                  ),
-                ],
-              ),
+                  ),*/
+             ],
+           ),
+         )
+         /* Expanded(
+            flex: 1,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child:
             ),
-          )
+          )*/
         ],
       ),
     );

@@ -18,8 +18,8 @@ class CategoryRepository {
 
   Future<CategoryResponse> getFeturedCategories() async {
     //http://citydeal.co.in/api/v2/categories/featured
-   // Uri url = Uri.parse("${AppConfig.BASE_URL}/api/v2/categories/featured");
-    Uri url = Uri.parse("http://citydeal.co.in/api/v2/categories/featured");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/categories/featured");
+   // Uri url = Uri.parse("http://citydeal.co.in/api/v2/categories/featured");
     final response =
         await http.get(url,headers: {
           "App-Language": app_language.$,
@@ -30,6 +30,7 @@ class CategoryRepository {
   }
 
   Future<CategoryResponse> getTopCategories() async {
+
     Uri url = Uri.parse("${AppConfig.BASE_URL}/categories/top");
     final response =
     await http.get(url,headers: {

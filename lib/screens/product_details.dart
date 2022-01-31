@@ -1212,7 +1212,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ? Container()
             : Padding(
                 padding: app_language_rtl.$ ? EdgeInsets.only(left: 8.0) : EdgeInsets.only(right: 8.0),
-                child: Container(
+                child:_productDetails.shop_logo!=null? Container(
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
@@ -1226,6 +1226,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                     image: AppConfig.BASE_PATH + _productDetails.shop_logo.replaceAll(",",""),
                     fit: BoxFit.cover,
                   ),
+                ):Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2.0),
+                    border: Border.all(
+                        color: Color.fromRGBO(112, 112, 112, .3), width: 0.5),
+                    //shape: BoxShape.rectangle,
+                  ),
+                  child: Image.asset("assets/placeholder.png")
                 ),
               ),
         Container(

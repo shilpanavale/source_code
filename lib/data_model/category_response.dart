@@ -44,7 +44,7 @@ class Category {
 
   int id;
   String name;
-  String banner;
+  List<dynamic> banner;
   String icon;
   int number_of_children;
   Links links;

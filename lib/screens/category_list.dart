@@ -182,6 +182,7 @@ class _CategoryListState extends State<CategoryList> {
             );
           } else if (snapshot.hasData) {
             var categoryResponse = snapshot.data;
+
             return  GridView.builder(
               // 2
               //addAutomaticKeepAlives: true,
@@ -229,7 +230,7 @@ class _CategoryListState extends State<CategoryList> {
                                 height: 80,
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/placeholder.png',
-                                  image: AppConfig.BASE_PATH + _searchResult[index].banner.replaceAll(",", ""),
+                                  image: AppConfig.BASE_PATH + _searchResult[index].banner[0],
                                   fit: BoxFit.cover,
                                 )),
 
@@ -240,7 +241,7 @@ class _CategoryListState extends State<CategoryList> {
                                 height: 80,
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/placeholder.png',
-                                  image: AppConfig.BASE_PATH + _searchResult[index].banner.replaceAll(",", ""),
+                                  image: AppConfig.BASE_PATH + _searchResult[index].banner[0],
                                   fit: BoxFit.cover,
                                 )),
 
@@ -342,35 +343,154 @@ class _CategoryListState extends State<CategoryList> {
                         ],
                       )
                   ),
-                ):Container();
+                ): InkWell(
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return SubCategoryList(
+                            parent_category_id:
+                            categoryResponse[index].id,
+                            parent_category_name:
+                            categoryResponse[index].name,
+                          );
+                        }));
+                  },
+                  child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: new BorderSide(color: MyTheme.yellow, width: 0.5),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      elevation: 0.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10,),
+                          categoryResponse[index].banner!=null?Row(
+                              mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                            Container(
+                                width: 80,
+                                height: 80,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/placeholder.png',
+                                  image: AppConfig.BASE_PATH + categoryResponse[index].banner[0],
+                                  fit: BoxFit.cover,
+                                )),
+
+                          ]):Row(
+                              mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                            Container(
+                                width: 80,
+                                height: 80,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/placeholder.png',
+                                  image: AppConfig.BASE_PATH + categoryResponse[index].banner[0],
+                                  fit: BoxFit.cover,
+                                )),
+
+                          ]),
+                          Container(
+                            height: 60,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                  child: Text(
+                                    categoryResponse[index].name,
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        color: MyTheme.font_grey,
+                                        fontSize: 13,
+                                        height: 1.6,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                                /* Padding(
+                  padding: EdgeInsets.fromLTRB(32, 8, 8, 4),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (categoryResponse
+                                  .categories[index].number_of_children >
+                              0) {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CategoryList(
+                                parent_category_id:
+                                    categoryResponse.categories[index].id,
+                                parent_category_name:
+                                    categoryResponse.categories[index].name,
+                              );
+                            }));
+                          } else {
+                            ToastComponent.showDialog(
+                                AppLocalizations.of(context).category_list_screen_no_subcategories, context,
+                                gravity: Toast.CENTER,
+                                duration: Toast.LENGTH_LONG);
+                          }
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).category_list_screen_view_subcategories,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: categoryResponse
+                                          .categories[index].number_of_children >
+                                      0
+                                  ? MyTheme.medium_grey
+                                  : MyTheme.light_grey,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      Text(
+                        " | ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: MyTheme.medium_grey,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CategoryProducts(
+                              category_id: categoryResponse.categories[index].id,
+                              category_name:
+                                  categoryResponse.categories[index].name,
+                            );
+                          }));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).category_list_screen_view_products,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: MyTheme.medium_grey,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),*/
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                );
                /* return _searchResult.isNotEmpty||_searchResult.length!=0?
                 buildCategoryItemCard(_searchResult, index):
                 Container();*/
               },
-            );
-            return SingleChildScrollView(
-              child: GridView.builder(
-                itemCount: categoryResponse.categories.length,
-                // 2
-                //addAutomaticKeepAlives: true,
-               // itemCount: 6,
-               // controller: _scrollController,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.618),
-                padding: EdgeInsets.all(16),
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 4.0, bottom: 4.0, left: 16.0, right: 16.0),
-                    child: buildCategoryItemCard(categoryResponse, index),
-                  );
-                },
-              ),
             );
           } else {
             return SingleChildScrollView(
@@ -432,6 +552,7 @@ class _CategoryListState extends State<CategoryList> {
               ),
             );
           }
+
         });
   }
   onSearchTextChanged(String text) async {
@@ -494,7 +615,7 @@ class _CategoryListState extends State<CategoryList> {
                   height: 80,
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/placeholder.png',
-                    image: AppConfig.BASE_PATH + _searchResult[index].banner.replaceAll(",", ""),
+                    image: AppConfig.BASE_PATH + _searchResult[index].banner[index],
                     fit: BoxFit.cover,
                   )),
 
@@ -505,7 +626,7 @@ class _CategoryListState extends State<CategoryList> {
                   height: 80,
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/placeholder.png',
-                    image: AppConfig.BASE_PATH + _searchResult[index].banner.replaceAll(",", ""),
+                    image: AppConfig.BASE_PATH + _searchResult[index].banner[index],
                     fit: BoxFit.cover,
                   )),
 

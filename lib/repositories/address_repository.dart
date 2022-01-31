@@ -80,8 +80,10 @@ class AddressRepository {
       "postal_code": "$postal_code",
       "phone": "$phone"
     });
-
+    print("${AppConfig.BASE_URL}/user/shipping/update");
+print(post_body);
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/shipping/update");
+    print("access_token-->${access_token.$}");
     final response = await http.post(url,
         headers: {
           "Content-Type": "application/json",

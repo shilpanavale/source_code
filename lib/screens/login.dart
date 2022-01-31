@@ -1,6 +1,7 @@
 import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
 import 'package:active_ecommerce_flutter/other_config.dart';
+import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
 import 'package:active_ecommerce_flutter/screens/home.dart';
 import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -114,10 +115,16 @@ class _LoginState extends State<Login> {
       }
 
       //push norification ends
+      print("LOGIN");
+      fetchFeaturedCategories().then((value) {
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return Main();
-      }));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) {
+                return Main();
+              }));
+
+      });
+
     }
   }
 
@@ -628,10 +635,14 @@ class _LoginState extends State<Login> {
                         ),
                          InkWell(
                            onTap: (){
-                             Navigator.push(context,
-                                 MaterialPageRoute(builder: (context) {
-                                   return Main();
-                                 }));
+                             fetchFeaturedCategories().then((value) {
+                               if(value!=null){
+                                 Navigator.push(context,
+                                     MaterialPageRoute(builder: (context) {
+                                       return Main();
+                                     }));
+                               }
+                             });
                            },
                            child: Padding(
                             padding: const EdgeInsets.only(top: 20.0),
@@ -652,5 +663,9 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+  Future fetchFeaturedCategories() async {
+    var categoryResponse = await CategoryRepository().getTopCategories();
+    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
   }
 }

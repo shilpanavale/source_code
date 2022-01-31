@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
 import 'package:active_ecommerce_flutter/screens/login.dart';
 import 'package:active_ecommerce_flutter/screens/main.dart';
 import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
@@ -332,10 +333,15 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
                         child: CustomButton(
                           onPressed: (){
                             if (is_logged_in.$ == true) {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return Main();
-                                  }));
+                              fetchFeaturedCategories().then((value) {
+                                if(value!=null){
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return Main();
+                                      }));
+                                }
+                              });
+
                             }else{
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
@@ -357,5 +363,11 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
 
       ),
     );
+  }
+  Future fetchFeaturedCategories() async {
+    var categoryResponse = await CategoryRepository().getTopCategories();
+    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
+    print("APP COnfi list-->${AppConfig.featuredCategoryList.length}");
+    return categoryResponse.categories;
   }
 }
