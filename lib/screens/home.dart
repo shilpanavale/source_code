@@ -1,7 +1,9 @@
 import 'package:active_ecommerce_flutter/data_model/category_response.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:active_ecommerce_flutter/repositories/wishlist_repository.dart';
 import 'package:active_ecommerce_flutter/screens/filter.dart';
 import 'package:active_ecommerce_flutter/screens/flash_deal_list.dart';
+import 'package:active_ecommerce_flutter/screens/product_details.dart';
 import 'package:active_ecommerce_flutter/screens/todays_deal_products.dart';
 import 'package:active_ecommerce_flutter/screens/top_selling_products.dart';
 import 'package:active_ecommerce_flutter/screens/category_products.dart';
@@ -63,7 +65,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
   bool _isProductInitial = true;
   bool _isCategoryInitial = true;
   bool _isCarouselInitial = true;
-  bool _wishListButton=false;
+  bool _isInWishList=false;
   int _totalProductData = 0;
   int _productPage = 1;
   bool _showProductLoadingContainer = false;
@@ -122,9 +124,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
   }
 
     fetchFeaturedCategories() async {
-    var categoryResponse = await CategoryRepository().getFeturedCategories();
+      var productResponse = await ProductRepository().getFeaturedProducts(
+      page: _productPage,
+    );
+   // var categoryResponse = await CategoryRepository().getFeturedCategories();
 
-     _featuredCategoryList.addAll(categoryResponse.categories);
+     _featuredCategoryList.addAll(productResponse.products);
      _isCategoryInitial = false;
      setState(() {});
   }
@@ -330,7 +335,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                     child: Container(
                                       color: MyTheme
                                           .soft_accent_color1,
-                                      height: 190,
+                                      height: 202,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment
                                             .start,
@@ -347,7 +352,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                             ),
                                           ),
                                           Expanded(
-                                              child: buildHomeFeaturedCategories(context))
+                                              child: buildHomeFeaturedProduct(context))
 
                                         ],
                                       ),
@@ -525,7 +530,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                           ),
                                                         ],
                                                       ),
-                                                      buildHomeFeaturedProducts(context)
+                                                      buildHomeTopProducts(context)
                                                     ],
                                                   ),
 
@@ -684,7 +689,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                             ),
                                           ),
                                           Expanded(
-                                              child: buildHomeFeaturedCategories(
+                                              child: buildHomeFeaturedProduct(
                                                   context))
 
                                         ],
@@ -897,7 +902,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
     );
   }
 
-  buildHomeFeaturedProducts(context) {
+  buildHomeTopProducts(context) {
     if ( _featuredProductList.length == 0) {
       return SingleChildScrollView(
           child: ShimmerHelper().buildProductGridShimmer(
@@ -924,7 +929,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
              name: _featuredProductList[index].name,
              main_price: _featuredProductList[index].main_price,
              stroked_price: _featuredProductList[index].stroked_price,
-             has_discount: _featuredProductList[index].has_discount
+             has_discount: _featuredProductList[index].has_discount,
+             wishListButton:false ,
          );
        },
      );
@@ -939,7 +945,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
 
   }
 
-  buildHomeFeaturedCategories(context) {
+  buildHomeFeaturedProduct(context) {
     if (_isCategoryInitial && _featuredCategoryList.length == 0) {
       return  Row(
         children: [
@@ -966,16 +972,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
           scrollDirection: Axis.horizontal,
           itemCount: _featuredCategoryList.length,
           itemExtent: 120,
+          shrinkWrap: true,
           itemBuilder: (context, index) {
+
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CategoryProducts(
-                      category_id: _featuredCategoryList[index].id,
-                      category_name: _featuredCategoryList[index].name,
-                    );
+                    return ProductDetails(id: _featuredCategoryList[index].id,);
                   }));
                 },
                 child: Card(
@@ -1001,13 +1006,52 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/placeholder.png',
                                   image: AppConfig.BASE_PATH +
-                                      _featuredCategoryList[index].banner[0],
+                                      _featuredCategoryList[index].thumbnail_image,
                                   fit: BoxFit.cover,
                                 )
                                 )),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                        padding: EdgeInsets.fromLTRB(16, 4, 16, 0),
+                        child: Text(
+                          _featuredCategoryList[index].main_price,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: MyTheme.accent_color,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RatingBar(
+                              itemSize: 15.0,
+                              ignoreGestures: true,
+                              initialRating: 5,
+                              direction: Axis.horizontal,
+                              allowHalfRating: false,
+                              itemCount: 5,
+                              ratingWidget: RatingWidget(
+                                half:Icon(FontAwesome.star, color: Colors.grey) ,
+                                full: Icon(FontAwesome.star, color: Colors.grey),
+                                empty:
+                                Icon(FontAwesome.star, color: Color.fromRGBO(224, 224, 225, 1)),
+                              ),
+                              itemPadding: EdgeInsets.only(right: 1.0),
+                              onRatingUpdate: (rating) {
+                                //print(rating);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                         child: Container(
                           height: 30,
                           child: Text(
@@ -1020,6 +1064,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                           ),
                         ),
                       ),
+
 
                     ],
                   ),
@@ -1406,6 +1451,36 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
           automaticallyImplyLeading: false,
           elevation: 0,
           centerTitle: false,
+          leading: GestureDetector(
+        onTap: () {
+          _scaffoldKey.currentState.openDrawer();
+        },
+        child: widget.show_back_button
+            ? Builder(
+                builder: (context) => IconButton(
+                    icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
+                    onPressed: () {
+                      if (!widget.go_back) {
+                        return;
+                      }
+                      return Navigator.of(context).pop();
+                    }),
+              )
+            : Builder(
+                builder: (context) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 18.0, horizontal: 0.0),
+                  child: Container(
+                    child: Image.asset(
+                      'assets/hamburger.png',
+                      height: 16,
+                      //color: MyTheme.dark_grey,
+                      color: MyTheme.dark_grey,
+                    ),
+                  ),
+                ),
+              ),
+      ),
           title: Container(
             width: double.infinity,
             height: kToolbarHeight +
@@ -1618,7 +1693,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                             child: FadeInImage.assetNetwork(
                                               placeholder: 'assets/placeholder.png',
                                               image: AppConfig.BASE_PATH +
-                                                  _featuredCategoryList[index].banner[0],
+                                                  _featuredCategoryList[index].thumbnail_image,
                                               fit: BoxFit.cover,
                                             )
 
@@ -1684,7 +1759,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                         child: Container(
                                          // height: 22,
                                           child: Text(
-                                            '\$17',
+                                            _featuredCategoryList[index].main_price,
                                             textAlign: TextAlign.center,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,

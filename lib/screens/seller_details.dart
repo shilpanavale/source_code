@@ -636,10 +636,46 @@ class _SellerDetailsState extends State<SellerDetails> {
                 padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
                 child: buildRatingWithCountRow(),
               ),
-              Padding(  padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
+              Padding(  padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-
+                  InkWell(
+                    onTap: ()async{
+                      final url = 'https://www.google.com/maps/search/${Uri.encodeFull( _shopDetails.address)}';
+                      if (await canLaunch(url) != null) {
+                      await launch(url);
+                      } else {
+                      throw 'Could not launch $url';
+                      }
+                    },
+                    child: Container(
+                      height: 20,width: 20,
+                        child: Image.asset("assets/facebook_logo.png")),
+                  ),
+                  SizedBox(width: 10,),
+                  InkWell(
+                    onTap: ()async{
+                      final url = 'https://wa.me/9604609321/?text=${Uri.parse("message")}';
+                      if (await canLaunch(url) != null) {
+                      await launch(url);
+                      } else {
+                      throw 'Could not launch $url';
+                      }
+                    },
+                    child: Container(
+                        height: 20,width: 20,
+                        child: Image.asset("assets/whatsapp.png")),
+                  ),
+                  SizedBox(width: 10,),
+                  InkWell(
+                    onTap: (){
+                      launch("tel://9604609321");
+                    },
+                    child: Container(
+                        height: 20,width: 20,
+                        child: Icon(Icons.call,color: Colors.blue,)),
+                  ),
                 ],
               ),)
             ],

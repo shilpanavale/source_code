@@ -42,6 +42,9 @@ class PaymentRepository {
           "App-Language": app_language.$,
         },
         body: post_body);
+    print(post_body);
+print(access_token.$);
+    print(app_language.$);
 
     print(response.body.toString());
     return orderCreateResponseFromJson(response.body);

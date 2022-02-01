@@ -202,8 +202,9 @@ class _BrandProductsState extends State<BrandProducts> {
                   name: _productList[index].name,
                   main_price: _productList[index].main_price,
                   stroked_price: _productList[index].stroked_price,
-                  has_discount: _productList[index].has_discount);
-            },
+                  has_discount: _productList[index].has_discount,wishListButton: false);
+
+              },
           ),
         ),
       );

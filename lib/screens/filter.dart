@@ -775,10 +775,10 @@ class _FilterState extends State<Filter> {
       InkWell(
         onTap: () {
           var add="";
-          Navigator.push(context,
+         /* Navigator.push(context,
               MaterialPageRoute(builder: (context) {
                 return MapLocation();
-              }));
+              }));*/
           //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
         },
         child: Padding(
@@ -1126,7 +1126,8 @@ class _FilterState extends State<Filter> {
                       name: _productList[index].name,
                       main_price: _productList[index].main_price,
                       stroked_price: _productList[index].stroked_price,
-                      has_discount: _productList[index].has_discount):
+                      has_discount: _productList[index].has_discount,
+                      wishListButton: false):
                   Container();
                 },
               )

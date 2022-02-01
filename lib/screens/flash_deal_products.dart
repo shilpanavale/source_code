@@ -173,7 +173,8 @@ backgroundColor: Colors.white,
                       name: _searchList[index].name,
                       main_price: _searchList[index].main_price,
                       stroked_price: _searchList[index].stroked_price,
-                      has_discount: _searchList[index].has_discount);
+                      has_discount: _searchList[index].has_discount,
+                      wishListButton: false);
                 },
               ),
             );

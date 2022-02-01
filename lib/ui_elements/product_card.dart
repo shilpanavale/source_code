@@ -1,10 +1,15 @@
+import 'package:active_ecommerce_flutter/custom/toast_component.dart';
+import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:active_ecommerce_flutter/repositories/wishlist_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/screens/product_details.dart';
 import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:toast/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ProductCard extends StatefulWidget {
 
   int id;
@@ -22,8 +27,58 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+ bool _isInWishList=true;
+ @override
+ void initState() {
+   fetchWishListCheckInfo();
+   super.initState();
+ }
+  fetchWishListCheckInfo() async {
+    var wishListCheckResponse =
+    await WishListRepository().isProductInUserWishList(
+      product_id: widget.id,
+    );
 
+    //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
+    _isInWishList = wishListCheckResponse.is_in_wishlist;
+    setState(() {});
+  }
 
+  addToWishList() async {
+    var wishListCheckResponse =
+    await WishListRepository().add(product_id: widget.id);
+
+    //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
+    _isInWishList = wishListCheckResponse.is_in_wishlist;
+    setState(() {});
+  }
+
+  removeFromWishList() async {
+    var wishListCheckResponse =
+    await WishListRepository().remove(product_id: widget.id);
+
+    //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
+    _isInWishList = wishListCheckResponse.is_in_wishlist;
+    setState(() {});
+  }
+
+  onWishTap() {
+    if (is_logged_in.$ == false) {
+      ToastComponent.showDialog(AppLocalizations.of(context).common_login_warning, context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+      return;
+    }
+
+    if (_isInWishList) {
+      _isInWishList = false;
+      setState(() {});
+      removeFromWishList();
+    } else {
+      _isInWishList = true;
+      setState(() {});
+      addToWishList();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     print((MediaQuery.of(context).size.width - 48 ) / 2);
@@ -57,19 +112,26 @@ class _ProductCardState extends State<ProductCard> {
                           color: Colors.pink,size: 18,
                         ),
                         SizedBox(width: 10,),
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              widget.wishListButton=true;
-                            });
+                        _isInWishList
+                            ? InkWell(
+                          onTap: () {
+                            onWishTap();
                           },
-                          child:widget.wishListButton==false ?Icon(
-                            CupertinoIcons.suit_heart,
-                            color: Colors.pink,size: 18,
-                          ):Icon(
-                      CupertinoIcons.suit_heart_fill,
-                      color: Colors.pink,size: 18,
-                    ),
+                          child: Icon(
+                            FontAwesome.heart,
+                            color: Color.fromRGBO(230, 46, 4, 1),
+                            size: 18,
+                          ),
+                        )
+                            : InkWell(
+                          onTap: () {
+                            onWishTap();
+                          },
+                          child: Icon(
+                            FontAwesome.heart_o,
+                            color: Color.fromRGBO(230, 46, 4, 1),
+                            size: 18,
+                          ),
                         )
                       ],
                     ))

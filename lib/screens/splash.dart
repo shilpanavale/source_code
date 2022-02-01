@@ -90,7 +90,7 @@ class _SplashState extends State<Splash> {
     );
   }
    navigate(){
-    print("INSIDe FUN");
+    print("LOGIN STATUS-->${is_logged_in.$}");
     if (is_logged_in.$ == true) {
       return Main();
 

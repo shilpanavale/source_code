@@ -199,44 +199,46 @@ backgroundColor: Colors.white,
                   fit: BoxFit.contain,
                 )),
           ),
-          Container(
-            height: 50,
-            width: 230,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _list[index].shop_name,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: MyTheme.font_grey,
-                            fontSize: 13,
-                            height: 1.6,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        _list[index].title,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: MyTheme.medium_grey,
-                            height: 1.6,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
+          Expanded(
+            child: Container(
+              height: 50,
+              width: 230,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _list[index].shop_name,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: MyTheme.font_grey,
+                              fontSize: 13,
+                              height: 1.6,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          _list[index].title,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: MyTheme.medium_grey,
+                              height: 1.6,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Spacer(),

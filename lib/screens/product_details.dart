@@ -1709,7 +1709,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       titleSpacing: 0,
       actions: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
           child: IconButton(
             icon: Icon(Icons.share_outlined, color: MyTheme.dark_grey),
             onPressed: () {
@@ -1954,7 +1954,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   name: _topProducts[index].name,
                   main_price: _topProducts[index].main_price,
                   stroked_price: _topProducts[index].stroked_price,
-                  has_discount: _topProducts[index].has_discount),
+                  has_discount: _topProducts[index].has_discount,
+                  ),
             );
           },
         ),
@@ -2006,7 +2007,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     name: _relatedProducts[index].name,
                     main_price: _relatedProducts[index].main_price,
                     stroked_price: _relatedProducts[index].stroked_price,
-                    has_discount: _relatedProducts[index].has_discount),
+                    has_discount: _relatedProducts[index].has_discount,
+                    ),
               );
             },
           ),

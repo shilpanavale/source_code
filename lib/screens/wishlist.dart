@@ -185,38 +185,40 @@ class _WishlistState extends State<Wishlist> {
                                   _wishlistItems[index].product.thumbnail_image,
                               fit: BoxFit.cover,
                             ))),
-                    Container(
-                      width: 240,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-                            child: Text(
-                              _wishlistItems[index].product.name,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: TextStyle(
-                                  color: MyTheme.font_grey,
-                                  fontSize: 14,
-                                  height: 1.6,
-                                  fontWeight: FontWeight.w400),
+                    Expanded(
+                      child: Container(
+                        width: 240,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                              child: Text(
+                                _wishlistItems[index].product.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    color: MyTheme.font_grey,
+                                    fontSize: 14,
+                                    height: 1.6,
+                                    fontWeight: FontWeight.w400),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
-                            child: Text(
-                              _wishlistItems[index].product.base_price,
-                              textAlign: TextAlign.left,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: MyTheme.accent_color,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
+                              child: Text(
+                                _wishlistItems[index].product.base_price,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: MyTheme.accent_color,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ]),

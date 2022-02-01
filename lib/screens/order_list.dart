@@ -307,7 +307,7 @@ class _OrderListState extends State<OrderList> {
                         BorderSide(color: MyTheme.light_grey, width: 1))),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             height: 36,
-            width: MediaQuery.of(context).size.width * .35,
+            width: MediaQuery.of(context).size.width * .37,
             child: new DropdownButton<DeliveryStatus>(
               icon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
