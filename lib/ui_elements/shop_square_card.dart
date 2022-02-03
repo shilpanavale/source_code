@@ -40,7 +40,7 @@ class _ShopSquareCardState extends State<ShopSquareCard> {
                     //width: double.infinity,
                     //height: ((MediaQuery.of(context).size.width - 24) /2) * .72,
                     width: 180,
-                    height: 80,
+                    height: 110,
                     child: ClipRRect(
                         borderRadius: BorderRadius.vertical(
                             top: Radius.circular(0), bottom: Radius.zero),

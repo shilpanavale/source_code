@@ -1254,7 +1254,7 @@ class _FilterState extends State<Filter> {
                 itemBuilder: (context, index) {
                   // 3
                   return _shopList[index].logo!=null? Container(
-                    height: 100,
+                    height: 140,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(context,

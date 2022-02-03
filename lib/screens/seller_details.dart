@@ -282,7 +282,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     } else if (_carouselImageList.length > 0) {
       return CarouselSlider(
         options: CarouselOptions(
-            aspectRatio: 3.2,
+            aspectRatio: 3.1,
             viewportFraction: 1,
             initialPage: 0,
             enableInfiniteScroll: true,
@@ -496,7 +496,111 @@ class _SellerDetailsState extends State<SellerDetails> {
     }
   }
 
-  AppBar buildAppBar(BuildContext context) {
+  PreferredSizeWidget buildAppBar(BuildContext context) {
+    return PreferredSize(
+        child:Column(
+          children: [
+            AppBar(
+              backgroundColor: Colors.white,
+              toolbarHeight: 140,
+              leading: Builder(
+                builder: (context) => IconButton(
+                  icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+
+              title: Container(
+                color: Colors.white,
+               // height: 100,
+                child: Container(
+                    width: 350,
+                    child: _shopDetails != null
+                        ? buildAppbarShopDetails()
+                        : Row(
+                      children: [
+                        ShimmerHelper()
+                            .buildBasicShimmer(height: 60.0, width: 60.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ShimmerHelper()
+                                  .buildBasicShimmer(height: 25.0, width: 150.0),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: ShimmerHelper().buildBasicShimmer(
+                                    height: 20.0, width: 100.0),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
+              ),
+              elevation: 0.0,
+              titleSpacing: 0,
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                  child: IconButton(
+                    icon: Icon(Icons.location_on, color: MyTheme.dark_grey),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) => Directionality(
+                            textDirection: app_language_rtl.$
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
+                            child: AlertDialog(
+                              contentPadding: EdgeInsets.only(
+                                  top: 16.0, left: 2.0, right: 2.0, bottom: 2.0),
+                              content: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 16.0),
+                                child: Text(
+                                  _shopDetails.address,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                      color: MyTheme.font_grey, fontSize: 14),
+                                ),
+                              ),
+                              actions: [
+                                FlatButton(
+                                  child: Text(
+                                    AppLocalizations.of(context)
+                                        .common_close_in_all_capital,
+                                    style: TextStyle(color: MyTheme.medium_grey),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                  },
+                                ),
+                                TextButton(
+                                    onPressed: () async{
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                      final url = 'https://www.google.com/maps/search/${Uri.encodeFull( _shopDetails.address)}';
+                                      if (await canLaunch(url) != null) {
+                                        await launch(url);
+                                      } else {
+                                        throw 'Could not launch $url';
+                                      }
+                                    },
+                                    child: Text("Open Map")),
+                              ],
+                            ),
+                          ));
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        preferredSize: Size.fromHeight(140));
     return AppBar(
       backgroundColor: Colors.white,
       toolbarHeight: 75,
@@ -506,6 +610,7 @@ class _SellerDetailsState extends State<SellerDetails> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
+
       title: Container(
         child: Container(
             width: 350,
@@ -594,33 +699,33 @@ class _SellerDetailsState extends State<SellerDetails> {
   }
 
   buildAppbarShopDetails() {
-    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-      Container(
-        width: 60,
-        height: 60,
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 2.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border:
-              Border.all(color: Color.fromRGBO(112, 112, 112, .3), width: .5),
-          //shape: BoxShape.rectangle,
-        ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: FadeInImage.assetNetwork(
-              placeholder: 'assets/placeholder.png',
-              image: AppConfig.BASE_PATH + _shopDetails.logo.replaceAll(",",""),
-              fit: BoxFit.cover,
-            )),
-      ),
-      Expanded(
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+          Expanded(
         child: Container(
          // width: 220,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                width: 150,
+                height: 70,
+                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Color.fromRGBO(112, 112, 112, .3), width: .5),
+                  //shape: BoxShape.rectangle,
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/placeholder.png',
+                      image: AppConfig.BASE_PATH + _shopDetails.logo.replaceAll(",",""),
+                      fit: BoxFit.cover,
+                    )),
+              ),
               Padding(
-                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
                 child: Text(
                   _shopDetails.name,
                   overflow: TextOverflow.ellipsis,
@@ -633,51 +738,56 @@ class _SellerDetailsState extends State<SellerDetails> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(8, 4, 8, 8),
-                child: buildRatingWithCountRow(),
+                padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                child:Row(
+                  children: [
+                    buildRatingWithCountRow(),
+                    Padding(  padding: EdgeInsets.fromLTRB(8, 0, 0, 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 10,),
+                          InkWell(
+                            onTap: ()async{
+                              final url = 'https://wa.me/9604609321/?text=${Uri.parse("message")}';
+                              if (await canLaunch(url) != null) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Container(
+                                height: 20,width: 20,
+                                child: Image.asset("assets/whatsapp.png")),
+                          ),
+                          SizedBox(width: 10,),
+                          InkWell(
+                            onTap: (){
+                              launch("tel://9604609321");
+                            },
+                            child: Container(
+                                height: 20,width: 20,
+                                child: Icon(Icons.call,color: Colors.blue,)),
+                          ),
+                          SizedBox(width: 10,),
+
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: (){
+                                launch("tel://9604609321");
+                              },
+                              child: Container(
+                                  height: 20,width: 20,
+                                  child: Icon(CupertinoIcons.hand_thumbsup,color: Colors.blue,)),
+                            ),
+                          ),
+                        ],
+                      ),)
+                  ],
+                )
               ),
-              Padding(  padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: ()async{
-                      final url = 'https://www.google.com/maps/search/${Uri.encodeFull( _shopDetails.address)}';
-                      if (await canLaunch(url) != null) {
-                      await launch(url);
-                      } else {
-                      throw 'Could not launch $url';
-                      }
-                    },
-                    child: Container(
-                      height: 20,width: 20,
-                        child: Image.asset("assets/facebook_logo.png")),
-                  ),
-                  SizedBox(width: 10,),
-                  InkWell(
-                    onTap: ()async{
-                      final url = 'https://wa.me/9604609321/?text=${Uri.parse("message")}';
-                      if (await canLaunch(url) != null) {
-                      await launch(url);
-                      } else {
-                      throw 'Could not launch $url';
-                      }
-                    },
-                    child: Container(
-                        height: 20,width: 20,
-                        child: Image.asset("assets/whatsapp.png")),
-                  ),
-                  SizedBox(width: 10,),
-                  InkWell(
-                    onTap: (){
-                      launch("tel://9604609321");
-                    },
-                    child: Container(
-                        height: 20,width: 20,
-                        child: Icon(Icons.call,color: Colors.blue,)),
-                  ),
-                ],
-              ),)
+
             ],
           ),
         ),
@@ -689,7 +799,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     return Row(
       children: [
         RatingBar(
-          itemSize: 14.0,
+          itemSize: 12.0,
           ignoreGestures: true,
           initialRating: double.parse(_shopDetails.rating.toString()),
           direction: Axis.horizontal,
