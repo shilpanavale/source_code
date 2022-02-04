@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
 import 'package:active_ecommerce_flutter/screens/order_list.dart';
@@ -593,7 +594,10 @@ class _CheckoutState extends State<Checkout> {
               ],
             ));
   }
-
+  bool _value = false;
+  int val = 1;
+  int val2 = -1;
+  int val3 = -1;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -601,41 +605,98 @@ class _CheckoutState extends State<Checkout> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: buildAppBar(context),
-          bottomNavigationBar: buildBottomAppBar(context),
-          body: Stack(
-            children: [
-              RefreshIndicator(
-                color: MyTheme.accent_color,
-                backgroundColor: Colors.white,
-                onRefresh: _onRefresh,
-                displacement: 0,
-                child: CustomScrollView(
-                  controller: _mainScrollController,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  slivers: [
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: buildPaymentMethodList(),
-                        ),
-                        Container(
-                          height: 140,
-                        )
-                      ]),
-                    )
-                  ],
+          //bottomNavigationBar: buildBottomAppBar(context),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: billingInformationUI(),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                  child: shippingMethod(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Card(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(_totalString,
+                              style: TextStyle(
+                                  color: MyTheme.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                        FlatButton(
+                          minWidth: 40,
+                          height: 40,
+                          color: MyTheme.yellow_color,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text("Confirm & Pay",
+                           /* widget.manual_payment_from_order_details
+                                ? AppLocalizations.of(context).common_proceed_in_all_caps
+                                : AppLocalizations.of(context).checkout_screen_place_my_order,*/
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            onPressPlaceOrderOrProceed();
+                          },
+                        ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+          )
+        /*Stack(
+            children: [
+              CustomScrollView(
+                controller: _mainScrollController,
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: billingInformationUI(),
+                      ),
+                    ]),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                      child: shippingMethod(),
+                    ),
+
+                  )
+                ],
               ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    /*border: Border(
+                    *//*border: Border(
                       top: BorderSide(color: MyTheme.light_grey,width: 1.0),
-                    )*/
+                    )*//*
                   ),
                   height: widget.manual_payment_from_order_details ? 80 : 140,
                   //color: Colors.white,
@@ -702,7 +763,8 @@ class _CheckoutState extends State<Checkout> {
                 ),
               )
             ],
-          )),
+          )*/
+      ),
     );
   }
 
@@ -811,8 +873,155 @@ backgroundColor: Colors.white,
     );
   }
 
-  buildPaymentMethodList() {
-    if (_isInitial && _paymentTypeList.length == 0) {
+  billingInformationUI() {
+    return Container(
+
+     width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      height: 280,
+      child: Card(
+        /*shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),*/
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: MyTheme.yellow_color,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight:Radius.circular(10) ),
+                      ),
+
+                     // width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      child: Center(child: Text("Billing Information",style:MyTheme.fontSize15,textAlign: TextAlign.center,)),),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 25,
+                    width: 25,
+                    color: Colors.teal,
+                    child: Icon(Icons.person_outline,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Full Name",style: TextStyle(fontSize: 15),),
+                  ),
+                  Expanded(
+                    child: Container(
+                       // width: 220,
+                        alignment: Alignment.centerRight,
+                        child: Text('SUHA JANNAT',style: TextStyle(fontSize: 13))),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 25,
+                    width: 25,
+                    color: Colors.teal,
+                    child: Icon(Icons.phone,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Phone",style: TextStyle(fontSize: 15),),
+                  ),
+                  Expanded(
+                    child: Container(
+                       // width: 240,
+                        alignment: Alignment.centerRight,
+                        child: Text('+91961234445',style: TextStyle(fontSize: 13))),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 25,
+                    width: 25,
+                    color: Colors.teal,
+                    child: Icon(Icons.email_outlined,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text("Email Address",style: TextStyle(fontSize: 15),),
+                  ),
+                  Expanded(
+                    child: Container(
+                        //width: 200,
+                        alignment: Alignment.centerRight,
+                        child: Text('suha@gmail',style: TextStyle(fontSize: 13))),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 25,
+                    width: 25,
+                    color: Colors.teal,
+                    child: Icon(Icons.location_on_outlined,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Shipping",style: TextStyle(fontSize: 15),),
+                  ),
+                  Expanded(
+                    child: Container(
+                        //width: 230,
+                        alignment: Alignment.centerRight,
+                        child: Text('28/c Green road,BD',maxLines:2,style: TextStyle(fontSize: 13))),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: MyTheme.yellow_color,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+
+                      // width: MediaQuery.of(context).size.width,
+                      height: 35,
+                      child: Center(child: Text("Edit Billing Information",style:MyTheme.fontSize15,textAlign: TextAlign.center,)),),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+   /* if (_isInitial && _paymentTypeList.length == 0) {
       return SingleChildScrollView(
           child: ShimmerHelper()
               .buildListShimmer(item_count: 5, item_height: 100.0));
@@ -839,7 +1048,93 @@ backgroundColor: Colors.white,
                 AppLocalizations.of(context).common_no_payment_method_added,
             style: TextStyle(color: MyTheme.font_grey),
           )));
-    }
+    }*/
+  }
+  shippingMethod(){
+    return Container(
+
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      height: 201,
+      child: Card(
+        /*shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),*/
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: MyTheme.green,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight:Radius.circular(10) ),
+                      ),
+
+                      // width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      child: Center(child: Text("Shipping Method Choose",style:MyTheme.fontSize15,textAlign: TextAlign.center,)),),
+                  )
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Radio(
+                  value: 1,
+                  groupValue: val,
+                  onChanged: (value) {
+                    setState(() {
+                      val = value;
+                    });
+                  },
+                  activeColor: MyTheme.green,
+                ),
+                SizedBox(width: 10,),
+                Text("Fast Shipping1 days delivary for \$1.0",style: TextStyle(fontSize: 14),)
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                  value: 2,
+                  groupValue: val,
+                  onChanged: (value) {
+                    setState(() {
+                      val = value;
+                    });
+                  },
+                  activeColor: MyTheme.green,
+                ),
+                SizedBox(width: 10,),
+                Text("Reguler3-7 days delivary for \$0.4",style: TextStyle(fontSize: 14),)
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                  value: 3,
+                  groupValue: val,
+                  onChanged: (value) {
+                    setState(() {
+                      val = value;
+                    });
+                  },
+                  activeColor: MyTheme.green,
+                ),
+                SizedBox(width: 10,),
+                Text("Courier5-8 days delivary for \$0.3",style: TextStyle(fontSize: 14),)
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   GestureDetector buildPaymentMethodItemCard(index) {
@@ -933,33 +1228,44 @@ backgroundColor: Colors.white,
 
   BottomAppBar buildBottomAppBar(BuildContext context) {
     return BottomAppBar(
-      child: Container(
-        color: Colors.transparent,
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FlatButton(
-              minWidth: MediaQuery.of(context).size.width,
-              height: 50,
-              color: MyTheme.accent_color,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          color: Colors.transparent,
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(_totalString,
+                    style: TextStyle(
+                        color: MyTheme.accent_color,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600)),
               ),
-              child: Text(
-                widget.manual_payment_from_order_details
-                    ? AppLocalizations.of(context).common_proceed_in_all_caps
-                    : AppLocalizations.of(context).checkout_screen_place_my_order,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
-              ),
-              onPressed: () {
-                onPressPlaceOrderOrProceed();
-              },
-            )
-          ],
+              FlatButton(
+                minWidth: 40,
+                height: 50,
+                color: MyTheme.accent_color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0.0),
+                ),
+                child: Text(
+                  widget.manual_payment_from_order_details
+                      ? AppLocalizations.of(context).common_proceed_in_all_caps
+                      : AppLocalizations.of(context).checkout_screen_place_my_order,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
+                onPressed: () {
+                  onPressPlaceOrderOrProceed();
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

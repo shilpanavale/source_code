@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class MyTheme{
+
+  static TextStyle fontSize15=TextStyle(fontSize: 17,color: Colors.white);
   /*configurable colors stars*/
   static Color accent_color = Color.fromRGBO(230,46,4, 1);
   static Color soft_accent_color1 = Color(0xFFfedbac);
   static Color soft_accent_color =Color(0xFe9dcd9);
-  static Color splash_screen_color = Color.fromRGBO(230,46,4, 1); // if not sure , use the same color as accent color
+  static Color splash_screen_color = Color.fromRGBO(230,46,4, 1);
+  static Color yellow_color=Color(0xFFffc107);
+  static Color green=Color(0xFF00b894);
+  // if not sure , use the same color as accent color
   /*configurable colors ends*/
   //static Color splash_screen_color = Color(0xFFa50026); // i
 
