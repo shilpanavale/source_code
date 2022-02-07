@@ -1499,6 +1499,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       padding: app_language_rtl.$ ? EdgeInsets.only(left: 8.0) : EdgeInsets.only(right: 8.0),
       child: InkWell(
         onTap: () {
+          print("choice_options_index-->$choice_options_index");
           _onVariantChange(choice_options_index, option);
         },
         child: Container(

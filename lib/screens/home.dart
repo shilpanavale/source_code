@@ -72,11 +72,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
   //Future<List<Task>> _tasks;
   int _activeTabIndex=0;
   Future api; Future ap2;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    AppConfig.featuredCategoryList.toList();
     _tabController= TabController(vsync: this, length: AppConfig.featuredCategoryList.length);
     _tabController.addListener(_setActiveTabIndex);
 
@@ -109,6 +110,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
   }
   fetchAll() {
     // fetchCarouselImages();
+    print("HOME PAGE list-->${AppConfig.featuredCategoryList.length}");
     fetchFeaturedCategories();
     fetchFeaturedProducts(AppConfig.featuredCategoryList[_activeTabIndex].links.products);
   }

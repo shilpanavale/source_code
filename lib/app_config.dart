@@ -1,3 +1,4 @@
+import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
 
 var this_year = DateTime.now().year.toString();
@@ -32,5 +33,6 @@ class AppConfig {
   //static const String BASE_PATH = "https://tosoviti.s3.ap-southeast-2.amazonaws.com/";
   static const String BASE_PATH = "https://citydeal.s3.us-east-2.amazonaws.com/";
   static  var featuredCategoryList = [];
+
 }
 

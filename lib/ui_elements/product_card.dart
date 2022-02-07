@@ -150,7 +150,7 @@ class _ProductCardState extends State<ProductCard> {
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/placeholder.png',
                           image: AppConfig.BASE_PATH + widget.image,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ))):
                 Container(
                     width: double.infinity,

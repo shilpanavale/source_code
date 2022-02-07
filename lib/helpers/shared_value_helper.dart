@@ -1,6 +1,7 @@
 import 'package:shared_value/shared_value.dart';
 
 final SharedValue<bool> is_logged_in = SharedValue(
+  //autosave: true,
   value: false, // initial value
   key: "is_logged_in", // disk storage key for shared_preferences
 );

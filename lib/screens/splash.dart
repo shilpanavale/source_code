@@ -31,7 +31,8 @@ class _SplashState extends State<Splash> {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
     _initPackageInfo();
-    fetchFeaturedCategories();
+    startTime();
+
   }
 
   @override
@@ -55,16 +56,54 @@ class _SplashState extends State<Splash> {
 
     return Future.value( Main());
   }
+   Future fetchCategories() async {
+    print("Initial calling--");
+    AppConfig.featuredCategoryList=[];
+    var categoryResponse = await CategoryRepository().getTopCategories();
+    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
+    print("API CALL-->${AppConfig.featuredCategoryList.length}");
+    return categoryResponse.categories;
+  }
+  startTime() async {
+    var _duration = new Duration(seconds: 3);
+    return new Timer(_duration, navigationPage);
+  }
 
+  Future<void> navigationPage() async {
+
+    if (is_logged_in.$ == true) {
+      //final response = await weatherRepo.postLogin(event._mobile, event._password);
+      final categoryResponse = await CategoryRepository().getTopCategories();
+      AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
+      print("API CALL-->${AppConfig.featuredCategoryList.length}");
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Main(),
+        ),
+            (route) => false,
+      );
+    }
+
+    else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Login(),
+        ),
+            (route) => false,
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return CustomSplashScreen(
       //comment this
-      seconds: 1,
+      //seconds: 5,
 
 
       //comment this
-      navigateAfterSeconds:navigate(),
+      //navigateAfterSeconds:navigate(),
 
 
       //navigateAfterFuture: navigate(), //uncomment this
@@ -90,20 +129,21 @@ class _SplashState extends State<Splash> {
     );
   }
    navigate(){
-    print("LOGIN STATUS-->${is_logged_in.$}");
-    if (is_logged_in.$ == true) {
-      return Main();
+    // is_logged_in.load();
 
-    }else{
-      return Login();
-    }
+     fetchCategories().then((value){
+       if (is_logged_in.$ == true) {
+
+         return Main();
+
+
+       }else{
+         return Login();
+       }
+     });
+
   }
-  Future fetchFeaturedCategories() async {
-    var categoryResponse = await CategoryRepository().getTopCategories();
-    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
-    print("APP COnfi list-->${AppConfig.featuredCategoryList.length}");
-    return categoryResponse.categories;
-  }
+
 }
 
 class CustomSplashScreen extends StatefulWidget {
@@ -267,7 +307,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
       throw ArgumentError(
           "widget.routeName must be a String beginning with forward slash (/)");
     }
-    if (widget.navigateAfterFuture == null) {
+   /* if (widget.navigateAfterFuture == null) {
       Timer(Duration(seconds: widget.seconds), () {
         if (widget.navigateAfterSeconds is String) {
           // It's fairly safe to assume this is using the in-built material
@@ -307,7 +347,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
               'widget.navigateAfterFuture must either be a String or Widget');
         }
       });
-    }
+    }*/
   }
 
   @override

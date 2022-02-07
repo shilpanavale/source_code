@@ -4,6 +4,7 @@ import 'package:active_ecommerce_flutter/helpers/addons_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/auth_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/business_setting_helper.dart';
 import 'package:active_ecommerce_flutter/other_config.dart';
+import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
 import 'package:active_ecommerce_flutter/screens/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,13 +50,15 @@ main() async {
     statusBarColor: Colors.transparent,
     systemNavigationBarDividerColor: Colors.transparent,
   ));
-
+  is_logged_in.load();
   runApp(
     SharedValue.wrapApp(
       MyApp(),
     ),
   );
+
 }
+
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -68,6 +71,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     if (OtherConfig.USE_PUSH_NOTIFICATION) {
       Future.delayed(Duration(milliseconds: 100), () async {
         PushNotificationService().initialise();
@@ -77,6 +81,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     final textTheme = Theme.of(context).textTheme;
     return MultiProvider(
         providers: [
