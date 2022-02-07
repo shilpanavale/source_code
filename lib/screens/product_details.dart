@@ -3,6 +3,7 @@ import 'package:active_ecommerce_flutter/screens/common_webview_screen.dart';
 import 'package:active_ecommerce_flutter/screens/product_reviews.dart';
 import 'package:active_ecommerce_flutter/ui_elements/list_product_card.dart';
 import 'package:active_ecommerce_flutter/ui_elements/mini_product_card.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:active_ecommerce_flutter/my_theme.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -17,7 +18,6 @@ import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/color_helper.dart';
 import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
-
 import 'package:active_ecommerce_flutter/custom/toast_component.dart';
 import 'package:active_ecommerce_flutter/repositories/chat_repository.dart';
 import 'package:active_ecommerce_flutter/screens/chat.dart';
@@ -49,7 +49,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   ScrollController _imageScrollController = ScrollController();
   TextEditingController sellerChatTitleController = TextEditingController();
   TextEditingController sellerChatMessageController = TextEditingController();
-
+  int _current_slider = 0;
   //init values
   bool _isInWishList = false;
   var _productDetailsFetched = false;
@@ -106,7 +106,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
 
     setProductDetailValues();
-
     setState(() {});
   }
 
@@ -2097,7 +2096,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     if (_productImageList.length == 0) {
       return Row(
         children: [
-          Container(
+         /* Container(
             width: 40,
             child: Column(
               children: [
@@ -2123,7 +2122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ],
             ),
-          ),
+          ),*/
           Flexible(
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
@@ -2138,7 +2137,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+        /*  SizedBox(
             height: 250,
             width: 64,
             child: Scrollbar(
@@ -2176,8 +2175,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child:
-                                  /*Image.asset(
-                                        singleProduct.product_images[index])*/
+                                  *//*Image.asset(
+                                        singleProduct.product_images[index])*//*
                                   FadeInImage.assetNetwork(
                                 placeholder: 'assets/placeholder.png',
                                 image: AppConfig.BASE_PATH +
@@ -2189,21 +2188,74 @@ class _ProductDetailsState extends State<ProductDetails> {
                     }),
               ),
             ),
-          ),
+          ),*/
           InkWell(
             onTap: () {
-              openPhotoDialog(context,
-                  AppConfig.BASE_PATH + _productImageList[_currentImage]);
+              /*openPhotoDialog(context,
+                  AppConfig.BASE_PATH + _productImageList[_currentImage]);*/
             },
             child: Container(
-              height: 250,
-              width: MediaQuery.of(context).size.width - 96,
-              child: Container(
+              height: 180,
+              //width: MediaQuery.of(context).size.width - 96,
+              child:CarouselSlider(
+                    options: CarouselOptions(
+                   // height: 170,
+                    //aspectRatio: 2.07,
+                    viewportFraction: 1,
+                    initialPage: 0,
+                    //enableInfiniteScroll: true,
+                    reverse: false,
+                    //autoPlay: true,
+                    //autoPlayInterval: Duration(seconds: 5),
+                    //autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                    autoPlayCurve: Curves.easeInCubic,
+                    enlargeCenterPage: true,
+                    scrollDirection: Axis.horizontal,
+                    ),
+                    items: _productImageList.map((i) {
+                    return _productImageList!=null?
+                    Builder(
+                    builder: (BuildContext context) {
+                    return Stack(
+                    children: <Widget>[
+                    Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/placeholder_rectangle.png',
+                    image: AppConfig.BASE_PATH + i,
+                    fit: BoxFit.fill,
+                    )
+                    )),
+                    ],
+                    );
+                    },
+                    )
+                        : Builder(
+                            builder: (BuildContext context) {
+                            return Stack(
+                            children: <Widget>[
+                            Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            child: Image.asset("assets/placeholder.png")
+                            )),
+                            ],
+                            );
+                            },
+                          );
+                    }).toList(),
+                    )
+             /* Container(
                   child: FadeInImage.assetNetwork(
                 placeholder: 'assets/placeholder_rectangle.png',
                 image: AppConfig.BASE_PATH + _productImageList[_currentImage],
                 fit: BoxFit.scaleDown,
-              )),
+              )),*/
             ),
           ),
         ],
