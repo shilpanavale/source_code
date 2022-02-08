@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/custom/toast_component.dart';
+import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
 import 'dart:convert';
-import 'package:active_ecommerce_flutter/repositories/payment_repository.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:webixes/repositories/payment_repository.dart';
+import 'package:webixes/my_theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:active_ecommerce_flutter/screens/order_list.dart';
-import 'package:active_ecommerce_flutter/screens/wallet.dart';
+import 'package:webixes/screens/order_list.dart';
+import 'package:webixes/screens/wallet.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 

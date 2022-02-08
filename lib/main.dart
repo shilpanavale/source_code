@@ -1,28 +1,28 @@
 import 'dart:io';
 
-import 'package:active_ecommerce_flutter/helpers/addons_helper.dart';
-import 'package:active_ecommerce_flutter/helpers/auth_helper.dart';
-import 'package:active_ecommerce_flutter/helpers/business_setting_helper.dart';
-import 'package:active_ecommerce_flutter/other_config.dart';
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
-import 'package:active_ecommerce_flutter/screens/main.dart';
+import 'package:webixes/helpers/addons_helper.dart';
+import 'package:webixes/helpers/auth_helper.dart';
+import 'package:webixes/helpers/business_setting_helper.dart';
+import 'package:webixes/other_config.dart';
+import 'package:webixes/repositories/category_repository.dart';
+import 'package:webixes/screens/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/screens/splash.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/screens/splash.dart';
 
 import 'package:shared_value/shared_value.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'dart:async';
 
 import 'app_config.dart';
-import 'package:active_ecommerce_flutter/services/push_notification_service.dart';
+import 'package:webixes/services/push_notification_service.dart';
 import 'package:one_context/one_context.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:active_ecommerce_flutter/providers/locale_provider.dart';
+import 'package:webixes/providers/locale_provider.dart';
 import 'lang_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 

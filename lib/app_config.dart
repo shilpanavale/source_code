@@ -1,4 +1,4 @@
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
+import 'package:webixes/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
 
 var this_year = DateTime.now().year.toString();

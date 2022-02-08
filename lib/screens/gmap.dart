@@ -1,30 +1,40 @@
 import 'dart:async';
+import 'package:webixes/other_config.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as LocationManager;
 
 
+
 const kGoogleApiKey = "TOUR_API_KEY";
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
+GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: OtherConfig.GOOGLE_MAP_API_KEY);
 
 
 
-class MapView extends StatefulWidget {
+class MapViewDemo extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MapViewState();
+    return MapViewDemoState();
   }
 }
 
-class MapViewState extends State<MapView> {
+class MapViewDemoState extends State<MapViewDemo> {
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
   GoogleMapController mapController;
   List<PlacesSearchResult> places = [];
   bool isLoading = false;
   String errorMessage;
-  LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
+  int _markerIdCounter = 1;
+ // Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  static  LatLng _initialcameraposition = const LatLng(45.521563, -122.677433);
+  LatLng _lastMapPosition = _initialcameraposition;
 
+  LocationManager.Location location = LocationManager.Location();
+  LocationManager.LocationData _currentPosition;
+
+  final Set<Marker> _markers = {};
   @override
   Widget build(BuildContext context) {
     Widget expandedChild;
@@ -68,9 +78,12 @@ class MapViewState extends State<MapView> {
               child: SizedBox(
                   height: 200.0,
                   child: GoogleMap(
-                      onMapCreated: _onMapCreated,
+                    myLocationEnabled: true,
+                    //markers:Set<Marker>.of(_markers.toSet()),
+                    onMapCreated: _onMapCreated,
+                    mapType: MapType.normal,
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(0.5937, 0.9629),
+                      target:_initialcameraposition,
                       zoom: 14.4746,
                     ),
                       /*options: GoogleMapOptions(
@@ -94,23 +107,68 @@ class MapViewState extends State<MapView> {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
+   /* String value = await DefaultAssetBundle.of(context)
+        .loadString('assets/map_style.json');
+    mapController.setMapStyle(value);*/
     refresh();
   }
-
   Future<LatLng> getUserLocation() async {
+    bool _serviceEnabled;
+    LocationManager.PermissionStatus _permissionGranted;
+    _currentPosition = await location.getLocation();
+    _initialcameraposition = LatLng(_currentPosition.latitude, _currentPosition.longitude);
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return _initialcameraposition;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == LocationManager.PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != LocationManager.PermissionStatus.granted) {
+        return _initialcameraposition;
+      }
+    }
+
+    _currentPosition = await location.getLocation();
+
+    _initialcameraposition =
+        LatLng(_currentPosition.latitude, _currentPosition.longitude);
+
+    location.onLocationChanged
+        .listen((LocationManager.LocationData currentLocation) {
+      print("${currentLocation.longitude} : ${currentLocation.longitude}");
+      setState(() {
+        _currentPosition = currentLocation;
+        _initialcameraposition =
+            LatLng(_currentPosition.latitude, _currentPosition.longitude);
+      });
+    });
+    return _initialcameraposition;
+  }
+  /*Future<LatLng> getUserLocation() async {
     var currentLocation = <String, double>{};
     final location = LocationManager.Location();
     try {
-      currentLocation = await location.getLocation();
-      final lat = currentLocation["latitude"];
-      final lng = currentLocation["longitude"];
+      //Location location = Location();
+      final LocationManager.LocationData pos = await location.getLocation();
+        setState(() {
+          print(pos.runtimeType);
+          _lastMapPosition = pos.longitude;
+        });
+
+      final lat = pos.latitude;
+      final lng = pos.longitude;
       final center = LatLng(lat, lng);
       return center;
     } on Exception {
       currentLocation = null;
       return null;
     }
-  }
+  }*/
 
   void getNearbyPlaces(LatLng center) async {
     setState(() {
@@ -120,16 +178,26 @@ class MapViewState extends State<MapView> {
 
     final location = Location(lat: center.latitude, lng:center.longitude,);
     final result = await _places.searchNearbyWithRadius(location, 2500);
+    final String markerIdVal = 'marker_id_$_markerIdCounter';
+    _markerIdCounter++;
+    final MarkerId markerId = MarkerId(markerIdVal);
     setState(() {
       this.isLoading = false;
       if (result.status == "OK") {
         this.places = result.results;
         result.results.forEach((f) {
-          final markerOptions = MarkerOptions(
-              position:
-              LatLng(f.geometry.location.lat, f.geometry.location.lng),
-              infoWindowText: InfoWindowText("${f.name}", "${f.types?.first}"));
-          mapController.addMarker(markerOptions);
+       /*   _markers.add(Marker(
+// This marker id can be anything that uniquely identifies each marker.
+            markerId: MarkerId(_lastMapPosition.toString()),
+            position: LatLng(
+              f.geometry.location.lat,
+              f.geometry.location.lng,
+            ),
+            infoWindow: InfoWindow(
+                title: "${f.name}", snippet: "${f.types?.first}"
+            ),
+            icon: BitmapDescriptor.defaultMarker,
+          ));*/
         });
       } else {
         this.errorMessage = result.errorMessage;

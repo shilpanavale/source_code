@@ -1,16 +1,16 @@
-import 'package:active_ecommerce_flutter/app_config.dart';
+import 'package:webixes/app_config.dart';
 import 'package:http/http.dart' as http;
-import 'package:active_ecommerce_flutter/data_model/login_response.dart';
-import 'package:active_ecommerce_flutter/data_model/logout_response.dart';
-import 'package:active_ecommerce_flutter/data_model/signup_response.dart';
-import 'package:active_ecommerce_flutter/data_model/resend_code_response.dart';
-import 'package:active_ecommerce_flutter/data_model/confirm_code_response.dart';
-import 'package:active_ecommerce_flutter/data_model/password_forget_response.dart';
-import 'package:active_ecommerce_flutter/data_model/password_confirm_response.dart';
-import 'package:active_ecommerce_flutter/data_model/user_by_token.dart';
+import 'package:webixes/data_model/login_response.dart';
+import 'package:webixes/data_model/logout_response.dart';
+import 'package:webixes/data_model/signup_response.dart';
+import 'package:webixes/data_model/resend_code_response.dart';
+import 'package:webixes/data_model/confirm_code_response.dart';
+import 'package:webixes/data_model/password_forget_response.dart';
+import 'package:webixes/data_model/password_confirm_response.dart';
+import 'package:webixes/data_model/user_by_token.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 
 
 class AuthRepository {

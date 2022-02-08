@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/ui_sections/drawer.dart';
-import 'package:active_ecommerce_flutter/custom/toast_component.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/ui_sections/drawer.dart';
+import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
-import 'package:active_ecommerce_flutter/screens/category_products.dart';
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
+import 'package:webixes/screens/category_products.dart';
+import 'package:webixes/repositories/category_repository.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SubCategoryList extends StatefulWidget {

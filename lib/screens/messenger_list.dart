@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/screens/chat.dart';
-import 'package:active_ecommerce_flutter/repositories/chat_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/screens/chat.dart';
+import 'package:webixes/repositories/chat_repository.dart';
+import 'package:webixes/helpers/shimmer_helper.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 

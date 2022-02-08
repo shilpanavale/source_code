@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:webixes/my_theme.dart';
 import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:active_ecommerce_flutter/helpers/reg_ex_inpur_formatter.dart';
-import 'package:active_ecommerce_flutter/repositories/wallet_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
-import 'package:active_ecommerce_flutter/custom/toast_component.dart';
+import 'package:webixes/helpers/reg_ex_inpur_formatter.dart';
+import 'package:webixes/repositories/wallet_repository.dart';
+import 'package:webixes/helpers/shimmer_helper.dart';
+import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
-import 'package:active_ecommerce_flutter/screens/recharge_wallet.dart';
-import 'package:active_ecommerce_flutter/screens/main.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/screens/recharge_wallet.dart';
+import 'package:webixes/screens/main.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 

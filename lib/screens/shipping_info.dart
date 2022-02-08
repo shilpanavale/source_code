@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-import 'package:active_ecommerce_flutter/custom/scroll_to_hide_widget.dart';
-import 'package:active_ecommerce_flutter/data_model/pickup_points_response.dart';
-import 'package:active_ecommerce_flutter/repositories/pickup_points_repository.dart';
-import 'package:active_ecommerce_flutter/screens/checkout.dart';
+import 'package:webixes/custom/scroll_to_hide_widget.dart';
+import 'package:webixes/data_model/pickup_points_response.dart';
+import 'package:webixes/repositories/pickup_points_repository.dart';
+import 'package:webixes/screens/checkout.dart';
 
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:webixes/my_theme.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
-import 'package:active_ecommerce_flutter/repositories/address_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
-import 'package:active_ecommerce_flutter/data_model/city_response.dart';
-import 'package:active_ecommerce_flutter/data_model/country_response.dart';
-import 'package:active_ecommerce_flutter/custom/toast_component.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
+import 'package:webixes/repositories/address_repository.dart';
+import 'package:webixes/helpers/shimmer_helper.dart';
+import 'package:webixes/data_model/city_response.dart';
+import 'package:webixes/data_model/country_response.dart';
+import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
-import 'package:active_ecommerce_flutter/screens/address.dart';
+import 'package:webixes/screens/address.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShippingInfo extends StatefulWidget {

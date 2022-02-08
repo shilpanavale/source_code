@@ -1,11 +1,11 @@
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/data_model/shop_info_by_slug.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/data_model/shop_info_by_slug.dart';
 import 'package:http/http.dart' as http;
-import 'package:active_ecommerce_flutter/data_model/shop_response.dart';
-import 'package:active_ecommerce_flutter/data_model/shop_details_response.dart';
-import 'package:active_ecommerce_flutter/data_model/product_mini_response.dart';
+import 'package:webixes/data_model/shop_response.dart';
+import 'package:webixes/data_model/shop_details_response.dart';
+import 'package:webixes/data_model/product_mini_response.dart';
 import 'package:flutter/foundation.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 
 class ShopRepository {
   Future<ShopResponse> getShops({name = "", page = 1}) async {

@@ -1,30 +1,30 @@
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/other_config.dart';
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
-import 'package:active_ecommerce_flutter/screens/home.dart';
-import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/other_config.dart';
+import 'package:webixes/repositories/category_repository.dart';
+import 'package:webixes/screens/home.dart';
+import 'package:webixes/ui_elements/custom_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:active_ecommerce_flutter/custom/input_decorations.dart';
-import 'package:active_ecommerce_flutter/custom/intl_phone_input.dart';
+import 'package:webixes/custom/input_decorations.dart';
+import 'package:webixes/custom/intl_phone_input.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:active_ecommerce_flutter/screens/registration.dart';
-import 'package:active_ecommerce_flutter/screens/main.dart';
-import 'package:active_ecommerce_flutter/screens/password_forget.dart';
-import 'package:active_ecommerce_flutter/custom/toast_component.dart';
+import 'package:webixes/screens/registration.dart';
+import 'package:webixes/screens/main.dart';
+import 'package:webixes/screens/password_forget.dart';
+import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
-import 'package:active_ecommerce_flutter/repositories/auth_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/auth_helper.dart';
+import 'package:webixes/repositories/auth_repository.dart';
+import 'package:webixes/helpers/auth_helper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
-import 'package:active_ecommerce_flutter/repositories/profile_repository.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
+import 'package:webixes/repositories/profile_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 

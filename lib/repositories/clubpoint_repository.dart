@@ -1,10 +1,10 @@
-import 'package:active_ecommerce_flutter/app_config.dart';
+import 'package:webixes/app_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter/foundation.dart';
-import 'package:active_ecommerce_flutter/data_model/clubpoint_response.dart';
-import 'package:active_ecommerce_flutter/data_model/clubpoint_to_wallet_response.dart';
+import 'package:webixes/data_model/clubpoint_response.dart';
+import 'package:webixes/data_model/clubpoint_to_wallet_response.dart';
 
 class ClubpointRepository {
   Future<ClubpointResponse> getClubPointListResponse(

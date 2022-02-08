@@ -1,21 +1,22 @@
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/screens/map_location.dart';
-import 'package:active_ecommerce_flutter/screens/seller_details.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/screens/gmap.dart';
+import 'package:webixes/screens/map_location.dart';
+import 'package:webixes/screens/seller_details.dart';
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/ui_elements/product_card.dart';
-import 'package:active_ecommerce_flutter/ui_elements/shop_square_card.dart';
-import 'package:active_ecommerce_flutter/ui_elements/brand_square_card.dart';
+import 'package:webixes/ui_elements/product_card.dart';
+import 'package:webixes/ui_elements/shop_square_card.dart';
+import 'package:webixes/ui_elements/brand_square_card.dart';
 import 'package:toast/toast.dart';
-import 'package:active_ecommerce_flutter/custom/toast_component.dart';
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
-import 'package:active_ecommerce_flutter/repositories/brand_repository.dart';
-import 'package:active_ecommerce_flutter/repositories/shop_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/reg_ex_inpur_formatter.dart';
-import 'package:active_ecommerce_flutter/repositories/product_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
+import 'package:webixes/custom/toast_component.dart';
+import 'package:webixes/repositories/category_repository.dart';
+import 'package:webixes/repositories/brand_repository.dart';
+import 'package:webixes/repositories/shop_repository.dart';
+import 'package:webixes/helpers/reg_ex_inpur_formatter.dart';
+import 'package:webixes/repositories/product_repository.dart';
+import 'package:webixes/helpers/shimmer_helper.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:active_ecommerce_flutter/repositories/search_repository.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/repositories/search_repository.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:one_context/one_context.dart';
 
@@ -775,10 +776,10 @@ class _FilterState extends State<Filter> {
       InkWell(
         onTap: () {
           var add="";
-         /* Navigator.push(context,
+          Navigator.push(context,
               MaterialPageRoute(builder: (context) {
-                return MapLocation();
-              }));*/
+                return MapViewDemo();
+              }));
           //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
         },
         child: Padding(

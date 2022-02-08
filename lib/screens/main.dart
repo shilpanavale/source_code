@@ -1,17 +1,17 @@
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
-import 'package:active_ecommerce_flutter/screens/cart.dart';
-import 'package:active_ecommerce_flutter/screens/category_list.dart';
-import 'package:active_ecommerce_flutter/screens/home.dart';
-import 'package:active_ecommerce_flutter/screens/profile.dart';
-import 'package:active_ecommerce_flutter/screens/filter.dart';
-import 'package:active_ecommerce_flutter/screens/qrcode_scanner.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/repositories/category_repository.dart';
+import 'package:webixes/screens/cart.dart';
+import 'package:webixes/screens/category_list.dart';
+import 'package:webixes/screens/home.dart';
+import 'package:webixes/screens/profile.dart';
+import 'package:webixes/screens/filter.dart';
+import 'package:webixes/screens/qrcode_scanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'notification.dart';
 

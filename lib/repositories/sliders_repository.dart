@@ -1,7 +1,7 @@
-import 'package:active_ecommerce_flutter/app_config.dart';
+import 'package:webixes/app_config.dart';
 import 'package:http/http.dart' as http;
-import 'package:active_ecommerce_flutter/data_model/slider_response.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/data_model/slider_response.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 class SlidersRepository {
   Future<SliderResponse> getSliders() async {
     //https://citydeal.co.in/city/api/v2/sliders

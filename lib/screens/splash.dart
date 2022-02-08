@@ -1,16 +1,16 @@
 import 'dart:ui';
 
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
-import 'package:active_ecommerce_flutter/repositories/category_repository.dart';
-import 'package:active_ecommerce_flutter/screens/login.dart';
-import 'package:active_ecommerce_flutter/screens/main.dart';
-import 'package:active_ecommerce_flutter/ui_elements/custom_button.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/my_theme.dart';
+import 'package:webixes/repositories/category_repository.dart';
+import 'package:webixes/screens/login.dart';
+import 'package:webixes/screens/main.dart';
+import 'package:webixes/ui_elements/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 
 class Splash extends StatefulWidget {
   @override

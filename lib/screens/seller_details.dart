@@ -1,17 +1,17 @@
-import 'package:active_ecommerce_flutter/screens/seller_products.dart';
+import 'package:webixes/screens/seller_products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:active_ecommerce_flutter/my_theme.dart';
+import 'package:webixes/my_theme.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:active_ecommerce_flutter/ui_elements/product_card.dart';
-import 'package:active_ecommerce_flutter/ui_elements/list_product_card.dart';
-import 'package:active_ecommerce_flutter/ui_elements/mini_product_card.dart';
+import 'package:webixes/ui_elements/product_card.dart';
+import 'package:webixes/ui_elements/list_product_card.dart';
+import 'package:webixes/ui_elements/mini_product_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:active_ecommerce_flutter/repositories/shop_repository.dart';
-import 'package:active_ecommerce_flutter/app_config.dart';
-import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+import 'package:webixes/repositories/shop_repository.dart';
+import 'package:webixes/app_config.dart';
+import 'package:webixes/helpers/shimmer_helper.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 

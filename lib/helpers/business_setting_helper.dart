@@ -1,6 +1,6 @@
-import 'package:active_ecommerce_flutter/data_model/business_setting_response.dart';
-import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
-import 'package:active_ecommerce_flutter/repositories/business_setting_repository.dart';
+import 'package:webixes/data_model/business_setting_response.dart';
+import 'package:webixes/helpers/shared_value_helper.dart';
+import 'package:webixes/repositories/business_setting_repository.dart';
 
 class BusinessSettingHelper {
   setBusinessSettingData() async {
