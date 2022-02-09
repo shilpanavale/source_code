@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>146419602963-vpj1sokb920gauf0upja22o5rpjntclp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.146419602963-vpj1sokb920gauf0upja22o5rpjntclp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDUv9hh9ev0ikvFpx-gJZ6kkIOR0TIKsu8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>146419602963</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.citydeal</string>
+	<key>PROJECT_ID</key>
+	<string>citydeal-1db9b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>citydeal-1db9b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:146419602963:ios:37f73cff4a902e89e751e6</string>
+</dict>
+</plist>
