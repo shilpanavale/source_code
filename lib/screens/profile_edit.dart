@@ -11,6 +11,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:webixes/helpers/file_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:webixes/screens/shipping_info.dart';
+import 'package:webixes/ui_elements/custom_button.dart';
+
+import 'address.dart';
 
 class ProfileEdit extends StatefulWidget {
   @override
@@ -20,8 +24,12 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   ScrollController _mainScrollController = ScrollController();
 
-  TextEditingController _nameController =
-      TextEditingController(text: "${user_name.$}");
+  TextEditingController _nameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
+  TextEditingController _fullNameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
+  TextEditingController _phoneController = TextEditingController(text: user_phone.$!=""||user_phone.$!=null?"${user_phone.$}":"Phone");
+  TextEditingController _emailController = TextEditingController(text: user_email.$!=""||user_email.$!=null?"${user_email.$}":"Email ");
+  TextEditingController _shippingAddress=TextEditingController();
+  TextEditingController _deliveryAddress=TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _passwordConfirmController = TextEditingController();
 
@@ -161,7 +169,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       centerTitle: true,
       leading: Builder(
         builder: (context) => IconButton(
@@ -171,9 +179,9 @@ backgroundColor: Colors.white,
       ),
       title: Text(
         AppLocalizations.of(context).profile_edit_screen_edit_profile,
-        style: TextStyle(fontSize: 16, color: MyTheme.accent_color),
+        style: TextStyle(fontSize: 16, color: MyTheme.black),
       ),
-      elevation: 0.0,
+      elevation: 5.0,
       titleSpacing: 0,
     );
   }
@@ -188,6 +196,157 @@ backgroundColor: Colors.white,
             style: TextStyle(color: MyTheme.font_grey),
           )));
     } else {
+      return Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal,
+                    ),
+
+                    child: Icon(Icons.person,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Username",style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              ),
+              commonTextField(_nameController,TextInputType.name,false),
+              SizedBox(height: 5,),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal,
+                    ),
+
+                    child: Icon(Icons.person,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Full Name",style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              ),
+              commonTextField(_fullNameController,TextInputType.name,false),
+              SizedBox(height: 5,),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal,
+                    ),
+
+                    child: Icon(Icons.call,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Phone",style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              ),
+              commonTextField(_phoneController,TextInputType.number,false),
+              SizedBox(height: 5,),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal,
+                    ),
+
+                    child: Icon(Icons.call,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Email Address",style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              ),
+              commonTextField(_emailController,TextInputType.emailAddress,false),
+              SizedBox(height: 5,),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal,
+                    ),
+
+                    child: Icon(Icons.location_on,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Shipping Address",style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Address();
+                  }));
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: IgnorePointer(
+                      child: commonTextField(_shippingAddress,TextInputType.streetAddress,true)),
+                ),
+              ),
+
+              SizedBox(height: 5,),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal,
+                    ),
+
+                    child: Icon(Icons.location_on,color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Delivery Address",style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Address();
+                  }));
+                },
+                  child: Container(
+                      color: Colors.transparent,
+                      child: IgnorePointer(child: commonTextField(_deliveryAddress,TextInputType.streetAddress,true)))),
+              SizedBox(height: 10,),
+              CustomButton(onPressed: (){},title: "Save All changes",bgColor: Colors.teal,)
+
+            ],
+          ),
+        ),
+      );
       return RefreshIndicator(
         color: MyTheme.accent_color,
         backgroundColor: Colors.white,
@@ -215,6 +374,37 @@ backgroundColor: Colors.white,
       );
     }
   }
+  Widget commonTextField(TextEditingController controller,TextInputType textInputType,bool readOnly){
+     return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Container(
+        height: 45,
+        child: Center(
+          child: TextField(
+            readOnly: readOnly,
+            controller: controller,
+            autocorrect: true,
+            keyboardType: textInputType,
+            decoration: InputDecoration(
+              hintText: 'Type Text Here...',
+
+              hintStyle: TextStyle(color: Colors.grey),
+              filled: true,
+              fillColor: Colors.white70,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+            ),),
+        ),
+      ),
+    );
+  }
+
 
   buildTopSection() {
     return Column(

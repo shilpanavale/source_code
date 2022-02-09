@@ -1,3 +1,4 @@
+import 'package:webixes/repositories/address_repository.dart';
 import 'package:webixes/ui_elements/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:webixes/my_theme.dart';
@@ -35,7 +36,9 @@ class _ProfileState extends State<Profile> {
   String _wishlistCounterString = "...";
   int _orderCounter = 0;
   String _orderCounterString = "...";
-
+  String shippingAddress="";
+  bool _isInitial = true;
+  List<dynamic> _shippingAddressList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -63,6 +66,29 @@ class _ProfileState extends State<Profile> {
 
   fetchAll() {
     fetchCounters();
+    fetchShippingAddressList();
+  }
+  fetchShippingAddressList() async {
+    print("enter fetchShippingAddressList");
+    var addressResponse = await AddressRepository().getAddressList();
+    _shippingAddressList.addAll(addressResponse.addresses);
+    setState(() {
+      _isInitial = false;
+    });
+    if (_shippingAddressList.length > 0) {
+      //_default_shipping_address = _shippingAddressList[0].id;
+
+      var count = 0;
+      _shippingAddressList.forEach((address) {
+
+        shippingAddress=address.address+" "+address.postal_code+" "+address.country_name+" "+address.state_name+" "+address.city_name;
+
+      });
+
+      print("fetchShippingAddressList");
+    }
+
+    setState(() {});
   }
 
   fetchCounters() async {
@@ -130,165 +156,7 @@ class _ProfileState extends State<Profile> {
         drawer: MainDrawer(),
         backgroundColor: MyTheme.gray,
         appBar: buildAppBar(context),
-        body: Column(
-          children: [
-            Card(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.teal,
-                          child: Icon(Icons.person_outline,color: Colors.white,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Full Name",style: TextStyle(fontSize: 15),),
-                        ),
-                        Container(
-                            width: 220,
-                            alignment: Alignment.centerRight,
-                            child: Text('SUHA JANNAT',style: TextStyle(fontSize: 13)))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.teal,
-                          child: Icon(Icons.phone,color: Colors.white,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Phone",style: TextStyle(fontSize: 15),),
-                        ),
-                        Container(
-                            width: 240,
-                            alignment: Alignment.centerRight,
-                            child: Text('+91961234445',style: TextStyle(fontSize: 13)))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.teal,
-                          child: Icon(Icons.email_outlined,color: Colors.white,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Email Address",style: TextStyle(fontSize: 15),),
-                        ),
-                        Container(
-                            width: 200,
-                            alignment: Alignment.centerRight,
-                            child: Text('suha@gmail',style: TextStyle(fontSize: 13)))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.teal,
-                          child: Icon(Icons.location_on_outlined,color: Colors.white,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Shipping",style: TextStyle(fontSize: 15),),
-                        ),
-                        Container(
-                            width: 230,
-                            alignment: Alignment.centerRight,
-                            child: Text('28/c Green road,BD',maxLines:2,style: TextStyle(fontSize: 13)))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.teal,
-                          child: Icon(Icons.location_on_outlined,color: Colors.white,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Delivery Address",style: TextStyle(fontSize: 15),),
-                        ),
-                        Container(
-                            width: 180,
-                            alignment: Alignment.centerRight,
-                            child: Text('Abc appartment',maxLines:2,style: TextStyle(fontSize: 13)))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.teal,
-                          child: Icon(Icons.star,color: Colors.white,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("My Order",style: TextStyle(fontSize: 15),),
-                        ),
-                        SizedBox(width: 170,),
-                        Container(
-                            width: 50,
-                            height: 25,
-                            alignment: Alignment.centerRight,
-                            child:  CustomButton(onPressed:(){},title: '\tVIEW\t',bgColor: MyTheme.yellow,
-                            )
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: (){
-
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 30,
-                        color: Colors.cyan,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.edit,color: Colors.white,),Text('Edit Profile',style: TextStyle(fontSize:13,color: Colors.white),)
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-
-                ],
-              ),
-            ),
-          ],
-        )
+        body:buildBody(context)
       ),
     );
   }
@@ -303,6 +171,196 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(color: MyTheme.font_grey),
           )));
     } else {
+      return Column(
+        children: [
+          Card(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        color: Colors.teal,
+                        child: Icon(Icons.person_outline,color: Colors.white,),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Full Name",style: TextStyle(fontSize: 15),),
+                      ),
+                      Container(
+                          width: 220,
+                          alignment: Alignment.centerRight,
+                          child: Text("${user_name.$}",style: TextStyle(fontSize: 13)))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        color: Colors.teal,
+                        child: Icon(Icons.phone,color: Colors.white,),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Phone",style: TextStyle(fontSize: 15),),
+                      ),
+                      Container(
+                          width: 240,
+                          alignment: Alignment.centerRight,
+                          child: Text(user_phone.$ != "" && user_phone.$ != null?user_phone.$:'',style: TextStyle(fontSize: 13)))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        color: Colors.teal,
+                        child: Icon(Icons.email_outlined,color: Colors.white,),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Email Address",style: TextStyle(fontSize: 15),),
+                      ),
+                      Expanded(
+                        child: Container(
+                           // width: 200,
+                            alignment: Alignment.centerRight,
+                            child: Text(user_email.$ != "" && user_email.$ != null?
+                            user_email.$:'',style: TextStyle(fontSize: 13))),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                     Row(
+                       children: [
+                         Container(
+                           height: 30,
+                           width: 30,
+                           color: Colors.teal,
+                           child: Icon(Icons.location_on_outlined,color: Colors.white,),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Text("Shipping",style: TextStyle(fontSize: 15),),
+                         ),
+                       ],
+                     ),
+                      Expanded(
+                        child: Container(
+                          // width: 200,
+                            alignment: Alignment.centerRight,
+                            child: Text(shippingAddress,textAlign:TextAlign.end,maxLines:2,style: TextStyle(fontSize: 13))),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            color: Colors.teal,
+                            child: Icon(Icons.location_on_outlined,color: Colors.white,),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Delivery",style: TextStyle(fontSize: 15),),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Container(
+                           // width: 180,
+                            alignment: Alignment.centerRight,
+                            child: Text(shippingAddress,textAlign:TextAlign.end,maxLines:2,style: TextStyle(fontSize: 13))),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            color: Colors.teal,
+                            child: Icon(Icons.star,color: Colors.white,),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("My Order",style: TextStyle(fontSize: 15),),
+                          ),
+                        ],
+                      ),
+
+                      //SizedBox(width: 170,),
+                      Container(
+                          width: 50,
+                          height: 25,
+                          alignment: Alignment.centerRight,
+                          child:  CustomButton(onPressed:(){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return OrderList();
+                            }));
+                          },title: '\tVIEW\t',bgColor: MyTheme.yellow,
+                          )
+                      )
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return ProfileEdit();
+                    })).then((value) {
+                      onPopped(value);
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 30,
+                      color: Colors.cyan,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.edit,color: Colors.white,),Text('Edit Profile',style: TextStyle(fontSize:13,color: Colors.white),)
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+
+              ],
+            ),
+          ),
+        ],
+      );
       return RefreshIndicator(
         color: MyTheme.accent_color,
         backgroundColor: Colors.white,

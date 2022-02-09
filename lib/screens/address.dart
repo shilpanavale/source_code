@@ -85,6 +85,7 @@ class _AddressState extends State<Address> {
         //var acountry = getCountryByPartialName(address.country);
         if (address.set_default == 1) {
           _default_shipping_address = address.id;
+          print("_default_shipping_address-->$_default_shipping_address");
         }
         _addressControllerListForUpdate
             .add(TextEditingController(text: address.address));
