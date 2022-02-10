@@ -272,7 +272,7 @@ class _CartState extends State<Cart> {
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 16.0),
+                    padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 16.0),
                     child:Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(color: MyTheme.light_grey, width: 1.0),
@@ -280,7 +280,6 @@ class _CartState extends State<Cart> {
                       ),
                       child: buildCartSellerList(),)
                 ),
-
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: buildBottomContainer(),
@@ -583,7 +582,7 @@ backgroundColor: Colors.white,
         "My Cart",
         style: TextStyle(fontSize: 16, color: MyTheme.black),
       ),
-      elevation: 5.0,
+      elevation: 3.0,
       titleSpacing: 0,
     );
   }
@@ -810,7 +809,7 @@ backgroundColor: Colors.white,
           ),
         ),
       ),
-     SizedBox(width: 15,),
+      SizedBox(width: 15,),
       Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 0.0,right: 8.0),
         child: Container(
