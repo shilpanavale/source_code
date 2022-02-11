@@ -29,7 +29,7 @@ class MyTheme{
   static Color black= Colors.black;
   static Color yellow=Color(0xFFffc107);
   static Color gray=Colors.grey.shade200;
-
+  static var app_icon_size=15.0;
   //testing shimmer
   /*static Color shimmer_base = Colors.redAccent;
   static Color shimmer_highlighted = Colors.yellow;*/

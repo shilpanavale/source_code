@@ -41,7 +41,7 @@ class _ProductCardState extends State<ProductCard> {
 
     //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
     _isInWishList = wishListCheckResponse.is_in_wishlist;
-    setState(() {});
+    //setState(() {});
   }
 
   addToWishList() async {

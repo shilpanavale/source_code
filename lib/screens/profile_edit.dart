@@ -5,6 +5,7 @@ import 'package:webixes/app_config.dart';
 import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
 import 'package:webixes/custom/input_decorations.dart';
+import 'package:webixes/repositories/address_repository.dart';
 import 'package:webixes/repositories/profile_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,6 +14,7 @@ import 'package:webixes/helpers/file_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:webixes/screens/shipping_info.dart';
 import 'package:webixes/ui_elements/custom_button.dart';
+import 'package:webixes/ui_elements/custome_dialog.dart';
 
 import 'address.dart';
 
@@ -32,11 +34,20 @@ class _ProfileEditState extends State<ProfileEdit> {
   TextEditingController _deliveryAddress=TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _passwordConfirmController = TextEditingController();
-
+  BuildContext con;
   //for image uploading
   final ImagePicker _picker = ImagePicker();
   XFile _file;
+  String shippingAddress="";
+  bool _isInitial = true;
+  List<dynamic> _shippingAddressList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchShippingAddressList();
 
+  }
   chooseAndUploadImage(context) async {
     var status = await Permission.photos.request();
 
@@ -98,7 +109,28 @@ class _ProfileEditState extends State<ProfileEdit> {
       }
     }
   }
+  fetchShippingAddressList() async {
+    print("enter fetchShippingAddressList");
+    var addressResponse = await AddressRepository().getAddressList();
+    _shippingAddressList.addAll(addressResponse.addresses);
+    setState(() {
+      _isInitial = false;
+    });
+    if (_shippingAddressList.length > 0) {
+      //_default_shipping_address = _shippingAddressList[0].id;
 
+      var count = 0;
+      _shippingAddressList.forEach((address) {
+
+        shippingAddress=address.address+" "+address.postal_code+" "+address.country_name+" "+address.state_name+" "+address.city_name;
+
+      });
+
+      print("fetchShippingAddressList");
+    }
+
+    setState(() {});
+  }
   Future<void> _onPageRefresh() async {}
 
   onPressUpdate() async {
@@ -136,7 +168,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       return;
     }
-
+    DialogBuilder(context).showLoadingIndicator('');
     var profileUpdateResponse =
         await ProfileRepository().getProfileUpdateResponse(
       name,
@@ -144,9 +176,11 @@ class _ProfileEditState extends State<ProfileEdit> {
     );
 
     if (profileUpdateResponse.result == false) {
+     // DialogBuilder(context).hideOpenDialog();
       ToastComponent.showDialog(profileUpdateResponse.message, context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
     } else {
+      // DialogBuilder(context).hideOpenDialog();
       ToastComponent.showDialog(profileUpdateResponse.message, context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
 
@@ -279,7 +313,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                 ],
               ),
-              commonTextField(_emailController,TextInputType.emailAddress,false),
+              commonTextField(_emailController,TextInputType.emailAddress,true),
               SizedBox(height: 5,),
               Row(
                 children: [
@@ -339,9 +373,80 @@ class _ProfileEditState extends State<ProfileEdit> {
                 },
                   child: Container(
                       color: Colors.transparent,
-                      child: IgnorePointer(child: commonTextField(_deliveryAddress,TextInputType.streetAddress,true)))),
+                      child: IgnorePointer(child: commonTextField(_shippingAddress,TextInputType.streetAddress,true)))),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0,top: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.teal,
+                          ),
+
+                          child: Icon(Icons.lock,color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Password",style: TextStyle(fontSize: 15),),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 45,
+                      child: TextField(
+                        controller: _passwordController,
+                        autofocus: false,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: InputDecorations.buildInputDecorationWithBorder(
+                            hint_text: "• • • • • • • •"),
+                      ),
+                    ),
+                    Text(
+                      AppLocalizations.of(context).profile_edit_screen_password_length_recommendation,
+                      style: TextStyle(
+                          color: MyTheme.textfield_grey,
+                          fontStyle: FontStyle.italic),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: Text(
+                  AppLocalizations.of(context).profile_edit_screen_retype_password,
+                  style: TextStyle(
+                      color: MyTheme.accent_color, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Container(
+                  height: 36,
+                  child: TextField(
+                    controller: _passwordConfirmController,
+                    autofocus: false,
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    decoration: InputDecorations.buildInputDecorationWithBorder(
+                        hint_text: "• • • • • • • •"),
+                  ),
+                ),
+              ),
               SizedBox(height: 10,),
-              CustomButton(onPressed: (){},title: "Save All changes",bgColor: Colors.teal,)
+              CustomButton(onPressed: (){
+
+                onPressUpdate();
+              },title: "Save All changes",bgColor: Colors.teal,)
 
             ],
           ),
@@ -375,6 +480,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     }
   }
   Widget commonTextField(TextEditingController controller,TextInputType textInputType,bool readOnly){
+   print(controller.text);
      return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Container(
@@ -386,11 +492,8 @@ class _ProfileEditState extends State<ProfileEdit> {
             autocorrect: true,
             keyboardType: textInputType,
             decoration: InputDecoration(
-              hintText: 'Type Text Here...',
-
+              hintText: shippingAddress,
               hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white70,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(color: Colors.grey),
@@ -399,7 +502,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(color: Colors.grey),
               ),
-            ),),
+            ),
+          ),
         ),
       ),
     );

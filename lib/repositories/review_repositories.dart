@@ -33,7 +33,7 @@ class ReviewRepository {
       "rating": "$rating",
       "comment": "$comment"
     });
-
+    print("Review body API--${post_body}");
     Uri url = Uri.parse("${AppConfig.BASE_URL}/reviews/submit");
     final response =
     await http.post(url,
@@ -42,6 +42,7 @@ class ReviewRepository {
           "Authorization": "Bearer ${access_token.$}","App-Language": app_language.$,
         },
         body: post_body);
+    print("Review Submit API--${response.body}");
 
     return reviewSubmitResponseFromJson(response.body);
   }

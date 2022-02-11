@@ -282,7 +282,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     } else if (_carouselImageList.length > 0) {
       return CarouselSlider(
         options: CarouselOptions(
-            aspectRatio: 3.1,
+            aspectRatio: 2.1,
             viewportFraction: 1,
             initialPage: 0,
             enableInfiniteScroll: true,

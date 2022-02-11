@@ -1,3 +1,4 @@
+import 'package:webixes/repositories/coupon_repository.dart';
 import 'package:webixes/screens/shipping_info.dart';
 import 'package:flutter/material.dart';
 import 'package:webixes/my_theme.dart';
@@ -24,11 +25,13 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ScrollController _mainScrollController = ScrollController();
+  TextEditingController _couponController = TextEditingController();
   var _shopList = [];
   bool _isInitial = true;
   var _cartTotal = 0.00;
   var _cartTotalString = ". . .";
-
+  var _used_coupon_code = "";
+  var _coupon_applied = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -58,20 +61,30 @@ class _CartState extends State<Cart> {
 
     if (cartResponseList != null && cartResponseList.length > 0) {
       _shopList = cartResponseList;
+      fetchSummary();
     }
     _isInitial = false;
     getSetCartTotal();
     setState(() {});
   }
+  fetchSummary() async {
+    var cartSummaryResponse = await CartRepository().getCartSummaryResponse();
 
+    if (cartSummaryResponse != null) {
+      _used_coupon_code = cartSummaryResponse.coupon_code;
+      print(_used_coupon_code);
+      _couponController.text = _used_coupon_code;
+      _coupon_applied = cartSummaryResponse.coupon_applied;
+      setState(() {});
+    }
+  }
   getSetCartTotal() {
     _cartTotal = 0.00;
     if (_shopList.length > 0) {
       _shopList.forEach((shop) {
         if (shop.cart_items.length > 0) {
           shop.cart_items.forEach((cart_item) {
-            _cartTotal +=
-                (cart_item.price + cart_item.tax) * cart_item.quantity;
+            _cartTotal += (cart_item.price + cart_item.tax) * cart_item.quantity;
             _cartTotalString = "${cart_item.currency_symbol}${_cartTotal}";
           });
         }
@@ -229,9 +242,7 @@ class _CartState extends State<Cart> {
         fetchData();
       } else if (mode == "proceed_to_shipping") {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ShippingInfo(
-
-          );
+          return ShippingInfo();
         })).then((value) {
           onPopped(value);
         });
@@ -257,7 +268,35 @@ class _CartState extends State<Cart> {
     reset();
     fetchData();
   }
+  onCouponApply() async {
+    var coupon_code = _couponController.text.toString();
+    if (coupon_code == "") {
+      ToastComponent.showDialog(AppLocalizations.of(context).checkout_screen_coupon_code_warning, context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+      return;
+    }
 
+    var couponApplyResponse =
+    await CouponRepository().getCouponApplyResponse(coupon_code);
+    if (couponApplyResponse.result == false) {
+      ToastComponent.showDialog(couponApplyResponse.message, context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+      return;
+    }
+    fetchSummary();
+  }
+
+  onCouponRemove() async {
+    var couponRemoveResponse =
+    await CouponRepository().getCouponRemoveResponse();
+
+    if (couponRemoveResponse.result == false) {
+      ToastComponent.showDialog(couponRemoveResponse.message, context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+      return;
+    }
+    fetchSummary();
+  }
   @override
   Widget build(BuildContext context) {
     //print(widget.has_bottomnav);
@@ -339,9 +378,11 @@ class _CartState extends State<Cart> {
                                 //  height: 50,
                                 child:  Center(
                                   child: TextField(
+                                    controller: _couponController,
+                                    readOnly: _coupon_applied,
                                     autocorrect: true,
                                     decoration: InputDecoration(
-                                      hintText: 'SUHA',
+                                      hintText: 'Coupon code',
 
                                       hintStyle: TextStyle(color: Colors.grey),
                                       filled: true,
@@ -359,10 +400,18 @@ class _CartState extends State<Cart> {
                               ),
                             ),
                           ),),
-                        Container(
+                        !_coupon_applied?Container(
                             width: 100,
                             height: 45,
-                            child: Center(child: CustomButton(onPressed: (){},title: "Apply",bgColor: MyTheme.yellow,))
+                            child: Center(child: CustomButton(onPressed: (){
+                              onCouponApply();
+                            },title: "Apply",bgColor: MyTheme.yellow,))
+                        ):Container(
+                            width: 100,
+                            height: 45,
+                            child: Center(child: CustomButton(onPressed: (){
+                              onCouponRemove();
+                            },title: "Remove",bgColor: MyTheme.yellow,))
                         )
 
                       ],

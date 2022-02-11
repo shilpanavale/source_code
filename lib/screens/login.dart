@@ -635,25 +635,32 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                         InkWell(
-                           onTap: (){
-                             fetchFeaturedCategories().then((value) {
-                               if(value!=null){
-                                 Navigator.push(context,
-                                     MaterialPageRoute(builder: (context) {
-                                       return Main();
-                                     }));
-                               }
-                             });
-                           },
-                           child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Center(
-                                child: Text('VIEW AS GUEST',
-                              style: TextStyle(
-                                  color: MyTheme.dark_grey, fontSize: 14),
-                            )),
+                         Material(
+                           color: Colors.transparent,
+                          // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                          // elevation: 6.0,
+                           child: InkWell(
+                             splashColor: Colors.yellow,
+                             highlightColor: Colors.blue,
+                             onTap: (){
+                               fetchFeaturedCategories().then((value) {
+                                 if(value!=null){
+                                   Navigator.push(context,
+                                       MaterialPageRoute(builder: (context) {
+                                         return Main();
+                                       }));
+                                 }
+                               });
+                             },
+                             child: Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: Center(
+                                  child: Text('VIEW AS GUEST',
+                                style: TextStyle(
+                                    color: MyTheme.dark_grey, fontSize: 14),
+                              )),
                         ),
+                           ),
                          ),
                       ],
                     ),

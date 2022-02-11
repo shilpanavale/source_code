@@ -16,6 +16,22 @@ class InputDecorations {
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.0));
   }
+  static InputDecoration buildInputDecorationWithBorder({hint_text = "",IconData icon}) {
+    return InputDecoration(
+        hintText: hint_text,
+        hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.dark_grey),
+        border: InputBorder.none,
+        prefixIcon: Icon(icon,color: Colors.black,size: 20,),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.0));
+  }
 
   static InputDecoration buildInputDecoration_phone({hint_text = ""}) {
     return InputDecoration(

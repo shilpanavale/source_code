@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webixes/my_theme.dart';
+import 'package:webixes/repositories/address_repository.dart';
 import 'package:webixes/screens/order_list.dart';
 import 'package:webixes/screens/stripe_screen.dart';
 import 'package:webixes/screens/paypal_screen.dart';
@@ -59,7 +60,8 @@ class _CheckoutState extends State<Checkout> {
   var _discountString = ". . .";
   var _used_coupon_code = "";
   var _coupon_applied = false;
-
+  String shippingAddress="";
+  List<dynamic> _shippingAddressList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -82,12 +84,34 @@ class _CheckoutState extends State<Checkout> {
 
   fetchAll() {
     fetchList();
+    fetchShippingAddressList();
 
     if (is_logged_in.$ == true) {
       fetchSummary();
     }
   }
+  fetchShippingAddressList() async {
+    print("enter fetchShippingAddressList");
+    var addressResponse = await AddressRepository().getAddressList();
+    _shippingAddressList.addAll(addressResponse.addresses);
+    setState(() {
+      _isInitial = false;
+    });
+    if (_shippingAddressList.length > 0) {
+      //_default_shipping_address = _shippingAddressList[0].id;
 
+      var count = 0;
+      _shippingAddressList.forEach((address) {
+
+        shippingAddress=address.address+" "+address.postal_code+" "+address.country_name+" "+address.state_name+" "+address.city_name;
+
+      });
+
+      print("fetchShippingAddressList");
+    }
+
+    setState(() {});
+  }
   fetchList() async {
     var paymentTypeResponseList =
         await PaymentRepository().getPaymentResponseList(list: widget.list);
@@ -924,7 +948,7 @@ backgroundColor: Colors.white,
                     child: Container(
                        // width: 220,
                         alignment: Alignment.centerRight,
-                        child: Text('SUHA JANNAT',style: TextStyle(fontSize: 13))),
+                        child: Text("${user_name.$}",style: TextStyle(fontSize: 13))),
                   )
                 ],
               ),
@@ -947,7 +971,7 @@ backgroundColor: Colors.white,
                     child: Container(
                        // width: 240,
                         alignment: Alignment.centerRight,
-                        child: Text('+91961234445',style: TextStyle(fontSize: 13))),
+                        child: Text(user_phone.$ != "" && user_phone.$ != null?user_phone.$:'',style: TextStyle(fontSize: 13))),
                   )
                 ],
               ),
@@ -971,7 +995,8 @@ backgroundColor: Colors.white,
                     child: Container(
                         //width: 200,
                         alignment: Alignment.centerRight,
-                        child: Text('suha@gmail',style: TextStyle(fontSize: 13))),
+                        child: Text(user_email.$ != "" && user_email.$ != null?
+                        user_email.$:'',style: TextStyle(fontSize: 13))),
                   )
                 ],
               ),
@@ -994,7 +1019,7 @@ backgroundColor: Colors.white,
                     child: Container(
                         //width: 230,
                         alignment: Alignment.centerRight,
-                        child: Text('28/c Green road,BD',maxLines:2,style: TextStyle(fontSize: 13))),
+                        child: Text(shippingAddress,maxLines:2,style: TextStyle(fontSize: 13))),
                   )
                 ],
               ),
