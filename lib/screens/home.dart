@@ -1,3 +1,4 @@
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:webixes/data_model/category_response.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/repositories/wishlist_repository.dart';
@@ -911,7 +912,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
   }
 
   buildHomeTopProducts(context) {
-    if ( _featuredProductList.length == 0) {
+    if (_isProductInitial && _featuredProductList.length == 0) {
       return SingleChildScrollView(
           child: ShimmerHelper().buildProductGridShimmer(
               scontroller: _featuredProductScrollController));
@@ -919,7 +920,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
 
        return   GridView.builder(
        // 2
-       addAutomaticKeepAlives: true,
+       //addAutomaticKeepAlives: true,
        itemCount: _featuredProductList.length,
        controller: _featuredProductScrollController,
        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -938,7 +939,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
              main_price: _featuredProductList[index].main_price,
              stroked_price: _featuredProductList[index].stroked_price,
              has_discount: _featuredProductList[index].has_discount,
-             wishListButton:false ,
+             wishListButton: false,
+
          );
        },
      );
@@ -982,7 +984,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
           itemExtent: 120,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-
+           double rating=double.parse(_featuredCategoryList[index].rating.toString());
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: GestureDetector(
@@ -1037,24 +1039,40 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            RatingBar(
+                            SmoothStarRating(
+
+                              rating: double.parse(_featuredCategoryList[index].rating.toString()),
+                              // rating: reviewList[index]['order_rating'],
+                              starCount: 5,
+                              isReadOnly: true,
+                              allowHalfRating: false,
+                              spacing: 1,
+                              size: 15,
+                              color: Colors.amber,
+                              borderColor: Colors.amber,
+                              onRated: (value) {
+                                setState(() {
+                                });
+                              },
+                            )
+                           /* RatingBar(
+                              unratedColor:Colors.grey,
                               itemSize: 15.0,
                               ignoreGestures: true,
-                              initialRating: 5,
+                              initialRating: rating,
                               direction: Axis.horizontal,
                               allowHalfRating: false,
                               itemCount: 5,
                               ratingWidget: RatingWidget(
-                                half:Icon(FontAwesome.star, color: Colors.grey) ,
-                                full: Icon(FontAwesome.star, color: Colors.grey),
-                                empty:
-                                Icon(FontAwesome.star, color: Color.fromRGBO(224, 224, 225, 1)),
+                                //half:Icon(FontAwesome.star, color: Colors.grey) ,
+                                full: Icon(FontAwesome.star, color: MyTheme.yellow),
+                                empty: Icon(FontAwesome.star, color: Color.fromRGBO(224, 224, 225, 1)),
                               ),
                               itemPadding: EdgeInsets.only(right: 1.0),
                               onRatingUpdate: (rating) {
                                 //print(rating);
                               },
-                            ),
+                            ),*/
                           ],
                         ),
                       ),

@@ -27,11 +27,12 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
- bool _isInWishList=true;
+// bool _isInWishList=true;
  @override
  void initState() {
-   fetchWishListCheckInfo();
+
    super.initState();
+   fetchWishListCheckInfo();
  }
   fetchWishListCheckInfo() async {
     var wishListCheckResponse =
@@ -40,7 +41,7 @@ class _ProductCardState extends State<ProductCard> {
     );
 
     //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
-    _isInWishList = wishListCheckResponse.is_in_wishlist;
+    widget.wishListButton = wishListCheckResponse.is_in_wishlist;
     //setState(() {});
   }
 
@@ -49,7 +50,7 @@ class _ProductCardState extends State<ProductCard> {
     await WishListRepository().add(product_id: widget.id);
 
     //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
-    _isInWishList = wishListCheckResponse.is_in_wishlist;
+    widget.wishListButton = wishListCheckResponse.is_in_wishlist;
     setState(() {});
   }
 
@@ -58,7 +59,7 @@ class _ProductCardState extends State<ProductCard> {
     await WishListRepository().remove(product_id: widget.id);
 
     //print("p&u:" + widget.id.toString() + " | " + _user_id.toString());
-    _isInWishList = wishListCheckResponse.is_in_wishlist;
+    widget.wishListButton = wishListCheckResponse.is_in_wishlist;
     setState(() {});
   }
 
@@ -69,12 +70,12 @@ class _ProductCardState extends State<ProductCard> {
       return;
     }
 
-    if (_isInWishList) {
-      _isInWishList = false;
+    if (widget.wishListButton) {
+      widget.wishListButton = false;
       setState(() {});
       removeFromWishList();
     } else {
-      _isInWishList = true;
+      widget.wishListButton = true;
       setState(() {});
       addToWishList();
     }
@@ -112,7 +113,7 @@ class _ProductCardState extends State<ProductCard> {
                           color: Colors.pink,size: 18,
                         ),
                         SizedBox(width: 10,),
-                        _isInWishList
+                        widget.wishListButton
                             ? InkWell(
                           onTap: () {
                             onWishTap();

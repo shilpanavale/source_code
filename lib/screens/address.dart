@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:webixes/app_config.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:webixes/helpers/shared_value_helper.dart';
@@ -105,6 +106,8 @@ class _AddressState extends State<Address> {
             .add(MyState(id: address.state_id, name: address.state_name));
         _selected_city_list_for_update
             .add(City(id: address.city_id, name: address.city_name));
+        AppConfig.address=address.address+" "+address.postal_code+" "+address.country_name+" "+address.state_name+" "+address.city_name;
+
       });
 
       print("fetchShippingAddressList");
@@ -461,53 +464,59 @@ class _AddressState extends State<Address> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: buildAppBar(context),
-        bottomNavigationBar: buildBottomAppBar(context),
-        body: RefreshIndicator(
-          color: MyTheme.accent_color,
+    return WillPopScope(
+      onWillPop: ()async{
+          Navigator.of(context).pop({'address':AppConfig.address});
+        return true;
+      },
+      child: Scaffold(
           backgroundColor: Colors.white,
-          onRefresh: _onRefresh,
-          displacement: 0,
-          child: CustomScrollView(
-            controller: _mainScrollController,
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            slivers: [
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: buildAddressList(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: FlatButton(
-                    minWidth: MediaQuery.of(context).size.width - 16,
-                    height: 60,
-                    color: Color.fromRGBO(252, 252, 252, 1),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        side:
-                            BorderSide(color: MyTheme.light_grey, width: 1.0)),
-                    child: Icon(
-                      FontAwesome.plus,
-                      color: MyTheme.dark_grey,
-                      size: 16,
-                    ),
-                    onPressed: () {
-                      buildShowAddFormDialog(context);
-                    },
+          appBar: buildAppBar(context),
+          bottomNavigationBar: buildBottomAppBar(context),
+          body: RefreshIndicator(
+            color: MyTheme.accent_color,
+            backgroundColor: Colors.white,
+            onRefresh: _onRefresh,
+            displacement: 0,
+            child: CustomScrollView(
+              controller: _mainScrollController,
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              slivers: [
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: buildAddressList(),
                   ),
-                ),
-                SizedBox(
-                  height: 100,
-                )
-              ]))
-            ],
-          ),
-        ));
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: FlatButton(
+                      minWidth: MediaQuery.of(context).size.width - 16,
+                      height: 60,
+                      color: Color.fromRGBO(252, 252, 252, 1),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          side:
+                              BorderSide(color: MyTheme.light_grey, width: 1.0)),
+                      child: Icon(
+                        FontAwesome.plus,
+                        color: MyTheme.dark_grey,
+                        size: 16,
+                      ),
+                      onPressed: () {
+                        buildShowAddFormDialog(context);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  )
+                ]))
+              ],
+            ),
+          )),
+    );
   }
 
   Future buildShowAddFormDialog(BuildContext context) {

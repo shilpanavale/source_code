@@ -28,7 +28,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   TextEditingController _nameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
   TextEditingController _fullNameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
-  TextEditingController _phoneController = TextEditingController(text: user_phone.$!=""||user_phone.$!=null?"${user_phone.$}":"Phone");
+  TextEditingController _phoneController = TextEditingController(text: '');
   TextEditingController _emailController = TextEditingController(text: user_email.$!=""||user_email.$!=null?"${user_email.$}":"Email ");
   TextEditingController _shippingAddress=TextEditingController();
   TextEditingController _deliveryAddress=TextEditingController();
@@ -305,7 +305,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       color: Colors.teal,
                     ),
 
-                    child: Icon(Icons.call,color: Colors.white,),
+                    child: Icon(Icons.email,color: Colors.white,),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -334,10 +334,18 @@ class _ProfileEditState extends State<ProfileEdit> {
                 ],
               ),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Address();
-                  }));
+                onTap: () async {
+                  Map map=await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Address(),
+                    ),
+                  );
+                  setState(() {
+                    print("mapp-->$map");
+                    shippingAddress= map["address"];
+                    print("add-${map["address"]}");
+                  });
                 },
                 child: Container(
                   color: Colors.transparent,
@@ -366,10 +374,22 @@ class _ProfileEditState extends State<ProfileEdit> {
                 ],
               ),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                onTap: () async {
+                  Map map=await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Address(),
+                    ),
+                  );
+                  setState(() {
+                     print("mapp-->$map");
+                   shippingAddress= map["address"];
+                    print("add-${map["address"]}");
+                  });
+
+                  /*Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return Address();
-                  }));
+                  }));*/
                 },
                   child: Container(
                       color: Colors.transparent,
@@ -480,7 +500,6 @@ class _ProfileEditState extends State<ProfileEdit> {
     }
   }
   Widget commonTextField(TextEditingController controller,TextInputType textInputType,bool readOnly){
-   print(controller.text);
      return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Container(
@@ -493,7 +512,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             keyboardType: textInputType,
             decoration: InputDecoration(
               hintText: shippingAddress,
-              hintStyle: TextStyle(color: Colors.grey),
+              hintStyle: TextStyle(color: Colors.black),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(color: Colors.grey),

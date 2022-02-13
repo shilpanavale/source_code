@@ -320,7 +320,7 @@ class _ShopDetailsState extends State<ShopDetails> {
               main_price: _featuredProducts[index].main_price,
               stroked_price: _featuredProducts[index].stroked_price,
               has_discount: _featuredProducts[index].has_discount,
-              wishListButton: false,
+
           );
         },
       );

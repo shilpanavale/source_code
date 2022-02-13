@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'package:webixes/other_config.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -86,10 +87,12 @@ class MapViewDemoState extends State<MapViewDemo> {
                       target:_initialcameraposition,
                       zoom: 14.4746,
                     ),
-                      /*options: GoogleMapOptions(
+                      */
+/*options: GoogleMapOptions(
                           myLocationEnabled: true,
                           cameraPosition:
-                          const CameraPosition(target: LatLng(0.0, 0.0))),*/
+                          const CameraPosition(target: LatLng(0.0, 0.0))),*//*
+
                     )),
             ),
             Expanded(child: expandedChild)
@@ -107,9 +110,11 @@ class MapViewDemoState extends State<MapViewDemo> {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
-   /* String value = await DefaultAssetBundle.of(context)
+   */
+/* String value = await DefaultAssetBundle.of(context)
         .loadString('assets/map_style.json');
-    mapController.setMapStyle(value);*/
+    mapController.setMapStyle(value);*//*
+
     refresh();
   }
   Future<LatLng> getUserLocation() async {
@@ -141,15 +146,12 @@ class MapViewDemoState extends State<MapViewDemo> {
     location.onLocationChanged
         .listen((LocationManager.LocationData currentLocation) {
       print("${currentLocation.longitude} : ${currentLocation.longitude}");
-      setState(() {
-        _currentPosition = currentLocation;
-        _initialcameraposition =
-            LatLng(_currentPosition.latitude, _currentPosition.longitude);
-      });
+
     });
     return _initialcameraposition;
   }
-  /*Future<LatLng> getUserLocation() async {
+  */
+/*Future<LatLng> getUserLocation() async {
     var currentLocation = <String, double>{};
     final location = LocationManager.Location();
     try {
@@ -168,7 +170,8 @@ class MapViewDemoState extends State<MapViewDemo> {
       currentLocation = null;
       return null;
     }
-  }*/
+  }*//*
+
 
   void getNearbyPlaces(LatLng center) async {
     setState(() {
@@ -186,7 +189,8 @@ class MapViewDemoState extends State<MapViewDemo> {
       if (result.status == "OK") {
         this.places = result.results;
         result.results.forEach((f) {
-       /*   _markers.add(Marker(
+       */
+/*   _markers.add(Marker(
 // This marker id can be anything that uniquely identifies each marker.
             markerId: MarkerId(_lastMapPosition.toString()),
             position: LatLng(
@@ -197,7 +201,8 @@ class MapViewDemoState extends State<MapViewDemo> {
                 title: "${f.name}", snippet: "${f.types?.first}"
             ),
             icon: BitmapDescriptor.defaultMarker,
-          ));*/
+          ));*//*
+
         });
       } else {
         this.errorMessage = result.errorMessage;
@@ -233,12 +238,14 @@ class MapViewDemoState extends State<MapViewDemo> {
   }
 
   Future<Null> showDetailPlace(String placeId) async {
-    /*if (placeId != null) {
+    */
+/*if (placeId != null) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => PlaceDetailWidget(placeId)),
       );
-    }*/
+    }*//*
+
   }
 
   ListView buildPlacesList() {
@@ -306,4 +313,4 @@ class MapViewDemoState extends State<MapViewDemo> {
 
     return ListView(shrinkWrap: true, children: placesWidget);
   }
-}
+}*/
