@@ -28,7 +28,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   TextEditingController _nameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
   TextEditingController _fullNameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
-  TextEditingController _phoneController = TextEditingController(text: '');
+  TextEditingController _phoneController = TextEditingController(text: 'phone');
   TextEditingController _emailController = TextEditingController(text: user_email.$!=""||user_email.$!=null?"${user_email.$}":"Email ");
   TextEditingController _shippingAddress=TextEditingController();
   TextEditingController _deliveryAddress=TextEditingController();

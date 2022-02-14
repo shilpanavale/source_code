@@ -31,7 +31,7 @@ class _CartState extends State<Cart> {
   var _cartTotal = 0.00;
   var _cartTotalString = ". . .";
   var _used_coupon_code = "";
-  var _coupon_applied = false;
+  bool _coupon_applied = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -83,9 +83,9 @@ class _CartState extends State<Cart> {
     if (_shopList.length > 0) {
       _shopList.forEach((shop) {
         if (shop.cart_items.length > 0) {
-          shop.cart_items.forEach((cart_item) {
-            _cartTotal += (cart_item.price + cart_item.tax) * cart_item.quantity;
-            _cartTotalString = "${cart_item.currency_symbol}${_cartTotal}";
+          shop.cart_items.forEach((cartItem) {
+            _cartTotal += (cartItem.price + cartItem.tax) * cartItem.quantity;
+            _cartTotalString = "${cartItem.currency_symbol}${_cartTotal}";
           });
         }
       });
@@ -98,46 +98,46 @@ class _CartState extends State<Cart> {
     var partialTotal = 0.00;
     var partialTotalString = "";
     if (_shopList[index].cart_items.length > 0) {
-      _shopList[index].cart_items.forEach((cart_item) {
-        partialTotal += (cart_item.price + cart_item.tax) * cart_item.quantity;
-        partialTotalString = "${cart_item.currency_symbol}${partialTotal}";
+      _shopList[index].cart_items.forEach((cartItem) {
+        partialTotal += (cartItem.price + cartItem.tax) * cartItem.quantity;
+        partialTotalString = "${cartItem.currency_symbol}${partialTotal}";
       });
     }
 
     return partialTotalString;
   }
 
-  onQuantityIncrease(seller_index, item_index) {
-    if (_shopList[seller_index].cart_items[item_index].quantity <
-        _shopList[seller_index].cart_items[item_index].upper_limit) {
-      _shopList[seller_index].cart_items[item_index].quantity++;
+  onQuantityIncrease(sellerIndex, itemIndex) {
+    if (_shopList[sellerIndex].cart_items[itemIndex].quantity <
+        _shopList[sellerIndex].cart_items[itemIndex].upper_limit) {
+      _shopList[sellerIndex].cart_items[itemIndex].quantity++;
       getSetCartTotal();
       setState(() {});
     } else {
       ToastComponent.showDialog(
-          "${AppLocalizations.of(context).cart_screen_cannot_order_more_than} ${_shopList[seller_index].cart_items[item_index].upper_limit} ${AppLocalizations.of(context).cart_screen_items_of_this}",
+          "${AppLocalizations.of(context).cart_screen_cannot_order_more_than} ${_shopList[sellerIndex].cart_items[itemIndex].upper_limit} ${AppLocalizations.of(context).cart_screen_items_of_this}",
           context,
           gravity: Toast.CENTER,
           duration: Toast.LENGTH_LONG);
     }
   }
 
-  onQuantityDecrease(seller_index, item_index) {
-    if (_shopList[seller_index].cart_items[item_index].quantity >
-        _shopList[seller_index].cart_items[item_index].lower_limit) {
-      _shopList[seller_index].cart_items[item_index].quantity--;
+  onQuantityDecrease(sellerIndex, itemIndex) {
+    if (_shopList[sellerIndex].cart_items[itemIndex].quantity >
+        _shopList[sellerIndex].cart_items[itemIndex].lower_limit) {
+      _shopList[sellerIndex].cart_items[itemIndex].quantity--;
       getSetCartTotal();
       setState(() {});
     } else {
       ToastComponent.showDialog(
-          "${AppLocalizations.of(context).cart_screen_cannot_order_more_than} ${_shopList[seller_index].cart_items[item_index].lower_limit} ${AppLocalizations.of(context).cart_screen_items_of_this}",
+          "${AppLocalizations.of(context).cart_screen_cannot_order_more_than} ${_shopList[sellerIndex].cart_items[itemIndex].lower_limit} ${AppLocalizations.of(context).cart_screen_items_of_this}",
           context,
           gravity: Toast.CENTER,
           duration: Toast.LENGTH_LONG);
     }
   }
 
-  onPressDelete(cart_id) {
+  onPressDelete(cartId) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -170,16 +170,16 @@ class _CartState extends State<Cart> {
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
-                    confirmDelete(cart_id);
+                    confirmDelete(cartId);
                   },
                 ),
               ],
             ));
   }
 
-  confirmDelete(cart_id) async {
+  confirmDelete(cartId) async {
     var cartDeleteResponse =
-        await CartRepository().getCartDeleteResponse(cart_id);
+        await CartRepository().getCartDeleteResponse(cartId);
 
     if (cartDeleteResponse.result == true) {
       ToastComponent.showDialog(cartDeleteResponse.message, context,
@@ -202,33 +202,33 @@ class _CartState extends State<Cart> {
   }
 
   process({mode}) async {
-    var cart_ids = [];
-    var cart_quantities = [];
+    var cartIds = [];
+    var cartQuantities = [];
     if (_shopList.length > 0) {
       _shopList.forEach((shop) {
         if (shop.cart_items.length > 0) {
-          shop.cart_items.forEach((cart_item) {
-            cart_ids.add(cart_item.id);
-            cart_quantities.add(cart_item.quantity);
+          shop.cart_items.forEach((cartItem) {
+            cartIds.add(cartItem.id);
+            cartQuantities.add(cartItem.quantity);
           });
         }
       });
     }
 
-    if (cart_ids.length == 0) {
+    if (cartIds.length == 0) {
       ToastComponent.showDialog(AppLocalizations.of(context).cart_screen_cart_empty, context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       return;
     }
 
-    var cart_ids_string = cart_ids.join(',').toString();
-    var cart_quantities_string = cart_quantities.join(',').toString();
+    var cartIdsString = cartIds.join(',').toString();
+    var cartQuantitiesString = cartQuantities.join(',').toString();
 
-    print(cart_ids_string);
-    print(cart_quantities_string);
+    print(cartIdsString);
+    print(cartQuantitiesString);
 
     var cartProcessResponse = await CartRepository()
-        .getCartProcessResponse(cart_ids_string, cart_quantities_string);
+        .getCartProcessResponse(cartIdsString, cartQuantitiesString);
 
     if (cartProcessResponse.result == false) {
       ToastComponent.showDialog(cartProcessResponse.message, context,
@@ -269,15 +269,15 @@ class _CartState extends State<Cart> {
     fetchData();
   }
   onCouponApply() async {
-    var coupon_code = _couponController.text.toString();
-    if (coupon_code == "") {
+    var couponCode = _couponController.text.toString();
+    if (couponCode == "") {
       ToastComponent.showDialog(AppLocalizations.of(context).checkout_screen_coupon_code_warning, context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       return;
     }
 
     var couponApplyResponse =
-    await CouponRepository().getCouponApplyResponse(coupon_code);
+    await CouponRepository().getCouponApplyResponse(couponCode);
     if (couponApplyResponse.result == false) {
       ToastComponent.showDialog(couponApplyResponse.message, context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
@@ -305,26 +305,145 @@ class _CartState extends State<Cart> {
         drawer: MainDrawer(),
         backgroundColor: MyTheme.soft_accent_color,
         appBar: buildAppBar(context),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 16.0),
-                    child:Card(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: MyTheme.light_grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: buildCartSellerList(),)
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 16.0),
+                  child:Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: MyTheme.light_grey, width: 1.0),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: buildCartSellerList(),)
+              ),
+              SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                child: Container(
+                  height: 108,
+                  color: Colors.white,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: MyTheme.light_grey, width: 1.0),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Have a coupon?",style: TextStyle(color: Colors.black,fontSize: 15),)
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Enter your coupon code here & get awesome discounts!",style: TextStyle(color: Colors.grey,fontSize: 13),)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 200,
+                              height: 60,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    //  height: 50,
+                                    child:  Center(
+                                      child: TextField(
+                                        controller: _couponController,
+                                        readOnly: _coupon_applied,
+                                        autocorrect: true,
+                                        autofocus: false,
+                                        decoration: InputDecoration(
+                                          hintText: 'Coupon code',
+
+                                          hintStyle: TextStyle(color: Colors.grey),
+                                          filled: true,
+                                          fillColor: Colors.white70,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                            borderSide: BorderSide(color: Colors.grey),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                            borderSide: BorderSide(color: Colors.grey),
+                                          ),
+                                        ),),
+                                    ),
+                                  ),
+                                ),
+                              ),),
+                            !_coupon_applied?Container(
+                                width: 100,
+                                height: 45,
+                                child: Center(child: CustomButton(onPressed: (){
+                                  onCouponApply();
+                                },title: "Apply",bgColor: MyTheme.yellow,))
+                            ):Container(
+                                width: 100,
+                                height: 45,
+                                child: Center(child: CustomButton(onPressed: (){
+                                  onCouponRemove();
+                                },title: "Remove",bgColor: MyTheme.yellow,))
+                            )
+
+                          ],
+                        )
+
+
+                      ],
+                    ),
+                  ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: buildBottomContainer(),
-                )
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                child: Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("$_cartTotalString",
+                              style: TextStyle(
+                                  color: MyTheme.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                          child: CustomButton(
+                            onPressed: (){
+                              onPressProceedToShipping();
+                            },
+                            title: " Checkout Now ",
+                            bgColor: MyTheme.yellow,),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+             /* Align(
+                alignment: Alignment.bottomCenter,
+                child: buildBottomContainer(),
+              ) ,*/
+
+            ],
           ),
         ));
   }
@@ -338,7 +457,7 @@ class _CartState extends State<Cart> {
                 )*/
       ),
 
-      height: widget.has_bottomnav ? 250 : 120,
+      height: widget.has_bottomnav ? 250 : 250,
       //color: Colors.white,
       child: Column(
         children: [
@@ -381,6 +500,7 @@ class _CartState extends State<Cart> {
                                     controller: _couponController,
                                     readOnly: _coupon_applied,
                                     autocorrect: true,
+                                    autofocus: false,
                                     decoration: InputDecoration(
                                       hintText: 'Coupon code',
 
@@ -607,7 +727,7 @@ class _CartState extends State<Cart> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       centerTitle: true,
       leading: GestureDetector(
         onTap: () {
@@ -706,27 +826,27 @@ backgroundColor: Colors.white,
     }
   }
 
-  ListView buildCartSellerItemList(seller_index) {
+  ListView buildCartSellerItemList(sellerIndex) {
     return ListView.builder(
-      itemCount: _shopList[seller_index].cart_items.length,
+      itemCount: _shopList[sellerIndex].cart_items.length,
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return buildCartSellerItemCard(seller_index, index);
+        return buildCartSellerItemCard(sellerIndex, index);
       },
     );
   }
 
-  buildCartSellerItemCard(seller_index, item_index) {
+  buildCartSellerItemCard(sellerIndex, itemIndex) {
 
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
       Padding(
         padding: const EdgeInsets.only(left: 5.0),
         child: InkWell(
           onTap: (){
-            onPressDelete(_shopList[seller_index]
-                  .cart_items[item_index]
+            onPressDelete(_shopList[sellerIndex]
+                  .cart_items[itemIndex]
                   .id);
 
           },
@@ -751,8 +871,8 @@ backgroundColor: Colors.white,
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/placeholder.png',
                 image: AppConfig.BASE_PATH +
-                    _shopList[seller_index]
-                        .cart_items[item_index]
+                    _shopList[sellerIndex]
+                        .cart_items[itemIndex]
                         .product_thumbnail_image.replaceAll(",",""),
                 fit: BoxFit.fitWidth,
               ))),
@@ -768,8 +888,8 @@ backgroundColor: Colors.white,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _shopList[seller_index]
-                          .cart_items[item_index]
+                      _shopList[sellerIndex]
+                          .cart_items[itemIndex]
                           .product_name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -780,17 +900,17 @@ backgroundColor: Colors.white,
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      _shopList[seller_index]
-                          .cart_items[item_index]
+                      _shopList[sellerIndex]
+                          .cart_items[itemIndex]
                           .currency_symbol +
-                          (_shopList[seller_index]
-                              .cart_items[item_index]
+                          (_shopList[sellerIndex]
+                              .cart_items[itemIndex]
                               .price *
-                              _shopList[seller_index]
-                                  .cart_items[item_index]
+                              _shopList[sellerIndex]
+                                  .cart_items[itemIndex]
                                   .quantity)
-                              .toString()+" X "+_shopList[seller_index]
-                          .cart_items[item_index]
+                              .toString()+" X "+_shopList[sellerIndex]
+                          .cart_items[itemIndex]
                           .quantity
                           .toString(),
                       textAlign: TextAlign.left,
@@ -869,8 +989,8 @@ backgroundColor: Colors.white,
           ),
           child: Center(
             child: Text(
-              _shopList[seller_index]
-                  .cart_items[item_index]
+              _shopList[sellerIndex]
+                  .cart_items[itemIndex]
                   .quantity
                   .toString(),
               style: TextStyle(color: MyTheme.medium_grey, fontSize: 16),

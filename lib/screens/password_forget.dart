@@ -217,10 +217,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                             padding: const EdgeInsets.only(top: 15.0),
                             child: CustomButton(
                               onPressed: (){
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return Main();
-                                    }));
+                                onPressSendCode();
                               },
                               title:  'Reset Password',
                               bgColor:  MyTheme.yellow,

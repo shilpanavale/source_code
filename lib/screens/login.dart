@@ -49,8 +49,16 @@ class _LoginState extends State<Login> {
     //on Splash Screen hide statusbar
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
+    fetchCategories();
   }
-
+  Future fetchCategories() async {
+    print("Initial calling--");
+    AppConfig.featuredCategoryList=[];
+    var categoryResponse = await CategoryRepository().getTopCategories();
+    AppConfig.featuredCategoryList.addAll(categoryResponse.categories);
+    print("API CALL-->${AppConfig.featuredCategoryList.length}");
+    return categoryResponse.categories;
+  }
   @override
   void dispose() {
     //before going to other screen show statusbar
@@ -643,14 +651,13 @@ class _LoginState extends State<Login> {
                              splashColor: Colors.yellow,
                              highlightColor: Colors.blue,
                              onTap: (){
-                               fetchFeaturedCategories().then((value) {
-                                 if(value!=null){
+
                                    Navigator.push(context,
                                        MaterialPageRoute(builder: (context) {
                                          return Main();
                                        }));
-                                 }
-                               });
+
+
                              },
                              child: Padding(
                               padding: const EdgeInsets.only(top: 20.0),
