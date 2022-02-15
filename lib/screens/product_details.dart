@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import 'package:webixes/screens/cart.dart';
 import 'package:webixes/screens/common_webview_screen.dart';
 import 'package:webixes/screens/product_reviews.dart';
@@ -70,11 +72,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool _relatedProductInit = false;
   List<dynamic> _topProducts = [];
   bool _topProductInit = false;
-
+  PhotoViewController controller;
   @override
   void initState() {
     fetchAll();
     super.initState();
+    //controller = PhotoViewController()..outputStateStream.listen(listener);
   }
 
   @override
@@ -83,6 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     _variantScrollController.dispose();
     _imageScrollController.dispose();
     _colorScrollController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -2094,169 +2098,194 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   buildProductImageSection() {
     if (_productImageList.length == 0) {
-      return Row(
+      return Column(
         children: [
-         /* Container(
-            width: 40,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ShimmerHelper()
-                      .buildBasicShimmer(height: 40.0, width: 40.0),
+          Row(
+            children: [
+             /* Container(
+                width: 40,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: ShimmerHelper()
+                          .buildBasicShimmer(height: 40.0, width: 40.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: ShimmerHelper()
+                          .buildBasicShimmer(height: 40.0, width: 40.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: ShimmerHelper()
+                          .buildBasicShimmer(height: 40.0, width: 40.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: ShimmerHelper()
+                          .buildBasicShimmer(height: 40.0, width: 40.0),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ShimmerHelper()
-                      .buildBasicShimmer(height: 40.0, width: 40.0),
+              ),*/
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: ShimmerHelper().buildBasicShimmer(
+                    height: 190.0,
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ShimmerHelper()
-                      .buildBasicShimmer(height: 40.0, width: 40.0),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ShimmerHelper()
-                      .buildBasicShimmer(height: 40.0, width: 40.0),
-                ),
-              ],
-            ),
-          ),*/
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: ShimmerHelper().buildBasicShimmer(
-                height: 190.0,
               ),
-            ),
+            ],
           ),
         ],
       );
     } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      return Column(
         children: [
-        /*  SizedBox(
-            height: 250,
-            width: 64,
-            child: Scrollbar(
-              controller: _imageScrollController,
-              isAlwaysShown: false,
-              thickness: 4.0,
-              child: Padding(
-                padding: app_language_rtl.$ ? EdgeInsets.only(left: 8.0) : EdgeInsets.only(right: 8.0),
-                child: ListView.builder(
-                    itemCount: _productImageList.length,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      int itemIndex = index;
-                      return GestureDetector(
-                        onTap: () {
-                          _currentImage = itemIndex;
-                          print(_currentImage);
-                          setState(() {});
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                                color: _currentImage == itemIndex
-                                    ? MyTheme.accent_color
-                                    : Color.fromRGBO(112, 112, 112, .3),
-                                width: _currentImage == itemIndex ? 2 : 1),
-                            //shape: BoxShape.rectangle,
-                          ),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child:
-                                  *//*Image.asset(
-                                        singleProduct.product_images[index])*//*
-                                  FadeInImage.assetNetwork(
-                                placeholder: 'assets/placeholder.png',
-                                image: AppConfig.BASE_PATH +
-                                    _productImageList[index].replaceAll(",",""),
-                                fit: BoxFit.contain,
-                              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {
+                  /*openPhotoDialog(context,
+                      AppConfig.BASE_PATH + _productImageList[_currentImage]);*/
+                },
+                child: Container(
+                  height: 170,
+                  //width: MediaQuery.of(context).size.width - 96,
+                  child:CarouselSlider(
+                        options: CarouselOptions(
+                       // height: 170,
+                        //aspectRatio: 2.07,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        //enableInfiniteScroll: true,
+                        reverse: false,
+                        //autoPlay: true,
+                        //autoPlayInterval: Duration(seconds: 5),
+                        //autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                        autoPlayCurve: Curves.easeInCubic,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
                         ),
-                      );
-                    }),
-              ),
-            ),
-          ),*/
-          InkWell(
-            onTap: () {
-              /*openPhotoDialog(context,
-                  AppConfig.BASE_PATH + _productImageList[_currentImage]);*/
-            },
-            child: Container(
-              height: 180,
-              //width: MediaQuery.of(context).size.width - 96,
-              child:CarouselSlider(
-                    options: CarouselOptions(
-                   // height: 170,
-                    //aspectRatio: 2.07,
-                    viewportFraction: 1,
-                    initialPage: 0,
-                    //enableInfiniteScroll: true,
-                    reverse: false,
-                    //autoPlay: true,
-                    //autoPlayInterval: Duration(seconds: 5),
-                    //autoPlayAnimationDuration: Duration(milliseconds: 1000),
-                    autoPlayCurve: Curves.easeInCubic,
-                    enlargeCenterPage: true,
-                    scrollDirection: Axis.horizontal,
-                    ),
-                    items: _productImageList.map((i) {
-                    return _productImageList!=null?
-                    Builder(
-                    builder: (BuildContext context) {
-                    return Stack(
-                    children: <Widget>[
-                    Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: FadeInImage.assetNetwork(
+                        items: _productImageList.map((i) {
+                        return _productImageList!=null?
+                        Builder(
+                        builder: (BuildContext context) {
+                        return Stack(
+                        children: <Widget>[
+                        Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        child:PhotoView(
+                          controller: controller,
+                          enablePanAlways: true,
+                          backgroundDecoration:BoxDecoration(color: Colors.transparent) ,
+                          enableRotation: true,
+                          heroAttributes: const PhotoViewHeroAttributes(tag: "someTag"),
+                          imageProvider: NetworkImage(AppConfig.BASE_PATH + _productImageList[_currentImage]),
+                        ),
+
+
+
+
+
+
+                        )),
+                        ],
+                        );
+                        },
+                        )
+                            : Builder(
+                                builder: (BuildContext context) {
+                                return Stack(
+                                children: <Widget>[
+                                Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                child: Image.asset("assets/placeholder.png")
+                                )),
+                                ],
+                                );
+                                },
+                              );
+                        }).toList(),
+                        )
+                 /* Container(
+                      child: FadeInImage.assetNetwork(
                     placeholder: 'assets/placeholder_rectangle.png',
-                    image: AppConfig.BASE_PATH + i,
-                    fit: BoxFit.fill,
-                    )
-                    )),
-                    ],
-                    );
-                    },
-                    )
-                        : Builder(
-                            builder: (BuildContext context) {
-                            return Stack(
-                            children: <Widget>[
-                            Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            child: Image.asset("assets/placeholder.png")
-                            )),
-                            ],
+                    image: AppConfig.BASE_PATH + _productImageList[_currentImage],
+                    fit: BoxFit.scaleDown,
+                  )),*/
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 55,
+                   width: MediaQuery.of(context).size.width,
+                  child: Scrollbar(
+                    controller: _imageScrollController,
+                    isAlwaysShown: false,
+                    thickness: 4.0,
+                    child: Padding(
+                      padding: app_language_rtl.$ ? EdgeInsets.only(left: 8.0) : EdgeInsets.only(right: 0.0),
+                      child: ListView.builder(
+                          itemCount: _productImageList.length,
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            int itemIndex = index;
+                            return GestureDetector(
+                                onTap: () {
+                                  _currentImage = itemIndex;
+                                  print(_currentImage);
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 2.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: _currentImage == itemIndex
+                                            ? MyTheme.accent_color
+                                            : Color.fromRGBO(112, 112, 112, .3),
+                                        width: _currentImage == itemIndex ? 2 : 1),
+                                    //shape: BoxShape.rectangle,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child:
+                                    // Image.asset(_productImageList[index].product_images)
+                                    FadeInImage.assetNetwork(
+                                      placeholder: 'assets/placeholder.png',
+                                      image: AppConfig.BASE_PATH +
+                                          _productImageList[index].replaceAll(",",""),
+                                      fit: BoxFit.contain,
+                                    )
+                                    ,
+                                  ),
+                                )
                             );
-                            },
-                          );
-                    }).toList(),
-                    )
-             /* Container(
-                  child: FadeInImage.assetNetwork(
-                placeholder: 'assets/placeholder_rectangle.png',
-                image: AppConfig.BASE_PATH + _productImageList[_currentImage],
-                fit: BoxFit.scaleDown,
-              )),*/
-            ),
+                          }),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       );
