@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webixes/my_theme.dart';
-import 'package:webixes/screens/sub_category_list1.dart';
+import 'package:webixes/screens/product_details.dart';
 import 'package:webixes/ui_sections/drawer.dart';
 import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
@@ -11,8 +11,8 @@ import 'package:webixes/app_config.dart';
 import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SubCategoryList extends StatefulWidget {
-  SubCategoryList(
+class SubCategoryList3 extends StatefulWidget {
+  SubCategoryList3(
       {Key key,
         this.parent_category_id = 0,
         this.parent_category_name = "",
@@ -26,10 +26,10 @@ class SubCategoryList extends StatefulWidget {
   final bool is_top_category;
 
   @override
-  _SubCategoryListState createState() => _SubCategoryListState();
+  _SubCategoryList3State createState() => _SubCategoryList3State();
 }
 
-class _SubCategoryListState extends State<SubCategoryList> {
+class _SubCategoryList3State extends State<SubCategoryList3> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -243,18 +243,13 @@ class _SubCategoryListState extends State<SubCategoryList> {
   InkWell buildCategoryItemCard(categoryResponse, index) {
     return categoryResponse.categories[index].banner!=null?InkWell(
       onTap: (){
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) {
-              return SubCategoryList1(
-                parent_category_id:
-                categoryResponse.categories[index].id,
-                parent_category_name:
-                categoryResponse.categories[index].name,
-              );
-            }));
+        print("tap");
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return ProductDetails(id: categoryResponse.categories[index].id,);
+        }));
       },
       child: Container(
-        height: 90,
+       // height: 90,
         child: Card(
           shape: RoundedRectangleBorder(
             side: new BorderSide(color: MyTheme.yellow, width: 1.0),
@@ -262,7 +257,8 @@ class _SubCategoryListState extends State<SubCategoryList> {
           ),
           elevation: 0.0,
           child: Row(
-              mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+              mainAxisAlignment: MainAxisAlignment.start, 
+              children: <Widget>[
             categoryResponse.categories[index].banner[0]!=null? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -273,8 +269,7 @@ class _SubCategoryListState extends State<SubCategoryList> {
                           left: Radius.circular(0), right: Radius.zero),
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/placeholder.png',
-                        image: AppConfig.BASE_PATH +
-                            categoryResponse.categories[index].banner[0].toString(),
+                        image: AppConfig.BASE_PATH + categoryResponse.categories[index].banner[0].toString(),
                         fit: BoxFit.cover,
                       ))),
             ):Padding(
@@ -292,28 +287,20 @@ class _SubCategoryListState extends State<SubCategoryList> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Container(
-                 // height: 80,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
-                        child: Text(
-                          categoryResponse.categories[index].name,
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: MyTheme.font_grey,
-                              fontSize: 14,
-                              height: 1.6,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-
-                    ],
+                  //height: 80,color: Colors.black,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
+                    child: Text(
+                      categoryResponse.categories[index].name,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                          color: MyTheme.font_grey,
+                          fontSize: 14,
+                          height: 1.6,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
