@@ -37,27 +37,22 @@ class _CategoryListState extends State<CategoryList> {
 
   TextEditingController txtQuery=TextEditingController();
   List<Category> _searchResult = [];
-
   List<Category> _categoryDetails=[];
+  Future api;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // In initState()
-    getCategoryDetails();
+    api=getCategoryDetails();
   }
-  getCategoryDetails() async {
+ Future getCategoryDetails() async {
     var future = widget.is_top_category
         ? CategoryRepository().getTopCategories()
         : CategoryRepository().getCategories(parent_id: widget.parent_category_id);
-   //  var categoryResponse = await CategoryRepository().getCategories();
-    future.then((value){
-
+    return future.then((value){
       _categoryDetails.addAll(value.categories);
-      //_searchResult.addAll(value.categories);
-
-      print("_searchResult-->$_searchResult");
-      print("_categoryDetails-->$_categoryDetails");
+      _searchResult.addAll(value.categories);
       return _categoryDetails;
     });
   }
@@ -168,21 +163,179 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   buildCategoryList() {
-  /*  var future = widget.is_top_category
-        ? CategoryRepository().getTopCategories()
-        : CategoryRepository()
-            .getCategories(parent_id: widget.parent_category_id);*/
     return FutureBuilder(
-        future: getCategoryDetails(),
+        future: api,
         builder: (context, snapshot) {
-         /* if (snapshot.hasError) {
-            //snapshot.hasError
-            print("category list error");
-            print(snapshot.error.toString());
-            return Container(
-              height: 10,
-            );
-          } else*/ if (snapshot.hasData) {
+
+          if(snapshot.data==null){
+            return Center(child: CircularProgressIndicator(),);
+          }else{
+            return _searchResult.isNotEmpty?
+            // ? _searchResult.length != 0
+            GridView.builder(
+              itemCount: _searchResult.length,
+
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 3 / 3,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 10
+              ),
+              padding: EdgeInsets.all(16),
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return SubCategoryList(
+                            parent_category_id:
+                            _searchResult[index].id,
+                            parent_category_name:
+                            _searchResult[index].name,
+                          );
+                        }));
+                  },
+                  child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: new BorderSide(color: MyTheme.yellow, width: 0.5),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      elevation: 0.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10,),
+                          _searchResult[index].banner!=null?Row(
+                              mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                            Container(
+                                width: 80,
+                                height: 80,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/placeholder.png',
+                                  image: AppConfig.BASE_PATH + _searchResult[index].banner[0],
+                                  fit: BoxFit.cover,
+                                )),
+
+                          ]):Row(
+                              mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                            Container(
+                                width: 80,
+                                height: 80,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/placeholder.png',
+                                  image: AppConfig.BASE_PATH + _searchResult[index].banner[0],
+                                  fit: BoxFit.cover,
+                                )),
+
+                          ]),
+                          Container(
+                            height: 60,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                  child: Text(
+                                    _searchResult[index].name,
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        color: MyTheme.font_grey,
+                                        fontSize: 13,
+                                        height: 1.6,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                                /* Padding(
+                  padding: EdgeInsets.fromLTRB(32, 8, 8, 4),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (categoryResponse
+                                  .categories[index].number_of_children >
+                              0) {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CategoryList(
+                                parent_category_id:
+                                    categoryResponse.categories[index].id,
+                                parent_category_name:
+                                    categoryResponse.categories[index].name,
+                              );
+                            }));
+                          } else {
+                            ToastComponent.showDialog(
+                                AppLocalizations.of(context).category_list_screen_no_subcategories, context,
+                                gravity: Toast.CENTER,
+                                duration: Toast.LENGTH_LONG);
+                          }
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).category_list_screen_view_subcategories,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: categoryResponse
+                                          .categories[index].number_of_children >
+                                      0
+                                  ? MyTheme.medium_grey
+                                  : MyTheme.light_grey,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      Text(
+                        " | ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: MyTheme.medium_grey,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CategoryProducts(
+                              category_id: categoryResponse.categories[index].id,
+                              category_name:
+                                  categoryResponse.categories[index].name,
+                            );
+                          }));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).category_list_screen_view_products,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: MyTheme.medium_grey,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),*/
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                );
+
+              },
+            ):Text("No category found");
+          }
+
+          if (snapshot.hasData) {
             print("category list f");
             print(snapshot.data);
             var categoryResponse = snapshot.data;
@@ -412,33 +565,31 @@ class _CategoryListState extends State<CategoryList> {
 
         });
   }
-  onSearchTextChanged(String text) async {
-    print(text);
-    List<Category> results = [];
-  //  _searchResult.clear();
-    if (text.isEmpty||text=="") {
-      results = _categoryDetails;
-      //_searchResult=_categoryDetails;
-     // setState(() {});
-     // return;
-    }else {
-      results= _categoryDetails
-          .where((user) =>
-          user.name.toLowerCase().contains(text.toLowerCase()))
-          .toList();
-      /*_categoryDetails.forEach((userDetail) {
-        if (userDetail.name.toLowerCase().contains(text.toLowerCase()) ||
-            userDetail.name.toUpperCase().contains(text.toUpperCase()))
-          _searchResult.add(userDetail);
-      });*/
 
-     // setState(() {});
+  void onSearchTextChanged(String query) {
+    List<Category> dummySearchList = [];
+    dummySearchList.addAll(_categoryDetails);
+    if(query.isNotEmpty) {
+      List<Category> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if(item.name.toLowerCase().contains(query)||item.name.toUpperCase().contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        _searchResult.clear();
+        _searchResult.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        _searchResult.clear();
+        _searchResult.addAll(_categoryDetails);
+      });
     }
-    setState(() {
-     _searchResult=results;
-     print(_searchResult);
-    });
+
   }
+
 
   InkWell buildCategoryItemCard(categoryResponse, index) {
     return _searchResult.isNotEmpty||_searchResult.length!=0?

@@ -162,7 +162,12 @@ class _SubCategoryList3State extends State<SubCategoryList3> {
           } else if (snapshot.hasData) {
             //snapshot.hasData
             var categoryResponse = snapshot.data;
-            if(categoryResponse.length!=0){
+            print(categoryResponse.categories.length);
+         //  return categoryResponse.categories.=null?Text("no"):Text("yes");
+            if(categoryResponse.categories.length==0){
+
+              return Center(child: Text("No Category found"),);
+            }else{
               return SingleChildScrollView(
                 child: ListView.builder(
                   itemCount: categoryResponse.categories.length,
@@ -178,8 +183,6 @@ class _SubCategoryList3State extends State<SubCategoryList3> {
                   },
                 ),
               );
-            }else{
-              return Center(child: Text("No Category found"),);
             }
 
           } else {

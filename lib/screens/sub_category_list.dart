@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webixes/data_model/category_response.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/screens/sub_category_list1.dart';
 import 'package:webixes/ui_sections/drawer.dart';
@@ -31,7 +32,26 @@ class SubCategoryList extends StatefulWidget {
 
 class _SubCategoryListState extends State<SubCategoryList> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  List<Category> _searchResult = [];
+  List<Category> _categoryDetails=[];
+  Future api;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // In initState()
+    api=getCategoryDetails();
+  }
+  Future getCategoryDetails() async {
+    var future = widget.is_top_category
+        ? CategoryRepository().getTopCategories()
+        : CategoryRepository().getCategories(parent_id: widget.parent_category_id);
+    return future.then((value){
+      _categoryDetails.addAll(value.categories);
+      _searchResult.addAll(value.categories);
+      return _categoryDetails;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -68,21 +88,20 @@ class _SubCategoryListState extends State<SubCategoryList> {
   }
   buildHomeSearchBox(BuildContext context) {
     return TextField(
-      onTap: () {
-
-      },
       autofocus: false,
+      onChanged: (value) => onSearchTextChanged(value),
+      // onChanged: onSearchTextChanged(value),
       decoration: InputDecoration(
           hintText: AppLocalizations.of(context).home_screen_search,
           hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.dark_grey),
           enabledBorder: OutlineInputBorder(
-             borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
+            borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
             borderRadius: const BorderRadius.all(
               const Radius.circular(5.0),
             ),
           ),
           focusedBorder: OutlineInputBorder(
-             borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
+            borderSide: BorderSide(color: MyTheme.dark_grey, width: 1.0),
             borderRadius: const BorderRadius.all(
               const Radius.circular(5.0),
             ),
@@ -145,12 +164,8 @@ class _SubCategoryListState extends State<SubCategoryList> {
   }
 
   buildCategoryList() {
-    var future = widget.is_top_category
-        ? CategoryRepository().getTopCategories()
-        : CategoryRepository()
-        .getCategories(parent_id: widget.parent_category_id);
     return FutureBuilder(
-        future: future,
+        future: api,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             //snapshot.hasError
@@ -162,9 +177,9 @@ class _SubCategoryListState extends State<SubCategoryList> {
           } else if (snapshot.hasData) {
             //snapshot.hasData
             var categoryResponse = snapshot.data;
-            return SingleChildScrollView(
+            return  _searchResult.isNotEmpty?SingleChildScrollView(
               child: ListView.builder(
-                itemCount: categoryResponse.categories.length,
+                itemCount: _searchResult.length,
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -172,11 +187,11 @@ class _SubCategoryListState extends State<SubCategoryList> {
                   return Padding(
                     padding: const EdgeInsets.only(
                         top: 4.0, bottom: 4.0, left: 16.0, right: 16.0),
-                    child: buildCategoryItemCard(categoryResponse, index),
+                    child: buildCategoryItemCard(_searchResult, index),
                   );
                 },
               ),
-            );
+            ):Center(child: Text("No category found"),);
           } else {
             return SingleChildScrollView(
               child: ListView.builder(
@@ -239,17 +254,39 @@ class _SubCategoryListState extends State<SubCategoryList> {
           }
         });
   }
+  void onSearchTextChanged(String query) {
+    List<Category> dummySearchList = [];
+    dummySearchList.addAll(_categoryDetails);
+    if(query.isNotEmpty) {
+      List<Category> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if(item.name.toLowerCase().contains(query)||item.name.toUpperCase().contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        _searchResult.clear();
+        _searchResult.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        _searchResult.clear();
+        _searchResult.addAll(_categoryDetails);
+      });
+    }
 
+  }
   InkWell buildCategoryItemCard(categoryResponse, index) {
-    return categoryResponse.categories[index].banner!=null?InkWell(
+    return categoryResponse[index].banner!=null?InkWell(
       onTap: (){
         Navigator.push(context,
             MaterialPageRoute(builder: (context) {
               return SubCategoryList1(
                 parent_category_id:
-                categoryResponse.categories[index].id,
+                categoryResponse[index].id,
                 parent_category_name:
-                categoryResponse.categories[index].name,
+                categoryResponse[index].name,
               );
             }));
       },
@@ -263,7 +300,7 @@ class _SubCategoryListState extends State<SubCategoryList> {
           elevation: 0.0,
           child: Row(
               mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-            categoryResponse.categories[index].banner[0]!=null? Padding(
+            categoryResponse[index].banner[0]!=null? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                   width: 80,
@@ -274,7 +311,7 @@ class _SubCategoryListState extends State<SubCategoryList> {
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/placeholder.png',
                         image: AppConfig.BASE_PATH +
-                            categoryResponse.categories[index].banner[0].toString(),
+                            categoryResponse[index].banner[0].toString(),
                         fit: BoxFit.cover,
                       ))),
             ):Padding(
@@ -301,7 +338,7 @@ class _SubCategoryListState extends State<SubCategoryList> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
                         child: Text(
-                          categoryResponse.categories[index].name,
+                          categoryResponse[index].name,
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,

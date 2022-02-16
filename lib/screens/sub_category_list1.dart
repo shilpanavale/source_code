@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webixes/data_model/category_response.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/screens/sub_category_list2.dart';
 import 'package:webixes/ui_sections/drawer.dart';
@@ -31,7 +32,26 @@ class SubCategoryList1 extends StatefulWidget {
 
 class _SubCategoryList1State extends State<SubCategoryList1> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  List<Category> _searchResult = [];
+  List<Category> _categoryDetails=[];
+  Future api;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // In initState()
+    api=getCategoryDetails();
+  }
+  Future getCategoryDetails() async {
+    var future = widget.is_top_category
+        ? CategoryRepository().getTopCategories()
+        : CategoryRepository().getCategories(parent_id: widget.parent_category_id);
+    return future.then((value){
+      _categoryDetails.addAll(value.categories);
+      _searchResult.addAll(value.categories);
+      return _categoryDetails;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -68,21 +88,20 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
   }
   buildHomeSearchBox(BuildContext context) {
     return TextField(
-      onTap: () {
-
-      },
       autofocus: false,
+      onChanged: (value) => onSearchTextChanged(value),
+      // onChanged: onSearchTextChanged(value),
       decoration: InputDecoration(
           hintText: AppLocalizations.of(context).home_screen_search,
           hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.dark_grey),
           enabledBorder: OutlineInputBorder(
-             borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
+            borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
             borderRadius: const BorderRadius.all(
               const Radius.circular(5.0),
             ),
           ),
           focusedBorder: OutlineInputBorder(
-             borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 1.0),
+            borderSide: BorderSide(color: MyTheme.dark_grey, width: 1.0),
             borderRadius: const BorderRadius.all(
               const Radius.circular(5.0),
             ),
@@ -128,7 +147,7 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
         ),
       ),
       title: Text('Sub Category',
-       // getAppBarTitle(),
+        // getAppBarTitle(),
         style: TextStyle(fontSize: 16, color: MyTheme.black),
       ),
       elevation: 5.0,
@@ -145,12 +164,8 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
   }
 
   buildCategoryList() {
-    var future = widget.is_top_category
-        ? CategoryRepository().getTopCategories()
-        : CategoryRepository()
-        .getCategories(parent_id: widget.parent_category_id);
     return FutureBuilder(
-        future: future,
+        future: api,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             //snapshot.hasError
@@ -162,9 +177,9 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
           } else if (snapshot.hasData) {
             //snapshot.hasData
             var categoryResponse = snapshot.data;
-            return SingleChildScrollView(
+            return  _searchResult.isNotEmpty?SingleChildScrollView(
               child: ListView.builder(
-                itemCount: categoryResponse.categories.length,
+                itemCount: _searchResult.length,
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -172,11 +187,11 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
                   return Padding(
                     padding: const EdgeInsets.only(
                         top: 4.0, bottom: 4.0, left: 16.0, right: 16.0),
-                    child: buildCategoryItemCard(categoryResponse, index),
+                    child: buildCategoryItemCard(_searchResult, index),
                   );
                 },
               ),
-            );
+            ):Center(child: Text("No category found"),);
           } else {
             return SingleChildScrollView(
               child: ListView.builder(
@@ -239,23 +254,44 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
           }
         });
   }
+  void onSearchTextChanged(String query) {
+    List<Category> dummySearchList = [];
+    dummySearchList.addAll(_categoryDetails);
+    if(query.isNotEmpty) {
+      List<Category> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if(item.name.toLowerCase().contains(query)||item.name.toUpperCase().contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        _searchResult.clear();
+        _searchResult.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        _searchResult.clear();
+        _searchResult.addAll(_categoryDetails);
+      });
+    }
 
+  }
   InkWell buildCategoryItemCard(categoryResponse, index) {
-    return categoryResponse.categories[index].banner!=null?InkWell(
+    return categoryResponse[index].banner!=null?InkWell(
       onTap: (){
-        print("tap");
         Navigator.push(context,
             MaterialPageRoute(builder: (context) {
               return SubCategoryList2(
                 parent_category_id:
-                categoryResponse.categories[index].id,
+                categoryResponse[index].id,
                 parent_category_name:
-                categoryResponse.categories[index].name,
+                categoryResponse[index].name,
               );
             }));
       },
       child: Container(
-       // height: 90,
+        height: 90,
         child: Card(
           shape: RoundedRectangleBorder(
             side: new BorderSide(color: MyTheme.yellow, width: 1.0),
@@ -263,9 +299,8 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
           ),
           elevation: 0.0,
           child: Row(
-              mainAxisAlignment: MainAxisAlignment.start, 
-              children: <Widget>[
-            categoryResponse.categories[index].banner[0]!=null? Padding(
+              mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+            categoryResponse[index].banner[0]!=null? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                   width: 80,
@@ -275,7 +310,8 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
                           left: Radius.circular(0), right: Radius.zero),
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/placeholder.png',
-                        image: AppConfig.BASE_PATH + categoryResponse.categories[index].banner[0].toString(),
+                        image: AppConfig.BASE_PATH +
+                            categoryResponse[index].banner[0].toString(),
                         fit: BoxFit.cover,
                       ))),
             ):Padding(
@@ -293,20 +329,28 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Container(
-                  //height: 80,color: Colors.black,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
-                    child: Text(
-                      categoryResponse.categories[index].name,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(
-                          color: MyTheme.font_grey,
-                          fontSize: 14,
-                          height: 1.6,
-                          fontWeight: FontWeight.w600),
-                    ),
+                  // height: 80,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16, 8, 8, 0),
+                        child: Text(
+                          categoryResponse[index].name,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: MyTheme.font_grey,
+                              fontSize: 14,
+                              height: 1.6,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+
+                    ],
                   ),
                 ),
               ),
