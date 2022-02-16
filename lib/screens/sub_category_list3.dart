@@ -162,21 +162,26 @@ class _SubCategoryList3State extends State<SubCategoryList3> {
           } else if (snapshot.hasData) {
             //snapshot.hasData
             var categoryResponse = snapshot.data;
-            return SingleChildScrollView(
-              child: ListView.builder(
-                itemCount: categoryResponse.categories.length,
-                scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 4.0, bottom: 4.0, left: 16.0, right: 16.0),
-                    child: buildCategoryItemCard(categoryResponse, index),
-                  );
-                },
-              ),
-            );
+            if(categoryResponse.length!=0){
+              return SingleChildScrollView(
+                child: ListView.builder(
+                  itemCount: categoryResponse.categories.length,
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          top: 4.0, bottom: 4.0, left: 16.0, right: 16.0),
+                      child: buildCategoryItemCard(categoryResponse, index),
+                    );
+                  },
+                ),
+              );
+            }else{
+              return Center(child: Text("No Category found"),);
+            }
+
           } else {
             return SingleChildScrollView(
               child: ListView.builder(

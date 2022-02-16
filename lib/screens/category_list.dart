@@ -53,10 +53,12 @@ class _CategoryListState extends State<CategoryList> {
    //  var categoryResponse = await CategoryRepository().getCategories();
     future.then((value){
 
-      _searchResult.addAll(value.categories);
       _categoryDetails.addAll(value.categories);
+      //_searchResult.addAll(value.categories);
+
       print("_searchResult-->$_searchResult");
       print("_categoryDetails-->$_categoryDetails");
+      return _categoryDetails;
     });
   }
   @override
@@ -166,29 +168,30 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   buildCategoryList() {
-    var future = widget.is_top_category
+  /*  var future = widget.is_top_category
         ? CategoryRepository().getTopCategories()
         : CategoryRepository()
-            .getCategories(parent_id: widget.parent_category_id);
+            .getCategories(parent_id: widget.parent_category_id);*/
     return FutureBuilder(
-        future: future,
+        future: getCategoryDetails(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
+         /* if (snapshot.hasError) {
             //snapshot.hasError
             print("category list error");
             print(snapshot.error.toString());
             return Container(
               height: 10,
             );
-          } else if (snapshot.hasData) {
+          } else*/ if (snapshot.hasData) {
+            print("category list f");
+            print(snapshot.data);
             var categoryResponse = snapshot.data;
+           return _searchResult.length != 0?
+               // ? _searchResult.length != 0
+                 GridView.builder(
+                 itemCount: _searchResult.length,
 
-            return  GridView.builder(
-              // 2
-              //addAutomaticKeepAlives: true,
-              itemCount: _searchResult.length,
-             // controller: _scrollController,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 3 / 3,
                   crossAxisSpacing: 5,
@@ -198,9 +201,7 @@ class _CategoryListState extends State<CategoryList> {
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                // 3
-                return _searchResult.isNotEmpty||_searchResult.length!=0?
-                InkWell(
+               return InkWell(
                   onTap: (){
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
@@ -337,149 +338,7 @@ class _CategoryListState extends State<CategoryList> {
                     ],
                   ),
                 ),*/
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                  ),
-                ): InkWell(
-                  onTap: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                          return SubCategoryList(
-                            parent_category_id:
-                            categoryResponse[index].id,
-                            parent_category_name:
-                            categoryResponse[index].name,
-                          );
-                        }));
-                  },
-                  child: Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: new BorderSide(color: MyTheme.yellow, width: 0.5),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      elevation: 0.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 10,),
-                          categoryResponse[index].banner!=null?Row(
-                              mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                            Container(
-                                width: 80,
-                                height: 80,
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/placeholder.png',
-                                  image: AppConfig.BASE_PATH + categoryResponse[index].banner[0],
-                                  fit: BoxFit.cover,
-                                )),
 
-                          ]):Row(
-                              mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                            Container(
-                                width: 80,
-                                height: 80,
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/placeholder.png',
-                                  image: AppConfig.BASE_PATH + categoryResponse[index].banner[0],
-                                  fit: BoxFit.cover,
-                                )),
-
-                          ]),
-                          Container(
-                            height: 60,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                                  child: Text(
-                                    categoryResponse[index].name,
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        color: MyTheme.font_grey,
-                                        fontSize: 13,
-                                        height: 1.6,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                                /* Padding(
-                  padding: EdgeInsets.fromLTRB(32, 8, 8, 4),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          if (categoryResponse
-                                  .categories[index].number_of_children >
-                              0) {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return CategoryList(
-                                parent_category_id:
-                                    categoryResponse.categories[index].id,
-                                parent_category_name:
-                                    categoryResponse.categories[index].name,
-                              );
-                            }));
-                          } else {
-                            ToastComponent.showDialog(
-                                AppLocalizations.of(context).category_list_screen_no_subcategories, context,
-                                gravity: Toast.CENTER,
-                                duration: Toast.LENGTH_LONG);
-                          }
-                        },
-                        child: Text(
-                          AppLocalizations.of(context).category_list_screen_view_subcategories,
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: categoryResponse
-                                          .categories[index].number_of_children >
-                                      0
-                                  ? MyTheme.medium_grey
-                                  : MyTheme.light_grey,
-                              decoration: TextDecoration.underline),
-                        ),
-                      ),
-                      Text(
-                        " | ",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: MyTheme.medium_grey,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return CategoryProducts(
-                              category_id: categoryResponse.categories[index].id,
-                              category_name:
-                                  categoryResponse.categories[index].name,
-                            );
-                          }));
-                        },
-                        child: Text(
-                          AppLocalizations.of(context).category_list_screen_view_products,
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: MyTheme.medium_grey,
-                              decoration: TextDecoration.underline),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),*/
                               ],
                             ),
                           ),
@@ -487,11 +346,9 @@ class _CategoryListState extends State<CategoryList> {
                       )
                   ),
                 );
-               /* return _searchResult.isNotEmpty||_searchResult.length!=0?
-                buildCategoryItemCard(_searchResult, index):
-                Container();*/
+
               },
-            );
+            ):Text("No data");
           } else {
             return SingleChildScrollView(
               child: ListView.builder(
