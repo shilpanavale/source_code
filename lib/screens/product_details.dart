@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 import 'package:webixes/screens/cart.dart';
 import 'package:webixes/screens/common_webview_screen.dart';
@@ -2147,10 +2148,61 @@ class _ProductDetailsState extends State<ProductDetails> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              InkWell(
+              RotatedBox(
+                quarterTurns: 1,
+                child: InteractiveViewer(
+                  panEnabled:true,
+                  boundaryMargin: EdgeInsets.zero,
+                  minScale: 1,
+                  maxScale: 4,
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+             /* Container(
+                //height: DeviceSize.height(context),
+                //margin: EdgeInsets.only(left: 15, right: 15),
+               // width: DeviceSize.width(context),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: PhotoViewGallery.builder(
+                  //customSize: Size.fromHeight(50),
+                  reverse: false,
+                  itemCount: _productImageList.length,
+                  builder: (context, index) {
+                    return PhotoViewGalleryPageOptions(
+                      imageProvider:NetworkImage(AppConfig.BASE_PATH + _productImageList[_currentImage]),
+                      minScale: PhotoViewComputedScale.contained * 0.8,
+                      maxScale: PhotoViewComputedScale.covered * 2,
+                    );
+                  },
+                  scrollPhysics: BouncingScrollPhysics(),
+                  backgroundDecoration: BoxDecoration(
+                    borderRadius:BorderRadius.all(Radius.circular(20)),
+                    color: Theme.of(context).canvasColor,
+                  ),
+                  enableRotation:true,
+                  loadingBuilder: (context, event) => Center(
+                    child: Container(
+                      width: 30.0,
+                      height: 30.0,
+                      child: CircularProgressIndicator(
+                        backgroundColor:Colors.orange,
+                        value: event == null
+                            ? 0
+                            : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+                      ),
+                    ),
+                  ),
+                ),
+              ),*/
+           /*   InkWell(
                 onTap: () {
-                  /*openPhotoDialog(context,
-                      AppConfig.BASE_PATH + _productImageList[_currentImage]);*/
+                  *//*openPhotoDialog(context,
+                      AppConfig.BASE_PATH + _productImageList[_currentImage]);*//*
                 },
                 child: Container(
                   height: 170,
@@ -2217,14 +2269,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                               );
                         }).toList(),
                         )
-                 /* Container(
+                 *//* Container(
                       child: FadeInImage.assetNetwork(
                     placeholder: 'assets/placeholder_rectangle.png',
                     image: AppConfig.BASE_PATH + _productImageList[_currentImage],
                     fit: BoxFit.scaleDown,
-                  )),*/
+                  )),*//*
                 ),
-              ),
+              ),*/
             ],
           ),
           Row(
