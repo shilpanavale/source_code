@@ -2148,21 +2148,18 @@ class _ProductDetailsState extends State<ProductDetails> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              RotatedBox(
-                quarterTurns: 1,
-                child: InteractiveViewer(
-                  panEnabled:true,
-                  boundaryMargin: EdgeInsets.zero,
-                  minScale: 1,
-                  maxScale: 4,
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    color: Colors.blue,
-                  ),
-                ),
-              ),
-             /* Container(
+              Container(
+                height: 180,
+                  child: Stack(
+                    children: [
+                      PhotoView(
+                        enableRotation: true,
+                        heroAttributes: const PhotoViewHeroAttributes(tag: "someTag"),
+                        imageProvider: NetworkImage(AppConfig.BASE_PATH + _productImageList[_currentImage]),
+                      ),
+                    ],
+                  )),
+          /*    Container(
                 //height: DeviceSize.height(context),
                 //margin: EdgeInsets.only(left: 15, right: 15),
                // width: DeviceSize.width(context),
