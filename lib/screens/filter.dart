@@ -1,6 +1,7 @@
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/screens/gmap.dart';
 import 'package:webixes/screens/map_location.dart';
+import 'package:webixes/screens/near_by_shops.dart';
 import 'package:webixes/screens/seller_details.dart';
 import 'package:flutter/material.dart';
 import 'package:webixes/ui_elements/product_card.dart';
@@ -775,8 +776,7 @@ class _FilterState extends State<Filter> {
           }),
       InkWell(
         onTap: () {
-          var add="";
-
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>NearByShops()));
           //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
         },
         child: Padding(
@@ -1104,7 +1104,7 @@ class _FilterState extends State<Filter> {
                   //MediaQuery.of(context).viewPadding.top is the statusbar height, with a notch phone it results almost 50, without a notch it shows 24.0.For safety we have checked if its greater than thirty
                   ),
               GridView.builder(
-                // 2
+
                 //addAutomaticKeepAlives: true,
                 itemCount: _productList.length,
                 controller: _scrollController,

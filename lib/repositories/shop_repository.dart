@@ -11,7 +11,8 @@ class ShopRepository {
   Future<ShopResponse> getShops({name = "", page = 1}) async {
     Uri url =
         Uri.parse("${AppConfig.BASE_URL}/shops" + "?page=${page}&name=${name}");
-
+   // Uri.parse("${AppConfig.BASE_URL}/shops" + "?page=${page}&lat=18.520430&lag=73.856743");
+    print(url);
     final response = await http.get(url,
       headers: {
         "App-Language": app_language.$,
@@ -19,6 +20,17 @@ class ShopRepository {
     return shopResponseFromJson(response.body);
   }
 
+  Future<ShopResponse> getNearByShops({lat = 0,lag=0}) async {
+    Uri url =
+    //Uri.parse("${AppConfig.BASE_URL}/shops" + "?page=${page}&name=${name}");
+    Uri.parse("${AppConfig.BASE_URL}/shops?lat=${lat}&lag=${lag}");
+    print("Near by shop url-->$url");
+    final response = await http.get(url,
+      headers: {
+        "App-Language": app_language.$,
+      },);
+    return shopResponseFromJson(response.body);
+  }
   Future<ShopDetailsResponse> getShopInfo({@required id = 0}) async {
 
     Uri url =  Uri.parse("${AppConfig.BASE_URL}/shops/details/${id}");

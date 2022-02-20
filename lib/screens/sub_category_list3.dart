@@ -166,7 +166,7 @@ class _SubCategoryList3State extends State<SubCategoryList3> {
          //  return categoryResponse.categories.=null?Text("no"):Text("yes");
             if(categoryResponse.categories.length==0){
 
-              return Center(child: Text("No Category found"),);
+              return Center(child: Text("No Product found"),);
             }else{
               return SingleChildScrollView(
                 child: ListView.builder(

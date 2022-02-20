@@ -101,4 +101,19 @@ class CartRepository {
     print("${AppConfig.BASE_URL}/cart-summary/${user_id.$}");
     return cartSummaryResponseFromJson(response.body);
   }
+  //https://citydeal.co.in/city/api/v2/user/notification/10
+  Future getNotifications() async {
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/user/notification/${user_id.$}");
+    final response = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${access_token.$}",
+        "App-Language": app_language.$
+      },
+    );
+
+    print("Notif url-->$url");
+    return response.body;
+  }
 }

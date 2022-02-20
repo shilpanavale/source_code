@@ -321,7 +321,8 @@ class _CartState extends State<Cart> {
                     child: buildCartSellerList(),)
               ),
               SizedBox(height: 30,),
-              Padding(
+              !_isInitial && _shopList.length == 0?Container()
+              :Padding(
                 padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                 child: Container(
                   height: 108,
@@ -403,7 +404,7 @@ class _CartState extends State<Cart> {
                   ),
                 ),
               ),
-              Padding(
+              !_isInitial && _shopList.length == 0?Container():Padding(
                 padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                 child: Container(
                   height: 55,

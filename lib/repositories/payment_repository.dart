@@ -35,6 +35,7 @@ class PaymentRepository {
         {"user_id": "${user_id.$}", "payment_type": "${payment_method}"});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/order/store");
+    print("create url-->$url");
     final response = await http.post(url,
         headers: {
           "Content-Type": "application/json",
@@ -43,9 +44,10 @@ class PaymentRepository {
         },
         body: post_body);
     print(post_body);
+    print("create Order body-->${post_body}");
 print(access_token.$);
     print(app_language.$);
-
+print("create Order Res-->${response.body}");
     print(response.body.toString());
     return orderCreateResponseFromJson(response.body);
   }

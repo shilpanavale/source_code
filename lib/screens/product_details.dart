@@ -46,6 +46,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool _showCopied = false;
   String _appbarPriceString = ". . .";
   int _currentImage = 0;
+  int indexGlobal=0;
   ScrollController _mainScrollController = ScrollController();
   ScrollController _colorScrollController = ScrollController();
   ScrollController _variantScrollController = ScrollController();
@@ -87,7 +88,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     _variantScrollController.dispose();
     _imageScrollController.dispose();
     _colorScrollController.dispose();
-    controller.dispose();
+    //controller.dispose();
     super.dispose();
   }
 
@@ -2143,138 +2144,52 @@ class _ProductDetailsState extends State<ProductDetails> {
         ],
       );
     } else {
+      indexGlobal=_currentImage;
       return Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                height: 180,
-                  child: Stack(
-                    children: [
-                      PhotoView(
-                        enableRotation: true,
-                        heroAttributes: const PhotoViewHeroAttributes(tag: "someTag"),
-                        imageProvider: NetworkImage(AppConfig.BASE_PATH + _productImageList[_currentImage]),
-                      ),
-                    ],
-                  )),
-          /*    Container(
-                //height: DeviceSize.height(context),
-                //margin: EdgeInsets.only(left: 15, right: 15),
-               // width: DeviceSize.width(context),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: PhotoViewGallery.builder(
-                  //customSize: Size.fromHeight(50),
-                  reverse: false,
-                  itemCount: _productImageList.length,
-                  builder: (context, index) {
-                    return PhotoViewGalleryPageOptions(
-                      imageProvider:NetworkImage(AppConfig.BASE_PATH + _productImageList[_currentImage]),
-                      minScale: PhotoViewComputedScale.contained * 0.8,
-                      maxScale: PhotoViewComputedScale.covered * 2,
-                    );
-                  },
-                  scrollPhysics: BouncingScrollPhysics(),
-                  backgroundDecoration: BoxDecoration(
-                    borderRadius:BorderRadius.all(Radius.circular(20)),
-                    color: Theme.of(context).canvasColor,
-                  ),
-                  enableRotation:true,
-                  loadingBuilder: (context, event) => Center(
-                    child: Container(
-                      width: 30.0,
-                      height: 30.0,
-                      child: CircularProgressIndicator(
-                        backgroundColor:Colors.orange,
-                        value: event == null
-                            ? 0
-                            : event.cumulativeBytesLoaded / event.expectedTotalBytes,
-                      ),
-                    ),
-                  ),
-                ),
-              ),*/
-           /*   InkWell(
-                onTap: () {
-                  *//*openPhotoDialog(context,
-                      AppConfig.BASE_PATH + _productImageList[_currentImage]);*//*
-                },
+
+          Container(
+            //height: DeviceSize.height(context),
+            //margin: EdgeInsets.only(left: 15, right: 15),
+            // width: DeviceSize.width(context),
+            // width: MediaQuery.of(context).size.width,
+            height: 200,
+            //width: 100,
+            child: PhotoViewGallery.builder(
+              //customSize: Size.fromHeight(50),
+              reverse: false,
+              itemCount: _productImageList.length,
+              builder: (context,indexGlobal) {
+                //itemIndex;
+                indexGlobal=_currentImage;
+               print("indexGlobal-->$indexGlobal");
+                print("_currentImage-->$_currentImage");
+
+                return PhotoViewGalleryPageOptions(
+                  imageProvider:NetworkImage(AppConfig.BASE_PATH + _productImageList[indexGlobal]),
+                  minScale: PhotoViewComputedScale.contained * 0.8,
+                  maxScale: PhotoViewComputedScale.covered * 2,
+                );
+              },
+              scrollPhysics: BouncingScrollPhysics(),
+              backgroundDecoration: BoxDecoration(
+                borderRadius:BorderRadius.all(Radius.circular(20)),
+                color: Theme.of(context).canvasColor,
+              ),
+             // enableRotation:true,
+              loadingBuilder: (context, event) => Center(
                 child: Container(
-                  height: 170,
-                  //width: MediaQuery.of(context).size.width - 96,
-                  child:CarouselSlider(
-                        options: CarouselOptions(
-                       // height: 170,
-                        //aspectRatio: 2.07,
-                        viewportFraction: 1,
-                        initialPage: 0,
-                        //enableInfiniteScroll: true,
-                        reverse: false,
-                        //autoPlay: true,
-                        //autoPlayInterval: Duration(seconds: 5),
-                        //autoPlayAnimationDuration: Duration(milliseconds: 1000),
-                        autoPlayCurve: Curves.easeInCubic,
-                        enlargeCenterPage: true,
-                        scrollDirection: Axis.horizontal,
-                        ),
-                        items: _productImageList.map((i) {
-                        return _productImageList!=null?
-                        Builder(
-                        builder: (BuildContext context) {
-                        return Stack(
-                        children: <Widget>[
-                        Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        child:PhotoView(
-                          controller: controller,
-                          enablePanAlways: true,
-                          backgroundDecoration:BoxDecoration(color: Colors.transparent) ,
-                          enableRotation: true,
-                          heroAttributes: const PhotoViewHeroAttributes(tag: "someTag"),
-                          imageProvider: NetworkImage(AppConfig.BASE_PATH + _productImageList[_currentImage]),
-                        ),
-
-
-
-
-
-
-                        )),
-                        ],
-                        );
-                        },
-                        )
-                            : Builder(
-                                builder: (BuildContext context) {
-                                return Stack(
-                                children: <Widget>[
-                                Container(
-                                width: double.infinity,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                child: Image.asset("assets/placeholder.png")
-                                )),
-                                ],
-                                );
-                                },
-                              );
-                        }).toList(),
-                        )
-                 *//* Container(
-                      child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/placeholder_rectangle.png',
-                    image: AppConfig.BASE_PATH + _productImageList[_currentImage],
-                    fit: BoxFit.scaleDown,
-                  )),*//*
+                  width: 30.0,
+                  height: 30.0,
+                  child: CircularProgressIndicator(
+                    backgroundColor:Colors.orange,
+                    value: event == null
+                        ? 0
+                        : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+                  ),
                 ),
-              ),*/
-            ],
+              ),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -2298,6 +2213,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             return GestureDetector(
                                 onTap: () {
                                   _currentImage = itemIndex;
+                                  indexGlobal=_currentImage;
                                   print(_currentImage);
                                   setState(() {});
                                 },

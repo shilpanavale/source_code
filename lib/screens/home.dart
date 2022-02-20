@@ -2,6 +2,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:webixes/data_model/category_response.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/repositories/wishlist_repository.dart';
+import 'package:webixes/screens/brand_products.dart';
 import 'package:webixes/screens/filter.dart';
 import 'package:webixes/screens/flash_deal_list.dart';
 import 'package:webixes/screens/product_details.dart';
@@ -1218,7 +1219,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
           child: GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return TopSellingProducts();
+                return Filter(
+                  selected_filter: "brands",
+                );
               }));
             },
             child: Container(
@@ -1248,7 +1251,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                   Padding(
                       padding: const EdgeInsets.only(top: 0),
                       child: Text(
-                          AppLocalizations.of(context).home_screen_top_sellers,
+                          'Search by Brand',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Color.fromRGBO(132, 132, 132, 1),

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:webixes/repositories/cart_repository.dart';
 
 import '../my_theme.dart';
 
@@ -17,6 +20,22 @@ class _NotificationPageState extends State<NotificationPage> {
   List myProducts = List.generate(100, (index) {
     return {"id": index, "title": "Suha just uploaded new product!", "price": "12 min ago"};
   });
+  List<dynamic> notificationList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchData();
+  }
+  fetchData() async {
+    var notificationResponse = await CartRepository().getNotifications();
+    var jsonD=json.decode(notificationResponse);
+    notificationList=jsonD["data"];
+    print("notificationList-->$notificationList");
+    print(notificationList.length);
+
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +57,15 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                 ),
                Expanded(child:  ListView.builder(
-                 itemCount: myProducts.length,
+                 shrinkWrap: true,
+                 itemCount: notificationList.length,
                  physics: NeverScrollableScrollPhysics(),
                  itemBuilder: (BuildContext ctx, index) {
                    // Display the list item
-                   return Card(
+                   print(notificationList[index].length);
+
+                   return notificationList[index].isEmpty ?
+                   Center(child: Text("No notifications found!"),):Card(
                      shape: RoundedRectangleBorder(
                        side: new BorderSide(color: MyTheme.white, width: 1.0),
                        borderRadius: BorderRadius.circular(10.0),

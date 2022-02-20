@@ -87,6 +87,7 @@ class _RazorpayScreenState extends State<RazorpayScreen> {
     _webViewController
         .evaluateJavascript("document.body.innerText")
         .then((data) {
+          print("data-->$data");
       var decodedJSON = jsonDecode(data);
       Map<String, dynamic> responseJSON = jsonDecode(decodedJSON);
       //print(responseJSON.toString());
