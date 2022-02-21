@@ -5,7 +5,7 @@ var this_year = DateTime.now().year.toString();
 
 class AppConfig {
   static String copyright_text = "@ ActiveItZone " + this_year; //this shows in the splash screen
-  static String app_name = "Active eCommerce"; //this shows in the splash screen
+  static String app_name = "CityDeal"; //this shows in the splash screen
   static String purchase_code = "1790c51b-4ddd-4d28-92cf-486e692a7509"; //enter your purchase code for the app from codecanyon
 
   //configure this
