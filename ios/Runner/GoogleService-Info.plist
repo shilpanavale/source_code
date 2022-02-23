@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>146419602963-vpj1sokb920gauf0upja22o5rpjntclp.apps.googleusercontent.com</string>
+	<string>453211514275-4anprrkngmh77ibu5m9ndt8gfthaig7a.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.146419602963-vpj1sokb920gauf0upja22o5rpjntclp</string>
+	<string>com.googleusercontent.apps.453211514275-4anprrkngmh77ibu5m9ndt8gfthaig7a</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDUv9hh9ev0ikvFpx-gJZ6kkIOR0TIKsu8</string>
+	<string>AIzaSyAeHq8ixPGpU4rV5DbA9hD62oEKQ1REJZ4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>146419602963</string>
+	<string>453211514275</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.citydeal</string>
+	<string>com.citydeal.webixes</string>
 	<key>PROJECT_ID</key>
-	<string>citydeal-1db9b</string>
+	<string>citydeal-1987f</string>
 	<key>STORAGE_BUCKET</key>
-	<string>citydeal-1db9b.appspot.com</string>
+	<string>citydeal-1987f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:146419602963:ios:37f73cff4a902e89e751e6</string>
+	<string>1:453211514275:ios:d18f8d07d4bf082552e616</string>
 </dict>
 </plist>

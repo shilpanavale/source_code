@@ -1,62 +1,33 @@
 {
   "project_info": {
-    "project_number": "146419602963",
-    "project_id": "citydeal-1db9b",
-    "storage_bucket": "citydeal-1db9b.appspot.com"
+    "project_number": "453211514275",
+    "project_id": "citydeal-1987f",
+    "storage_bucket": "citydeal-1987f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:146419602963:android:bc9036d210923c4be751e6",
-        "android_client_info": {
-          "package_name": "com.city.deal"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "146419602963-ahk58i03sjq9a8k6pgcf2a0j5rdd00iu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBavOtLuu9Qd6BCJhOI-8y5NCTviJuX3AI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "146419602963-ahk58i03sjq9a8k6pgcf2a0j5rdd00iu.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:146419602963:android:992682b830f1a78ee751e6",
+        "mobilesdk_app_id": "1:453211514275:android:c86ef1f2e26c991c52e616",
         "android_client_info": {
           "package_name": "com.citydeal.webixes"
         }
       },
       "oauth_client": [
         {
-          "client_id": "146419602963-ahk58i03sjq9a8k6pgcf2a0j5rdd00iu.apps.googleusercontent.com",
+          "client_id": "453211514275-jcd2t57rlnisa0pc320c5dcb5t9cv26f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBavOtLuu9Qd6BCJhOI-8y5NCTviJuX3AI"
+          "current_key": "AIzaSyCprGbtVH3iX-9he96tTRBiZvzO7SyQVQ4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "146419602963-ahk58i03sjq9a8k6pgcf2a0j5rdd00iu.apps.googleusercontent.com",
+              "client_id": "453211514275-jcd2t57rlnisa0pc320c5dcb5t9cv26f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
