@@ -39,6 +39,7 @@ class ShopRepository {
           headers: {
             "App-Language": app_language.$,
           },);
+    print("shop details-->${response.body}");
     return shopDetailsResponseFromJson(response.body);
   }
 

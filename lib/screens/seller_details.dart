@@ -707,7 +707,7 @@ class _SellerDetailsState extends State<SellerDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              _shopDetails.logo!=null ?Container(
                 width: 150,
                 height: 70,
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 2.0),
@@ -722,6 +722,22 @@ class _SellerDetailsState extends State<SellerDetails> {
                       placeholder: 'assets/placeholder.png',
                       image: AppConfig.BASE_PATH + _shopDetails.logo.replaceAll(",",""),
                       fit: BoxFit.cover,
+                    )),
+              ):Container(
+                width: 150,
+                height: 70,
+                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Color.fromRGBO(112, 112, 112, .3), width: .5),
+                  //shape: BoxShape.rectangle,
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child:Image.asset(
+                     'assets/placeholder.png',
+                      //image: AppConfig.BASE_PATH + _shopDetails.logo.replaceAll(",",""),
+                      fit: BoxFit.contain,
                     )),
               ),
               Padding(

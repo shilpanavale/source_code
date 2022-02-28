@@ -18,7 +18,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class Profile extends StatefulWidget {
-  Profile({Key key, this.show_back_button = false}) : super(key: key);
+  Profile({Key key, this.show_back_button = true}) : super(key: key);
 
   bool show_back_button;
 
@@ -96,6 +96,7 @@ class _ProfileState extends State<Profile> {
         await ProfileRepository().getProfileCountersResponse();
 
     _cartCounter = profileCountersResponse.cart_item_count;
+    print("_cartCounter-->$_cartCounter");
     _wishlistCounter = profileCountersResponse.wishlist_item_count;
     _orderCounter = profileCountersResponse.order_count;
 

@@ -84,181 +84,183 @@ class _PasswordForgetState extends State<PasswordForget> {
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         backgroundColor: MyTheme.soft_accent_color,
-        body: Column(
-         // alignment: Alignment.center,
-          children: [
-            SizedBox(height: 100,),
-            Container(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0, bottom: 15),
-                    child: Container(
-                      width: 200,
-                      height: 75,
-                      child: Image.asset('citydeal/img/core-img/logo-small.png'),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  /*Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Text(
-                      "Forget Password ?",
-                      style: TextStyle(
-                          color: MyTheme.accent_color,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),*/
-                  Container(
-                    width: _screen_width * (3 / 4),
+        body: SingleChildScrollView(
+          child: Column(
+           // alignment: Alignment.center,
+            children: [
+              SizedBox(height: 100,),
+              Container(
+                width: double.infinity,
+                child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4.0),
-                          child: Text(
-                            _send_code_by == "email" ? AppLocalizations.of(context).login_screen_email : AppLocalizations.of(context).login_screen_phone,
-                            style: TextStyle(
-                                color: MyTheme.black,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        if (_send_code_by == "email")
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50.0, bottom: 15),
+                      child: Container(
+                        width: 200,
+                        height: 75,
+                        child: Image.asset('citydeal/img/core-img/logo-small.png'),
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    /*Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Text(
+                        "Forget Password ?",
+                        style: TextStyle(
+                            color: MyTheme.accent_color,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),*/
+                    Container(
+                      width: _screen_width * (3 / 4),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  // height: 50,
-                                  child: CustomWidgets.textField('Enter mobile number/email',isNumber: false,textController: _emailController,icon:Icons.person_outline),
-                                ),
-                              /*  otp_addon_installed.$
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _send_code_by = "phone";
-                                          });
-                                        },
-                                        child: Text(
-                                          AppLocalizations.of(context).password_forget_screen_send_code_via_phone,
-                                          style: TextStyle(
-                                              color: MyTheme.accent_color,
-                                              fontStyle: FontStyle.italic,
-                                              decoration:
-                                                  TextDecoration.underline),
-                                        ),
-                                      )
-                                    : Container()*/
-                              ],
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: Text(
+                              _send_code_by == "email" ? AppLocalizations.of(context).login_screen_email : AppLocalizations.of(context).login_screen_phone,
+                              style: TextStyle(
+                                  color: MyTheme.black,
+                                  fontWeight: FontWeight.w600),
                             ),
-                          )
-                        else
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                               /* Container(
-                                  height: 36,
-                                  child: CustomInternationalPhoneNumberInput(
-                                    onInputChanged: (PhoneNumber number) {
-                                      print(number.phoneNumber);
+                          ),
+                          if (_send_code_by == "email")
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    // height: 50,
+                                    child: CustomWidgets.textField('Enter mobile number/email',isNumber: false,textController: _emailController,icon:Icons.person_outline),
+                                  ),
+                                /*  otp_addon_installed.$
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _send_code_by = "phone";
+                                            });
+                                          },
+                                          child: Text(
+                                            AppLocalizations.of(context).password_forget_screen_send_code_via_phone,
+                                            style: TextStyle(
+                                                color: MyTheme.accent_color,
+                                                fontStyle: FontStyle.italic,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
+                                        )
+                                      : Container()*/
+                                ],
+                              ),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                 /* Container(
+                                    height: 36,
+                                    child: CustomInternationalPhoneNumberInput(
+                                      onInputChanged: (PhoneNumber number) {
+                                        print(number.phoneNumber);
+                                        setState(() {
+                                          _phone = number.phoneNumber;
+                                        });
+                                      },
+                                      onInputValidated: (bool value) {
+                                        print(value);
+                                      },
+                                      selectorConfig: SelectorConfig(
+                                        selectorType: PhoneInputSelectorType.DIALOG,
+                                      ),
+                                      ignoreBlank: false,
+                                      autoValidateMode: AutovalidateMode.disabled,
+                                      selectorTextStyle:
+                                          TextStyle(color: MyTheme.font_grey),
+                                      initialValue: phoneCode,
+                                      textFieldController: _phoneNumberController,
+                                      formatInput: true,
+                                      keyboardType: TextInputType.numberWithOptions(
+                                          signed: true, decimal: true),
+                                      inputDecoration: InputDecorations
+                                          .buildInputDecoration_phone(
+                                              hint_text: "01710 333 558"),
+                                      onSaved: (PhoneNumber number) {
+                                        print('On Saved: $number');
+                                      },
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
                                       setState(() {
-                                        _phone = number.phoneNumber;
+                                        _send_code_by = "email";
                                       });
                                     },
-                                    onInputValidated: (bool value) {
-                                      print(value);
-                                    },
-                                    selectorConfig: SelectorConfig(
-                                      selectorType: PhoneInputSelectorType.DIALOG,
+                                    child: Text(
+                                      AppLocalizations.of(context).password_forget_screen_send_code_via_email,
+                                      style: TextStyle(
+                                          color: MyTheme.accent_color,
+                                          fontStyle: FontStyle.italic,
+                                          decoration: TextDecoration.underline),
                                     ),
-                                    ignoreBlank: false,
-                                    autoValidateMode: AutovalidateMode.disabled,
-                                    selectorTextStyle:
-                                        TextStyle(color: MyTheme.font_grey),
-                                    initialValue: phoneCode,
-                                    textFieldController: _phoneNumberController,
-                                    formatInput: true,
-                                    keyboardType: TextInputType.numberWithOptions(
-                                        signed: true, decimal: true),
-                                    inputDecoration: InputDecorations
-                                        .buildInputDecoration_phone(
-                                            hint_text: "01710 333 558"),
-                                    onSaved: (PhoneNumber number) {
-                                      print('On Saved: $number');
-                                    },
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _send_code_by = "email";
-                                    });
-                                  },
-                                  child: Text(
-                                    AppLocalizations.of(context).password_forget_screen_send_code_via_email,
-                                    style: TextStyle(
-                                        color: MyTheme.accent_color,
-                                        fontStyle: FontStyle.italic,
-                                        decoration: TextDecoration.underline),
-                                  ),
-                                )*/
-                              ],
+                                  )*/
+                                ],
+                              ),
                             ),
-                          ),
 
-                        Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
-                            child: CustomButton(
-                              onPressed: (){
-                                onPressSendCode();
-                              },
-                              title:  'Reset Password',
-                              bgColor:  MyTheme.yellow,
-                            )
-                        ),
-                       /* Padding(
-                          padding: const EdgeInsets.only(top: 40.0),
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: MyTheme.textfield_grey, width: 1),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(12.0))),
-                            child: FlatButton(
-                              minWidth: MediaQuery.of(context).size.width,
-                              //height: 50,
-                              color: MyTheme.accent_color,
-                              shape: RoundedRectangleBorder(
+                          Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: CustomButton(
+                                onPressed: (){
+                                  onPressSendCode();
+                                },
+                                title:  'Reset Password',
+                                bgColor:  MyTheme.yellow,
+                              )
+                          ),
+                         /* Padding(
+                            padding: const EdgeInsets.only(top: 40.0),
+                            child: Container(
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: MyTheme.textfield_grey, width: 1),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(12.0))),
-                              child: Text(
-                                "Send Code",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
+                              child: FlatButton(
+                                minWidth: MediaQuery.of(context).size.width,
+                                //height: 50,
+                                color: MyTheme.accent_color,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(12.0))),
+                                child: Text(
+                                  "Send Code",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  onPressSendCode();
+                                },
                               ),
-                              onPressed: () {
-                                onPressSendCode();
-                              },
                             ),
-                          ),
-                        ),*/
-                      ],
-                    ),
-                  )
-                ],
-              )),
-            )
-          ],
+                          ),*/
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+              )
+            ],
+          ),
         ),
       ),
     );

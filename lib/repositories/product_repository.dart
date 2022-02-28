@@ -136,11 +136,18 @@ class ProductRepository {
 
   Future<VariantResponse> getVariantWiseInfo(
       {int id = 0, color = '', variants = ''}) async {
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/products/variant/price?id=${id.toString()}&color=${color}&variants=${variants}");
+    String encodeVariant="$variants";
+    var parsedData = Uri.encodeComponent(encodeVariant);
+    print("parsedData-->$parsedData");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/products/variant/price?id=${id.toString()}&color=${color}&variants=${parsedData}");
+
+
     final response = await http.get(url, headers: {
       "App-Language": app_language.$,
     });
+
    print("url-->$url");
+   print("varient res-->${response.body}");
     return variantResponseFromJson(response.body);
   }
 }

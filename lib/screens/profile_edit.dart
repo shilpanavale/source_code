@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:webixes/helpers/file_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:webixes/screens/profile.dart';
 import 'package:webixes/screens/shipping_info.dart';
 import 'package:webixes/ui_elements/custom_button.dart';
 import 'package:webixes/ui_elements/custome_dialog.dart';
@@ -208,7 +209,10 @@ class _ProfileEditState extends State<ProfileEdit> {
       leading: Builder(
         builder: (context) => IconButton(
           icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+           // Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+          },
         ),
       ),
       title: Text(
@@ -293,7 +297,35 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                 ],
               ),
-              commonTextField(_phoneController,TextInputType.number,false),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Container(
+                  height: 45,
+                  child: Center(
+                    child: TextField(
+                     // readOnly: readOnly,
+                      controller: _phoneController,
+                      autocorrect: true,
+                      maxLength:10 ,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: "Phone",
+                        hintStyle: TextStyle(color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              //commonTextField(_phoneController,TextInputType.number,false),
               SizedBox(height: 5,),
               Row(
                 children: [

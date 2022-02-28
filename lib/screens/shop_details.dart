@@ -1,4 +1,5 @@
 import 'package:webixes/screens/main.dart';
+import 'package:webixes/screens/seller_details.dart';
 import 'package:webixes/screens/seller_products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class _ShopDetailsState extends State<ShopDetails> {
   fetchProductDetails() async {
     var shopDetailsResponse = await ShopRepository().getShopInfobySlug(shopName: widget.shopName);
     _shopDetails=shopDetailsResponse.data;
+
     print("_shopDetails--->$_shopDetails");
     //print('ss:' + shopDetailsResponse.toString());
    /* if (shopDetailsResponse.data.length > 0) {
@@ -135,60 +137,79 @@ class _ShopDetailsState extends State<ShopDetails> {
            // bottomNavigationBar: buildBottomAppBar(context),
             body:Container(
               height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
+              child: _shopDetails!=null? ListView.builder(
                 itemCount: 1,
                   shrinkWrap:true,itemBuilder: (context,index){
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 150,
-                   // height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                        color: MyTheme.soft_accent_color1,
-                      ),
-                      child: Container(
-                        color: MyTheme.soft_accent_color1,
-                        width: double.infinity,
-                       // height: 60.0,
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height:100 ,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: FadeInImage.assetNetwork(
-                                        placeholder: 'assets/placeholder.png',
-                                        image: AppConfig.BASE_PATH + _shopDetails[index].logo.replaceAll(",",""),
-                                        fit: BoxFit.cover,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  _shopDetails[index].name,
-                                  style: TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.black,
+                return InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return SellerDetails(id: _shopDetails[index].id,);
+                    }));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 150,
+                     // height: MediaQuery.of(context).size.height,
+                        decoration: BoxDecoration(
+                          color: MyTheme.soft_accent_color1,
+                        ),
+                        child: Container(
+                          color: MyTheme.soft_accent_color1,
+                          width: double.infinity,
+                         // height: 60.0,
+                          child: Center(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                _shopDetails[index].logo!=null? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height:100 ,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: FadeInImage.assetNetwork(
+                                          placeholder: 'assets/placeholder.png',
+                                          image: AppConfig.BASE_PATH + _shopDetails[index].logo,
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                ):Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height:100 ,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.asset(
+                                         'assets/placeholder.png',
+                                         // image: AppConfig.BASE_PATH + _shopDetails[index].logo,
+                                          fit: BoxFit.cover,
+                                        )),
                                   ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _shopDetails[index].name,
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
 
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      )
+                        )
+                    ),
                   ),
                 );
-              }),
+              }):Center(child: CircularProgressIndicator(),),
             )
            /* CustomScrollView(
               controller: _mainScrollController,

@@ -52,14 +52,14 @@ class _ShopSquareCardState extends State<ShopSquareCard> {
               ),
               Expanded(
                 child: Container(
-                  height: 40,
+                  //height: 40,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                     child: Text(
                       widget.name,
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 3,
                       style: TextStyle(
                           color: MyTheme.font_grey,
                           fontSize: 14,

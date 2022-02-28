@@ -1,6 +1,7 @@
 import 'package:webixes/app_config.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/repositories/category_repository.dart';
+import 'package:webixes/repositories/profile_repository.dart';
 import 'package:webixes/screens/cart.dart';
 import 'package:webixes/screens/category_list.dart';
 import 'package:webixes/screens/home.dart';
@@ -31,6 +32,8 @@ class _MainState extends State<Main> {
 
 
   int _currentIndex = 0;
+  int _cartCounter = 0;
+  String _cartCounterString = "...";
   var _children = [
     Home(),
 
@@ -52,11 +55,24 @@ class _MainState extends State<Main> {
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.initState();
+    fetchCounters();
    // fetchFeaturedCategories();
 
 
   }
+  fetchCounters() async {
+    var profileCountersResponse =
+    await ProfileRepository().getProfileCountersResponse();
 
+    _cartCounter = profileCountersResponse.cart_item_count;
+    print("_cartCounter-->$_cartCounter");
+
+
+    //_cartCounterString = counterText(_cartCounter.toString(), default_length: 2);
+
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,17 +129,70 @@ class _MainState extends State<Main> {
                         height: 20,
                       ),
                       label: AppLocalizations.of(context).main_screen_bottom_navigation_home),
-                  BottomNavigationBarItem(
-                      icon: Image.asset(
-                        "assets/cart.png",
-                        color: _currentIndex == 2
-                            ? Theme.of(context).accentColor
-                            : Color.fromRGBO(153, 153, 153, 1),
-                        height: 20,
-                      ),
-                      label: "CART"
+                  /*new BottomNavigationBarItem(
+                    label: 'CART',
+                    icon: new Stack(
 
-                   ),
+                        children: <Widget>[
+                          Image.asset(
+                            "assets/cart.png",
+                            color: _currentIndex == 2
+                                ? Theme.of(context).accentColor
+                                : Color.fromRGBO(153, 153, 153, 1),
+                            height: 20,
+                          ),
+                          Container(
+
+                            width: 25,height: 25,// This is your Badge
+                            child: Center(child: Text('41', style: TextStyle(fontSize:12,color: Colors.white))),
+                            //padding: EdgeInsets.all(8),
+                            constraints: BoxConstraints(minHeight: 27, minWidth: 15),
+                            decoration: BoxDecoration( // This controls the shadow
+                              boxShadow: [
+                                BoxShadow(
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    color: Colors.black.withAlpha(50))
+                              ],
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.blue,  // This would be color of the Badge
+                            ),
+                          )
+                        ]
+                    ),
+                  ),*/
+                  BottomNavigationBarItem(
+                    icon: new Stack(
+                      children: <Widget>[
+                        new Icon(Icons.shopping_cart_outlined,color: _currentIndex == 2
+                            ? Theme.of(context).accentColor
+                            : Color.fromRGBO(153, 153, 153, 1),),
+                        new Positioned(
+                          right: 0,
+                          child: new Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 12,
+                              minHeight: 12,
+                            ),
+                            child: new Text(
+                              _cartCounter.toString(),
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    label: 'CART',
+                  ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.circle,

@@ -30,6 +30,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.resumeCamera();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

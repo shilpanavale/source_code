@@ -168,7 +168,9 @@ print(post_body);
       {country_id = 0, name = ""}) async {
     Uri url = Uri.parse(
         "${AppConfig.BASE_URL}/states-by-country/${country_id}?name=${name}");
+    print("state-->$url");
     final response = await http.get(url);
+    print("state res-->${response.body}");
     return myStateResponseFromJson(response.body);
   }
 
