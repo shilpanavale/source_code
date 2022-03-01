@@ -27,10 +27,10 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   ScrollController _mainScrollController = ScrollController();
 
-  TextEditingController _nameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
-  TextEditingController _fullNameController = TextEditingController(text: user_name.$!=""||user_name.$!=null?"${user_name.$}":"Username");
-  TextEditingController _phoneController = TextEditingController(text: 'phone');
-  TextEditingController _emailController = TextEditingController(text: user_email.$!=""||user_email.$!=null?"${user_email.$}":"Email ");
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _shippingAddress=TextEditingController();
   TextEditingController _deliveryAddress=TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -46,6 +46,9 @@ class _ProfileEditState extends State<ProfileEdit> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _nameController.text=user_name.$;
+    _fullNameController.text=user_name.$;
+    _emailController.text=user_name.$;
     fetchShippingAddressList();
 
   }
@@ -123,7 +126,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       var count = 0;
       _shippingAddressList.forEach((address) {
 
-        shippingAddress=address.address+" "+address.postal_code+" "+address.country_name+" "+address.state_name+" "+address.city_name;
+        _shippingAddress.text=address.address+" "+address.postal_code+" "+address.country_name+" "+address.state_name+" "+address.city_name;
 
       });
 
@@ -169,7 +172,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       return;
     }
-    DialogBuilder(context).showLoadingIndicator('');
+   // DialogBuilder(context).showLoadingIndicator('');
     var profileUpdateResponse =
         await ProfileRepository().getProfileUpdateResponse(
       name,
@@ -257,7 +260,31 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                 ],
               ),
-              commonTextField(_nameController,TextInputType.name,false),
+              //commonTextField(_nameController,TextInputType.name,false),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Container(
+                  height: 45,
+                  child: Center(
+                    child: TextField(
+                      controller: _nameController,
+                      autocorrect: true,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 5,),
               Row(
                 children: [
@@ -277,7 +304,31 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                 ],
               ),
-              commonTextField(_fullNameController,TextInputType.name,false),
+
+              Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+    child: Container(
+    height: 45,
+    child: Center(
+    child: TextField(
+    controller: _fullNameController,
+    autocorrect: true,
+    keyboardType: TextInputType.name,
+    decoration: InputDecoration(
+    hintStyle: TextStyle(color: Colors.black),
+    enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+    borderSide: BorderSide(color: Colors.grey),
+    ),
+    focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    borderSide: BorderSide(color: Colors.grey),
+    ),
+    ),
+    ),
+    ),
+    ),
+    ),
               SizedBox(height: 5,),
               Row(
                 children: [
@@ -345,7 +396,31 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                 ],
               ),
-              commonTextField(_emailController,TextInputType.emailAddress,true),
+              //commonTextField(_emailController,TextInputType.emailAddress,true),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Container(
+                  height: 45,
+                  child: Center(
+                    child: TextField(
+                      controller: _emailController,
+                      autocorrect: true,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 5,),
               Row(
                 children: [
@@ -375,14 +450,35 @@ class _ProfileEditState extends State<ProfileEdit> {
                   );
                   setState(() {
                     print("mapp-->$map");
-                    shippingAddress= map["address"];
+                    _shippingAddress.text= map["address"];
                     print("add-${map["address"]}");
                   });
                 },
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
-                      child: commonTextField(_shippingAddress,TextInputType.streetAddress,true)),
+                      child:  Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          height: 45,
+                          child: Center(
+                            child: TextField(
+                              controller: _shippingAddress,
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )),
                 ),
               ),
 
@@ -425,7 +521,30 @@ class _ProfileEditState extends State<ProfileEdit> {
                 },
                   child: Container(
                       color: Colors.transparent,
-                      child: IgnorePointer(child: commonTextField(_shippingAddress,TextInputType.streetAddress,true)))),
+                      child: IgnorePointer(child:
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          height: 45,
+                          child: Center(
+                            child: TextField(
+                              controller: _shippingAddress,
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                      ))),
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0,top: 8.0),
@@ -531,34 +650,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       );
     }
   }
-  Widget commonTextField(TextEditingController controller,TextInputType textInputType,bool readOnly){
-     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Container(
-        height: 45,
-        child: Center(
-          child: TextField(
-            readOnly: readOnly,
-            controller: controller,
-            autocorrect: true,
-            keyboardType: textInputType,
-            decoration: InputDecoration(
-              hintText: shippingAddress,
-              hintStyle: TextStyle(color: Colors.black),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 
 
   buildTopSection() {

@@ -1,13 +1,7 @@
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:webixes/data_model/category_response.dart';
 import 'package:webixes/my_theme.dart';
-import 'package:webixes/repositories/wishlist_repository.dart';
-import 'package:webixes/screens/brand_products.dart';
 import 'package:webixes/screens/filter.dart';
-import 'package:webixes/screens/flash_deal_list.dart';
 import 'package:webixes/screens/product_details.dart';
-import 'package:webixes/screens/todays_deal_products.dart';
-import 'package:webixes/screens/top_selling_products.dart';
 import 'package:webixes/screens/category_products.dart';
 import 'package:webixes/screens/category_list.dart';
 import 'package:webixes/ui_elements/custom_button.dart';
@@ -16,15 +10,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:webixes/repositories/sliders_repository.dart';
-import 'package:webixes/repositories/category_repository.dart';
 import 'package:webixes/repositories/product_repository.dart';
 import 'package:webixes/app_config.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:webixes/custom/toast_component.dart';
-import 'package:toast/toast.dart';
 import 'package:webixes/ui_elements/product_card.dart';
 import 'package:webixes/helpers/shimmer_helper.dart';
 import 'package:webixes/helpers/shared_value_helper.dart';
@@ -523,17 +512,26 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                                 ),
                                                               ),
                                                             ),
-                                                            Padding(
-                                                              padding: const EdgeInsets
-                                                                  .all(
-                                                                  8.0),
-                                                              child: Text(
-                                                                'VIEW ALL',
-                                                                // AppLocalizations.of(context).home_screen_featured_categories,
-                                                                style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    color: MyTheme
-                                                                        .dark_grey
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                                  return Filter(
+                                                                    selected_filter: "product",
+                                                                  );
+                                                                }));
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                    .all(
+                                                                    8.0),
+                                                                child: Text(
+                                                                  'VIEW ALL',
+                                                                  // AppLocalizations.of(context).home_screen_featured_categories,
+                                                                  style: TextStyle(
+                                                                      fontSize: 15,
+                                                                      color: MyTheme
+                                                                          .dark_grey
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),

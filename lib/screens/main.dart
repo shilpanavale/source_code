@@ -46,6 +46,7 @@ class _MainState extends State<Main> {
   void onTapped(int i) {
     setState(() {
       _currentIndex = i;
+      fetchCounters();
     });
   }
 
@@ -76,6 +77,7 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    //fetchCounters();
     return WillPopScope(
       onWillPop: () async {
         return widget.go_back;

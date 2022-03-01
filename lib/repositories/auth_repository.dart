@@ -132,6 +132,8 @@ class AuthRepository {
     Uri url = Uri.parse(
       "${AppConfig.BASE_URL}/auth/password/forget_request",
     );
+    print("forgot URL-->$url");
+    print("forgot post_body-->$post_body");
     final response = await http.post(url,
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +141,7 @@ class AuthRepository {
         },
         body: post_body);
 
-    //print(response.body.toString());
+    print(response.body.toString());
 
     return passwordForgetResponseFromJson(response.body);
   }

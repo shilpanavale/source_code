@@ -1,3 +1,4 @@
+import 'package:webixes/app_config.dart';
 import 'package:webixes/helpers/shared_value_helper.dart';
 import 'package:webixes/repositories/auth_repository.dart';
 
@@ -36,6 +37,8 @@ class AuthHelper {
       user_phone.save();
       avatar_original.$ = "";
       avatar_original.save();
+      AppConfig.featuredCategoryList=[];
+
   }
 
 

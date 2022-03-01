@@ -864,7 +864,8 @@ class _ProfileState extends State<Profile> {
     return AppBar(
       backgroundColor: Colors.white,
       centerTitle: true,
-      leading: GestureDetector(
+      automaticallyImplyLeading: false,
+      /*leading: GestureDetector(
         child: Builder(
                 builder: (context) => IconButton(
                   icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
@@ -872,9 +873,9 @@ class _ProfileState extends State<Profile> {
                 ),
               )
 
-      ),
+      ),*/
       title: Text(
-        '',
+        'Profile',
         style: TextStyle(fontSize: 16, color: MyTheme.accent_color),
       ),
       elevation: 5.0,

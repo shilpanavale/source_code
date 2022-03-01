@@ -34,5 +34,6 @@ class AppConfig {
   static const String BASE_PATH = "https://citydeal.s3.us-east-2.amazonaws.com/";
   static  var featuredCategoryList = [];
   static String address="";
+  static int _cartCounter = 0;
 }
 
