@@ -931,9 +931,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
        physics: NeverScrollableScrollPhysics(),
        shrinkWrap: true,
        itemBuilder: (context, index) {
+         print(_featuredProductList[index].thumbnail_image);
          return ProductCard(
              id: _featuredProductList[index].id,
-             image: _featuredProductList[index].thumbnail_image.replaceAll(",", ""),
+             image:_featuredProductList[index].thumbnail_image!=null? _featuredProductList[index].thumbnail_image.replaceAll(",", ""):null,
              name: _featuredProductList[index].name,
              main_price: _featuredProductList[index].main_price,
              stroked_price: _featuredProductList[index].stroked_price,

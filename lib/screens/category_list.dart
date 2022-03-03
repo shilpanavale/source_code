@@ -208,14 +208,14 @@ class _CategoryListState extends State<CategoryList> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(height: 10,),
-                          _searchResult[index].banner!=null?Row(
+                          _searchResult[index].icon!=null?Row(
                               mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                             Container(
                                 width: 80,
                                 height: 80,
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/placeholder.png',
-                                  image: AppConfig.BASE_PATH + _searchResult[index].banner[0],
+                                  image: AppConfig.BASE_PATH + _searchResult[index].icon,
                                   fit: BoxFit.cover,
                                 )),
 
@@ -224,9 +224,8 @@ class _CategoryListState extends State<CategoryList> {
                             Container(
                                 width: 80,
                                 height: 80,
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/placeholder.png',
-                                  image: AppConfig.BASE_PATH + _searchResult[index].banner[0],
+                                child: Image.asset(
+                                   'assets/placeholder.png',
                                   fit: BoxFit.cover,
                                 )),
 

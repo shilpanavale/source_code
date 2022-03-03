@@ -48,7 +48,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     super.initState();
     _nameController.text=user_name.$;
     _fullNameController.text=user_name.$;
-    _emailController.text=user_name.$;
+    _emailController.text=user_email.$;
     fetchShippingAddressList();
 
   }

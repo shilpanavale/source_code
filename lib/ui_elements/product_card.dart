@@ -83,6 +83,7 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     print((MediaQuery.of(context).size.width - 48 ) / 2);
+    print("pp card-->${widget.image}");
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
