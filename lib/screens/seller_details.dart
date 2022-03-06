@@ -33,13 +33,16 @@ class _SellerDetailsState extends State<SellerDetails> {
   List<dynamic> _carouselImageList = [];
   bool _carouselInit = false;
   var _shopDetails = null;
-
+  List<dynamic> _searchNewArrival = [];
   List<dynamic> _newArrivalProducts = [];
   bool _newArrivalProductInit = false;
   List<dynamic> _topProducts = [];
+  List<dynamic> _searchTop = [];
   bool _topProductInit = false;
   List<dynamic> _featuredProducts = [];
+  List<dynamic> _searchFeatured = [];
   bool _featuredProductInit = false;
+
 
   @override
   void initState() {
@@ -81,6 +84,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     var newArrivalProductResponse =
         await ShopRepository().getNewFromThisSellerProducts(id: widget.id);
     _newArrivalProducts.addAll(newArrivalProductResponse.products);
+    _searchNewArrival.addAll(newArrivalProductResponse.products);
     _newArrivalProductInit = true;
 
     setState(() {});
@@ -90,6 +94,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     var topProductResponse =
         await ShopRepository().getTopFromThisSellerProducts(id: widget.id);
     _topProducts.addAll(topProductResponse.products);
+    _searchTop.addAll(topProductResponse.products);
     _topProductInit = true;
   }
 
@@ -97,6 +102,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     var featuredProductResponse =
         await ShopRepository().getfeaturedFromThisSellerProducts(id: widget.id);
     _featuredProducts.addAll(featuredProductResponse.products);
+    _searchFeatured.addAll(featuredProductResponse.products);
     _featuredProductInit = true;
   }
 
@@ -238,7 +244,32 @@ class _SellerDetailsState extends State<SellerDetails> {
           child: ShimmerHelper()
               .buildProductGridShimmer(scontroller: _scrollController));
     } else if (_featuredProducts.length > 0) {
-      return GridView.builder(
+      return _searchFeatured.isNotEmpty?GridView.builder(
+        // 2
+        //addAutomaticKeepAlives: true,
+        itemCount: _searchFeatured.length,
+        //controller: _scrollController,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.618),
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          // 3
+          return ProductCard(
+            id: _searchFeatured[index].id,
+            image: _searchFeatured[index].thumbnail_image.replaceAll(",",""),
+            name: _searchFeatured[index].name,
+            main_price: _searchFeatured[index].main_price,
+            stroked_price: _searchFeatured[index].stroked_price,
+            has_discount: _searchFeatured[index].has_discount,
+            wishListButton: false,
+          );
+        },
+      ):
+        GridView.builder(
         // 2
         //addAutomaticKeepAlives: true,
         itemCount: _featuredProducts.length,
@@ -409,7 +440,27 @@ class _SellerDetailsState extends State<SellerDetails> {
         ],
       );
     } else if (_topProducts.length > 0) {
-      return SingleChildScrollView(
+      return _searchTop.isNotEmpty?SingleChildScrollView(
+        child: ListView.builder(
+          itemCount: _searchTop.length,
+          scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 3.0),
+              child: ListProductCard(
+                  id: _searchTop[index].id,
+                  image:_searchTop[index].thumbnail_image!=null? _searchTop[index].thumbnail_image.replaceAll(",",""):null,
+                  name: _searchTop[index].name,
+                  main_price: _searchTop[index].main_price,
+                  stroked_price: _searchTop[index].stroked_price,
+                  has_discount: _searchTop[index].has_discount),
+            );
+          },
+        ),
+      ):
+       SingleChildScrollView(
         child: ListView.builder(
           itemCount: _topProducts.length,
           scrollDirection: Axis.vertical,
@@ -462,7 +513,30 @@ class _SellerDetailsState extends State<SellerDetails> {
         ],
       );
     } else if (_newArrivalProducts.length > 0) {
-      return SingleChildScrollView(
+      return _searchNewArrival.isNotEmpty?SingleChildScrollView(
+        child: SizedBox(
+          height: 175,
+          child: ListView.builder(
+            itemCount: _searchNewArrival.length,
+            scrollDirection: Axis.horizontal,
+            itemExtent: 120,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 3.0),
+                child: MiniProductCard(
+                  id: _searchNewArrival[index].id,
+                  image: _searchNewArrival[index].thumbnail_image!=null?_searchNewArrival[index].thumbnail_image.replaceAll(",",""):null,
+                  name: _searchNewArrival[index].name,
+                  main_price: _searchNewArrival[index].main_price,
+                  stroked_price: _searchNewArrival[index].stroked_price,
+                  has_discount: _searchNewArrival[index].has_discount,
+                ),
+              );
+            },
+          ),
+        ),
+      ):
+       SingleChildScrollView(
         child: SizedBox(
           height: 175,
           child: ListView.builder(

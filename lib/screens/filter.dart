@@ -1,3 +1,4 @@
+import 'package:location/location.dart';
 import 'package:webixes/my_theme.dart';
 import 'package:webixes/screens/gmap.dart';
 import 'package:webixes/screens/map_location.dart';
@@ -117,7 +118,8 @@ class _FilterState extends State<Filter> {
     _filteredCategoriesCalled = true;
     setState(() {});
   }
-
+  LocationData currentLocation;
+  String address = "";
   @override
   void initState() {
     init();
@@ -776,7 +778,8 @@ class _FilterState extends State<Filter> {
           }),
       InkWell(
         onTap: () {
-         Navigator.push(context, MaterialPageRoute(builder: (context)=>NearByShops()));
+          getNearByShops();
+        // Navigator.push(context, MaterialPageRoute(builder: (context)=>NearByShops()));
           //ToastComponent.showDialog(AppLocalizations.of(context).common_coming_soon, context, gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
         },
         child: Padding(
@@ -794,7 +797,48 @@ class _FilterState extends State<Filter> {
       ),
     ]);
   }
+  getNearByShops() {
+    _getLocation().then((value) {
+      LocationData location = value;
+      _getAddress(location?.latitude, location?.longitude)
+          .then((value) {
+        setState(() {
+          currentLocation = location;
+          print( "Location: ${currentLocation?.latitude}, ${currentLocation?.longitude}");
+          address = value;
+          fetchNearShopData();
+        });
+      });
+    });
+  }
+  Future<LocationData> _getLocation() async {
+    Location location = new Location();
+    LocationData _locationData;
 
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
+    }
+
+
+    _locationData = await location.getLocation();
+
+    return _locationData;
+  }
    buildFilterDrawer() {
     return Directionality(
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
@@ -1006,7 +1050,26 @@ class _FilterState extends State<Filter> {
       ),
     );
   }
+  fetchNearShopData() async {
+    var shopResponse =
+    await ShopRepository().getNearByShops(lat:currentLocation.latitude, lag:currentLocation.longitude,);
+    _shopList.addAll(shopResponse.shops);
+    _isShopInitial = false;
+    _totalShopData = shopResponse.meta.total;
+    _showShopLoadingContainer = false;
+    //print("_shopPage:" + _shopPage.toString());
+    //print("_totalShopData:" + _totalShopData.toString());
+    setState(() {});
+  }
+  Future<String> _getAddress(double lat, double lang) async {
+    if (lat == null || lang == null) return "";
 
+    //GeoCode geoCode = GeoCode();
+    //Address address =
+    //await geoCode.reverseGeocoding(latitude: lat, longitude: lang);
+    //return "${address.streetAddress}, ${address.city}, ${address.countryName}, ${address.postal}";
+    return "";
+  }
   ListView buildFilterBrandsList() {
     return ListView(
       padding: EdgeInsets.only(top: 16.0, bottom: 16.0),

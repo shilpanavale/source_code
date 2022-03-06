@@ -370,7 +370,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                           children: [
                                             Container(
                                               margin: EdgeInsets
-                                                  .all(5),
+                                                  .all(15),
                                               decoration: BoxDecoration(
                                                 color: Colors
                                                     .transparent,
@@ -379,13 +379,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: AssetImage(
-                                                    'citydeal/img/bg-img/12.jpg',
+                                                    'citydeal/img/demo-img/hariOmShopImg.jpg',
                                                   ),
                                                 ),
                                               ),
                                               height: 151.0,
                                             ),
-                                            Container(
+                                           /* Container(
                                               height: 151.0,
                                               margin: EdgeInsets
                                                   .all(5),
@@ -469,7 +469,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                   )
                                                 ],
                                               ),
-                                            )
+                                            )*/
 
                                           ],
                                         )
@@ -562,7 +562,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                           children: [
                                             Container(
                                               margin: EdgeInsets
-                                                  .all(5),
+                                                  .all(15),
                                               decoration: BoxDecoration(
                                                 color: Colors
                                                     .transparent,
@@ -571,13 +571,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: AssetImage(
-                                                    'citydeal/img/bg-img/12.jpg',
+                                                    'citydeal/img/demo-img/hariOmShopImg.jpg',
                                                   ),
                                                 ),
                                               ),
                                               height: 151.0,
                                             ),
-                                            Container(
+                                           /* Container(
                                               height: 151.0,
                                               margin: EdgeInsets
                                                   .all(5),
@@ -661,7 +661,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                   )
                                                 ],
                                               ),
-                                            )
+                                            )*/
 
                                           ],
                                         )
@@ -717,7 +717,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                           children: [
                                             Container(
                                               margin: EdgeInsets
-                                                  .all(5),
+                                                  .all(15),
                                               decoration: BoxDecoration(
                                                 color: Colors
                                                     .transparent,
@@ -726,13 +726,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: AssetImage(
-                                                    'citydeal/img/bg-img/12.jpg',
+                                                    'citydeal/img/demo-img/hariOmShopImg.jpg',
                                                   ),
                                                 ),
                                               ),
                                               height: 151.0,
                                             ),
-                                            Container(
+                                          /*  Container(
                                               height: 151.0,
                                               margin: EdgeInsets
                                                   .all(5),
@@ -816,7 +816,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                   )
                                                 ],
                                               ),
-                                            )
+                                            )*/
 
                                           ],
                                         )

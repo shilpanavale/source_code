@@ -1,4 +1,5 @@
 import 'package:webixes/repositories/address_repository.dart';
+import 'package:webixes/screens/login.dart';
 import 'package:webixes/ui_elements/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:webixes/my_theme.dart';
@@ -15,6 +16,8 @@ import 'package:webixes/repositories/profile_repository.dart';
 import 'package:webixes/custom/toast_component.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../helpers/auth_helper.dart';
 
 
 class Profile extends StatefulWidget {
@@ -161,16 +164,53 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+  onTapLogout(context) async {
+    AuthHelper().clearUserData();
 
+    // var logoutResponse = await AuthRepository().getLogoutResponse();
+    //
+    // if (logoutResponse.result == true) {
+    //   ToastComponent.showDialog(logoutResponse.message, context,
+    //       gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+    //
+    //   Navigator.push(context, MaterialPageRoute(builder: (context) {
+    //     return Login();
+    //   }));
+    // }
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Login();
+    }));
+  }
   buildBody(context) {
     if (is_logged_in.$ == false) {
       return Container(
-          height: 100,
+          height: 200,
           child: Center(
-              child: Text(
-                AppLocalizations.of(context).profile_screen_please_log_in,
-            style: TextStyle(color: MyTheme.font_grey),
-          )));
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20,),
+                  Text(
+                    AppLocalizations.of(context).profile_screen_please_log_in,
+                    style: TextStyle(color: MyTheme.font_grey),
+                  ),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 150,
+                      child: CustomButton(
+                        onPressed: (){
+                          onTapLogout(context);
+                        },
+                        title: "Log out",
+                        bgColor: MyTheme.yellow,
+                      ),
+                    ),
+                  )
+                ],
+              )
+          ));
     } else {
       return Column(
         children: [
