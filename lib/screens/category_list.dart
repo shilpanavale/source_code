@@ -44,7 +44,7 @@ class _CategoryListState extends State<CategoryList> {
     // TODO: implement initState
     super.initState();
     // In initState()
-    api=getCategoryDetails();
+   api= getCategoryDetails();
   }
  Future getCategoryDetails() async {
     var future = widget.is_top_category
@@ -65,7 +65,38 @@ class _CategoryListState extends State<CategoryList> {
           drawer: MainDrawer(),
           backgroundColor: MyTheme.gray,
           appBar: buildAppBar(context),
-          body: SingleChildScrollView(
+          body:Stack(
+           children: [
+             CustomScrollView(
+               slivers: [
+                 SliverList(
+                     delegate: SliverChildListDelegate([
+                       Padding(
+                         padding: const EdgeInsets.only(left: 20.0,top:10,right: 20),
+                         child: Container(
+                           color: Colors.white,
+                           child:  buildHomeSearchBox(context),
+                         ),
+                       ),
+                       buildCategoryList(),
+                       Container(
+                         height: widget.is_base_category ? 60 : 90,
+                       )
+                     ]))
+               ],
+             ),
+
+             Align(
+               alignment: Alignment.bottomCenter,
+               child: widget.is_base_category || widget.is_top_category
+                   ? Container(
+                 height: 0,
+               )
+                   : buildBottomContainer(),
+             )
+           ],
+          )
+        /*SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
@@ -75,11 +106,22 @@ class _CategoryListState extends State<CategoryList> {
                     child:  buildHomeSearchBox(context),
                   ),
                 ),
-
-                buildCategoryList()
+                buildCategoryList(),
+                Container(
+                  height: widget.is_base_category ? 60 : 90,
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: widget.is_base_category || widget.is_top_category
+                      ? Container(
+                    height: 0,
+                  )
+                      : buildBottomContainer(),
+                )
               ],
             ),
-          )),
+          )*/
+      ),
     );
   }
   buildHomeSearchBox(BuildContext context) {

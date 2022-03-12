@@ -63,7 +63,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
   //Future<List<Task>> _tasks;
   int _activeTabIndex=0;
   Future api; Future ap2;
-
+  bool _showBackToTopButton = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -77,8 +77,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
     }
     fetchAll();
 
-
-    _mainScrollController.addListener(() {
+    _mainScrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          if (_mainScrollController.offset >= 400) {
+            _showBackToTopButton = true; // show the back-to-top button
+          } else {
+            _showBackToTopButton = false; // hide the back-to-top button
+          }
+        });
+      });
+   /* _mainScrollController.addListener(() {
       //print("position: " + _xcrollController.position.pixels.toString());
       //print("max: " + _xcrollController.position.maxScrollExtent.toString());
 
@@ -91,9 +100,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
         _showProductLoadingContainer = true;
         fetchFeaturedProducts(AppConfig.featuredCategoryList[_activeTabIndex].links.products);
       }
-    });
+    });*/
   }
-
+  void _scrollToTop() {
+    _mainScrollController.animateTo(0,
+        duration: const Duration(seconds: 3), curve: Curves.linear);
+  }
   void _setActiveTabIndex() {
     _activeTabIndex = _tabController.index;
     _featuredProductList.clear();
@@ -837,7 +849,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                       4.0,
                                                       16.0,
                                                       8.0,
-                                                      0.0,
+                                                      10.0,
                                                     ),
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment
@@ -875,7 +887,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
                                                             ),
                                                           ],
                                                         ),
-                                                        buildSeasonSpecial(context)
+                                                        buildSeasonSpecial(context),
+                                                        Align(
+                                                            alignment: Alignment.center,
+                                                            child:_showBackToTopButton == false
+                                                                ? null
+                                                                : buildProductLoadingContainer()
+                                                        ),
 
                                                       ],
                                                     ),
@@ -888,15 +906,98 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
 
                                         ]),
                                   ),
+                                  SliverList(
+                                    delegate: SliverChildListDelegate(
+                                        [
+                                          SingleChildScrollView(
+                                            child: Container(
+                                              color: MyTheme
+                                                  .soft_accent_color1,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                      4.0,
+                                                      20.0,
+                                                      8.0,
+                                                      20.0,
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        SizedBox(height: 30,)
+
+
+
+                                                      ],
+                                                    ),
+
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+
+                                        ]),
+                                  ),
+                                  SliverList(
+                                    delegate: SliverChildListDelegate(
+                                        [
+                                          SingleChildScrollView(
+                                            child: Container(
+                                              color: MyTheme
+                                                  .soft_accent_color1,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                      4.0,
+                                                      20.0,
+                                                      8.0,
+                                                      20.0,
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        SizedBox(height: 30,)
+
+
+
+                                                      ],
+                                                    ),
+
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+
+                                        ]),
+                                  ),
+                                 /* SliverToBoxAdapter(
+                                    child:  Align(
+                                        alignment: Alignment.center,
+                                        child:_showBackToTopButton == false
+                                            ? null
+                                            : buildProductLoadingContainer()
+                                    ),
+                                  )*/
                                 ],
                               ),
                             );
                           }).toList(),
 
                         ),
-                        Align(
+                       /* Align(
                             alignment: Alignment.center,
-                            child: buildProductLoadingContainer())
+                            child:_showBackToTopButton == false
+                                ? null
+                           : buildProductLoadingContainer()
+                        )*/
                       ],
                     )
                 ),
@@ -1869,13 +1970,24 @@ class _HomeState extends State<Home> with TickerProviderStateMixin<Home>{
 
   Container buildProductLoadingContainer() {
     return Container(
-      height: _showProductLoadingContainer ? 36 : 0,
-      width: double.infinity,
+      height: 40,
+     // height: _showProductLoadingContainer ? 36 : 0,
+      width: 100,
       color: Colors.white,
       child: Center(
-        child: Text(_totalProductData == _featuredProductList.length
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomButton(
+            bgColor: MyTheme.yellow,
+            onPressed: (){
+              _scrollToTop();
+            },
+            title: "Back To Top",
+          ),
+        )
+        /*Text(_totalProductData == _featuredProductList.length
             ? AppLocalizations.of(context).common_no_more_products
-            : AppLocalizations.of(context).common_loading_more_products),
+            : AppLocalizations.of(context).common_loading_more_products),*/
       ),
     );
   }
